@@ -2,27 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('AdminDashboards', {
+    await queryInterface.createTable('ChatbotMessages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      AdminID: {
-        type: Sequelize.INTEGER
+      content: {
+        type: Sequelize.TEXT
       },
-      TotalVoters: {
-        type: Sequelize.INTEGER
-      },
-      TotalCandidates: {
-        type: Sequelize.INTEGER
-      },
-      ActiveElections: {
-        type: Sequelize.INTEGER
-      },
-      Date: {
+      timestamp: {
         type: Sequelize.DATE
+      },
+      is_from_user: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('AdminDashboards');
+    await queryInterface.dropTable('ChatbotMessages');
   }
 };

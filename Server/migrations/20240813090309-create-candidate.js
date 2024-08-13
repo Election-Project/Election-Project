@@ -2,21 +2,21 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ElectionLists', {
+    await queryInterface.createTable('Candidates', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ListName: {
-        type: Sequelize.STRING
-      },
-      ElectoralDistrictID: {
+      votes: {
         type: Sequelize.INTEGER
       },
-      ListType: {
-        type: Sequelize.STRING
+      religion: {
+        type: Sequelize.ENUM('Muslim', 'Christian', 'Circassian', 'Chechen')
+      },
+      gender: {
+        type: Sequelize.ENUM('Male', 'Female')
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ElectionLists');
+    await queryInterface.dropTable('Candidates');
   }
 };

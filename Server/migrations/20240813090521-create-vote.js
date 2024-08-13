@@ -9,13 +9,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      UserID: {
-        type: Sequelize.INTEGER
+      is_blank_vote: {
+        type: Sequelize.BOOLEAN
       },
-      ListID: {
-        type: Sequelize.INTEGER
-      },
-      VoteDate: {
+      timestamp: {
         type: Sequelize.DATE
       },
       createdAt: {

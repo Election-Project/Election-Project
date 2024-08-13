@@ -2,27 +2,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Advertisements', {
+    await queryInterface.createTable('AvailableSeats', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      CandidateID: {
+      seat_type: {
+        type: Sequelize.ENUM('Muslim', 'Christian', 'Circassian', 'Chechen', 'Female')
+      },
+      number_of_seats: {
         type: Sequelize.INTEGER
-      },
-      Content: {
-        type: Sequelize.TEXT
-      },
-      PaymentStatus: {
-        type: Sequelize.STRING
-      },
-      DisplayStartDate: {
-        type: Sequelize.DATE
-      },
-      DisplayEndDate: {
-        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Advertisements');
+    await queryInterface.dropTable('AvailableSeats');
   }
 };

@@ -1,31 +1,29 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class ElectoralDistrict extends Model {
+  class LocalList extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      ElectoralDistrict.hasMany(models.User, { foreignKey: "district_id" });
-      ElectoralDistrict.hasMany(models.LocalList, {
+      LocalList.belongsTo(models.ElectoralDistrict, {
         foreignKey: "district_id",
       });
-      ElectoralDistrict.hasMany(models.AvailableSeat, {
-        foreignKey: "district_id",
-      });
+      LocalList.hasMany(models.Candidate, { foreignKey: "list_id" });
+      LocalList.hasMany(models.Vote, { foreignKey: "local_list_id" });
     }
   }
-  ElectoralDistrict.init(
+  LocalList.init(
     {
       name: DataTypes.STRING,
-      city: DataTypes.STRING,
+      votes: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "ElectoralDistrict",
+      modelName: "LocalList",
     }
   );
-  return ElectoralDistrict;
+  return LocalList;
 };

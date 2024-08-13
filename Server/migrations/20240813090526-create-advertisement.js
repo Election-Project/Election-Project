@@ -2,39 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Advertisements', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      Name: {
-        type: Sequelize.STRING
-      },
-      Email: {
-        type: Sequelize.STRING
-      },
-      NationalID: {
-        type: Sequelize.STRING
-      },
-      Password: {
-        type: Sequelize.STRING
-      },
-      Role: {
-        type: Sequelize.STRING
-      },
-      ElectoralDistrictID: {
-        type: Sequelize.INTEGER
-      },
-      ContactInfo: {
+      content: {
         type: Sequelize.TEXT
       },
-      DateRegistered: {
+      start_date: {
         type: Sequelize.DATE
       },
-      Status: {
-        type: Sequelize.STRING
+      end_date: {
+        type: Sequelize.DATE
+      },
+      payment_amount: {
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,
@@ -47,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Advertisements');
   }
 };

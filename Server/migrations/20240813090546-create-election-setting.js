@@ -2,18 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ElectoralDistricts', {
+    await queryInterface.createTable('ElectionSettings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      DistrictName: {
-        type: Sequelize.STRING
+      start_date: {
+        type: Sequelize.DATE
       },
-      GovernorateID: {
-        type: Sequelize.INTEGER
+      end_date: {
+        type: Sequelize.DATE
+      },
+      local_threshold: {
+        type: Sequelize.DECIMAL
+      },
+      party_threshold: {
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,
@@ -26,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ElectoralDistricts');
+    await queryInterface.dropTable('ElectionSettings');
   }
 };

@@ -1,28 +1,26 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Vote extends Model {
+  class ChatbotMessage extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Vote.belongsTo(models.User, { foreignKey: "voter_national_id" });
-      Vote.belongsTo(models.LocalList, { foreignKey: "local_list_id" });
-      Vote.belongsTo(models.PartyList, { foreignKey: "party_list_id" });
-      Vote.belongsTo(models.Candidate, { foreignKey: "candidate_id" });
+      ChatbotMessage.belongsTo(models.User, { foreignKey: "user_id" });
     }
   }
-  Vote.init(
+  ChatbotMessage.init(
     {
-      is_blank_vote: DataTypes.BOOLEAN,
+      content: DataTypes.TEXT,
       timestamp: DataTypes.DATE,
+      is_from_user: DataTypes.BOOLEAN,
     },
     {
       sequelize,
-      modelName: "Vote",
+      modelName: "ChatbotMessage",
     }
   );
-  return Vote;
+  return ChatbotMessage;
 };

@@ -2,20 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ElectionResults', {
+    await queryInterface.createTable('PartyListCandidates', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      GovernorateID: {
-        type: Sequelize.INTEGER
-      },
-      ListID: {
-        type: Sequelize.INTEGER
-      },
-      VotesCount: {
+      rank: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -29,6 +23,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ElectionResults');
+    await queryInterface.dropTable('PartyListCandidates');
   }
 };
