@@ -11,9 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsTo(models.ElectoralDistrict, { foreignKey: "district_id" });
       User.hasOne(models.Candidate, { foreignKey: "national_id" });
       User.hasOne(models.PartyListCandidate, { foreignKey: "national_id" });
-      User.hasMany(models.Vote, { foreignKey: "voter_national_id" });
       User.hasMany(models.Advertisement, { foreignKey: "national_id" });
-      User.hasMany(models.ChatbotMessage, { foreignKey: "user_id" });
+      User.hasMany(models.ContactUsMessage, { foreignKey: "national_id" });
     }
   }
   User.init(

@@ -10,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Candidate.belongsTo(models.User, { foreignKey: "national_id" });
       Candidate.belongsTo(models.LocalList, { foreignKey: "list_id" });
-      Candidate.hasMany(models.Vote, { foreignKey: "candidate_id" });
-      Candidate.belongsToMany(models.Debate, { through: "DebateParticipants" });
+      Candidate.belongsToMany(models.Debate, { through: "DebateParticipant" });
     }
   }
   Candidate.init(
