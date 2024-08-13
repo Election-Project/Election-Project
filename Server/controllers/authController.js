@@ -46,7 +46,12 @@ exports.verifyOTP = (req, res) => {
 };
 
 exports.setNewPassword = async (req, res) => {
-  const { token, newPassword } = req.body;
+  const { newPassword } = req.body;
+  const token = req.headers.authorization?.split(" ")[1]; // Extract the token from the Authorization header
+
+  if (!token) {
+    return res.status(400).json({ message: "Token is required" });
+  }
 
   try {
     // Verify the token
