@@ -1,26 +1,28 @@
 "use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  const ElectoralDistrict = sequelize.define(
-    "ElectoralDistrict",
+  class ElectoralDistrict extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      ElectoralDistrict.hasMany(models.User, { foreignKey: "district_id" });
+      ElectoralDistrict.hasMany(models.LocalList, {
+        foreignKey: "district_id",
+      });
+    }
+  }
+  ElectoralDistrict.init(
     {
-      DistrictName: DataTypes.STRING,
-      GovernorateID: DataTypes.INTEGER,
+      name: DataTypes.STRING,
+      city: DataTypes.STRING,
     },
-    {}
+    {
+      sequelize,
+      modelName: "ElectoralDistrict",
+    }
   );
-
-  ElectoralDistrict.associate = function (models) {
-    ElectoralDistrict.belongsTo(models.Governorate, {
-      foreignKey: "GovernorateID",
-      onDelete: "CASCADE",
-    });
-    ElectoralDistrict.hasMany(models.User, {
-      foreignKey: "ElectoralDistrictID",
-    });
-    ElectoralDistrict.hasMany(models.ElectionList, {
-      foreignKey: "ElectoralDistrictID",
-    });
-  };
-
   return ElectoralDistrict;
 };

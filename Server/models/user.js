@@ -1,42 +1,32 @@
 "use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  class User extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      User.belongsTo(models.ElectoralDistrict, { foreignKey: "district_id" });
+      User.hasOne(models.Candidate, { foreignKey: "national_id" });
+      User.hasOne(models.PartyListCandidate, { foreignKey: "national_id" });
+      User.hasMany(models.Advertisement, { foreignKey: "national_id" });
+      User.hasMany(models.ContactUsMessage, { foreignKey: "national_id" });
+    }
+  }
+  User.init(
     {
-      Name: DataTypes.STRING,
-      Email: DataTypes.STRING,
-      NationalID: DataTypes.STRING,
-      Password: DataTypes.STRING,
-      Role: DataTypes.STRING,
-      ElectoralDistrictID: DataTypes.INTEGER,
-      ContactInfo: DataTypes.TEXT,
-      DateRegistered: DataTypes.DATE,
-      Status: DataTypes.STRING,
+      national_id: DataTypes.STRING,
+      password: DataTypes.STRING,
+      email: DataTypes.STRING,
+      full_name: DataTypes.STRING,
+      user_type: DataTypes.ENUM("voter", "candidate", "admin"),
     },
-    {}
+    {
+      sequelize,
+      modelName: "User",
+    }
   );
-
-  User.associate = function (models) {
-    User.belongsTo(models.ElectoralDistrict, {
-      foreignKey: "ElectoralDistrictID",
-      onDelete: "CASCADE",
-    });
-    User.hasMany(models.Vote, {
-      foreignKey: "UserID",
-    });
-    User.hasOne(models.Candidate, {
-      foreignKey: "UserID",
-    });
-    User.hasMany(models.Inquiry, {
-      foreignKey: "UserID",
-    });
-    User.hasMany(models.Inquiry, {
-      foreignKey: "AdminID",
-    });
-    User.hasOne(models.AdminDashboard, {
-      foreignKey: "AdminID",
-    });
-  };
-
   return User;
 };
