@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.ContactUsMessage, { foreignKey: "national_id" });
     }
 
-    // Check if the password matches the hashed password in the database
     async comparePassword(password) {
       return await bcrypt.compare(password, this.password);
     }
