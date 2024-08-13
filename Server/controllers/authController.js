@@ -44,3 +44,26 @@ exports.verifyOTP = (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.setNewPassword = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    // Verify the token
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const { national_id } = decoded;
+
+    // Find the user
+    const user = await User.findOne({ where: { national_id } });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Set and save the new password
+    user.password = newPassword; // The `beforeSave` hook will handle hashing
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error in setNewPassword:", error); // Log the error details
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

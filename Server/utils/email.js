@@ -1,21 +1,24 @@
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 
+// Create a Nodemailer transporter object
 const transporter = nodemailer.createTransport({
-  service: "Gmail", // or another email service
+  service: "gmail", // Service name should be lowercase
   auth: {
-    user: "islamomarhafith@gmail.com",
-    pass: "Islam2003@",
+    user: process.env.EMAIL_USER,
+    pass: "kior hcmy mspa bjwi",
   },
 });
 
+// Generate a 6-digit OTP
 const generateOTP = () => {
-  return crypto.randomInt(100000, 999999); // Generate a 6-digit OTP
+  return crypto.randomInt(100000, 999999);
 };
 
+// Send OTP email
 const sendOTPEmail = async (email, otp) => {
   const mailOptions = {
-    from: "JO_Election@gmail.com",
+    from: "JO_ELECTION", // Use environment variable for sender email
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}`,
@@ -23,8 +26,9 @@ const sendOTPEmail = async (email, otp) => {
 
   try {
     await transporter.sendMail(mailOptions);
+    console.log("OTP email sent successfully");
   } catch (error) {
-    console.error("Error sending OTP email:", error); // Log the error details
+    console.error("Error sending OTP email:", error);
     throw error;
   }
 };
