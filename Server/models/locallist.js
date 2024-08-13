@@ -12,7 +12,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "district_id",
       });
       LocalList.hasMany(models.Candidate, { foreignKey: "list_id" });
-      LocalList.hasMany(models.Vote, { foreignKey: "local_list_id" });
     }
   }
   LocalList.init(

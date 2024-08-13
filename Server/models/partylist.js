@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       PartyList.hasMany(models.PartyListCandidate, {
         foreignKey: "party_list_id",
       });
-      PartyList.hasMany(models.Vote, { foreignKey: "party_list_id" });
     }
   }
   PartyList.init(

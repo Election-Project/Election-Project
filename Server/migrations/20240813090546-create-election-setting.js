@@ -1,37 +1,39 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ElectionSettings', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("election_settings", {
+      setting_id: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
       },
       start_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       end_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       local_threshold: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(5, 2),
+        defaultValue: 7.0,
       },
       party_threshold: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL(5, 2),
+        defaultValue: 2.5,
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ElectionSettings');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("election_settings");
+  },
 };

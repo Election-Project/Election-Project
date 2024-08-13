@@ -12,9 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       ElectoralDistrict.hasMany(models.LocalList, {
         foreignKey: "district_id",
       });
-      ElectoralDistrict.hasMany(models.AvailableSeat, {
-        foreignKey: "district_id",
-      });
     }
   }
   ElectoralDistrict.init(
