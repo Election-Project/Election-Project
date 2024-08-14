@@ -1,4 +1,5 @@
-const { User } = require("../models/user");
+const db = require("../models");
+const User = db.User;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
@@ -31,4 +32,14 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const getUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    res.json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { register, login, getUser };
