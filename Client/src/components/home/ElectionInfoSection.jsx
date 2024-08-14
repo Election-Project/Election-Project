@@ -1,8 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Joyride from "react-joyride";
 
-const ElectionInfoSection = () => {
+// Define CSS styles for watermark, overlay, and disabling text selection
+const watermarkStyle = {
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  fontSize: "24px",
+  color: "rgba(0, 0, 0, 0.1)",
+  zIndex: 1000,
+  pointerEvents: "none",
+  userSelect: "none",
+  opacity: 0.5,
+};
+
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  background: "rgba(255, 255, 255, 0.1)", // Semi-transparent overlay
+  zIndex: 1000,
+  pointerEvents: "none", // Prevents interaction
+  userSelect: "none", // Prevent text selection
+};
+
+// Disable text selection globally
+const noSelectStyle = {
+  userSelect: "none", // Standard syntax
+  WebkitUserSelect: "none", // Safari
+  MozUserSelect: "none", // Firefox
+  msUserSelect: "none", // Internet Explorer/Edge
+};
+
+const ElectionInfoSection = ({ className }) => {
   const [districts, setDistricts] = useState([]);
+  const [runTour, setRunTour] = useState(false);
 
   useEffect(() => {
     const fetchDistricts = async () => {
@@ -16,7 +52,6 @@ const ElectionInfoSection = () => {
             },
           }
         );
-
         setDistricts(response.data);
       } catch (error) {
         console.error("Error fetching districts:", error);
@@ -24,6 +59,40 @@ const ElectionInfoSection = () => {
     };
 
     fetchDistricts();
+
+    const timer = setTimeout(() => {
+      setRunTour(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const preventScreenshot = (event) => {
+      if (event.key === "PrintScreen") {
+        alert("Screenshots are not allowed!");
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("keydown", preventScreenshot);
+
+    return () => {
+      document.removeEventListener("keydown", preventScreenshot);
+    };
+  }, []);
+
+  useEffect(() => {
+    const preventContextMenu = (event) => event.preventDefault();
+    const preventTextSelection = (event) => event.preventDefault();
+
+    document.addEventListener("contextmenu", preventContextMenu);
+    document.addEventListener("selectstart", preventTextSelection);
+
+    return () => {
+      document.removeEventListener("contextmenu", preventContextMenu);
+      document.removeEventListener("selectstart", preventTextSelection);
+    };
   }, []);
 
   const districtImages = {
@@ -32,8 +101,48 @@ const ElectionInfoSection = () => {
     3: "https://img.freepik.com/free-vector/international-day-democracy-concept_23-2148610052.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid",
   };
 
+  const steps = [
+    {
+      target: ".district-card-1",
+      content:
+        "This is the section where you can explore various electoral districts.",
+    },
+    {
+      target: ".district-card-2",
+      content:
+        "Click on the available districts to get more information or select them.",
+    },
+    // Ensure the target class names match the actual classes in your component
+  ];
+
   return (
-    <div className="px-8 lg:px-28 py-10" dir="rtl">
+    <div
+      className={`px-8 lg:px-28 py-10 ${className}`}
+      dir="rtl"
+      style={noSelectStyle}
+    >
+      <div style={overlayStyle}></div>
+      <div style={watermarkStyle}>Your Watermark Here</div>
+      <Joyride
+        steps={steps}
+        run={runTour}
+        continuous
+        scrollToFirstStep
+        showSkipButton
+        showProgress
+        locale={{
+          back: "Back",
+          close: "Close",
+          last: "Finish",
+          next: "Next",
+          skip: "Skip",
+        }}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
       <section className="mt-8">
         <h2 className="text-4xl font-extrabold text-gray-900 mb-8">
           استكشاف الدوائر الانتخابية الخاصة بك
@@ -42,7 +151,9 @@ const ElectionInfoSection = () => {
           {districts.map((district) => (
             <div
               key={district.id}
-              className={`relative p-6 border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 ${
+              className={`relative p-6 border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 district-card-${
+                district.id
+              } ${
                 district.isUserDistrict
                   ? "bg-gradient-to-r from-green-300 to-green-500"
                   : "bg-gradient-to-r from-gray-200 to-gray-400 cursor-not-allowed opacity-60"
@@ -55,20 +166,6 @@ const ElectionInfoSection = () => {
               />
               <div className="relative z-10">
                 <div className="flex items-center mb-6">
-                  {/* <svg
-                    className="w-8 h-8 text-gray-900 mr-3"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 8v4.8l3.2 1.6M12 4a7 7 0 00-7 7v6a7 7 0 007 7 7 7 0 007-7V11a7 7 0 00-7-7z"
-                    />
-                  </svg> */}
                   <h3 className="text-3xl font-bold gray-900 leading-tight">
                     {district.name}
                   </h3>
@@ -86,7 +183,7 @@ const ElectionInfoSection = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M10 14h2v2h-2v-2zm0-4h2v2h-2v-2zm0-4h2v2h-2V6zm4 4h2v2h-2v-2zm4 4h2v2h-2v-2zm-4-4h2v2h-2v-2z"
+                        d="M10 14h2v2h-2v-2zm0-4h2v2h-2v-2zm0-4h2v2h-2V6zm4 4h2v2h-2zm4 4h2v2h-2v-2zm-4-4h2v2h-2v-2z"
                       />
                     </svg>
                     {district.city}
@@ -137,45 +234,22 @@ const ElectionInfoSection = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M6 12l6 6L18 6"
-                      />
-                    </svg>
-                    مقعد شركسي/شيشاني:{" "}
-                    {district.circassian_or_chechen_seat ? "نعم" : "لا"}
-                  </p>
-                  <p className="text-gray-900 flex items-center text-lg font-medium">
-                    <svg
-                      className="w-6 h-6 text-gray-900 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
                         d="M3 7l8 8 8-8"
                       />
                     </svg>
-                    مقعد مسيحي: {district.christian_seat ? "نعم" : "لا"}
+                    مقعد شركاء: {district.municipal_seat ? "نعم" : "لا"}
                   </p>
                 </div>
-
-                <div className="mt-6">
-                  {district.isUserDistrict ? (
-                    <button className="px-6 py-3 bg-blue-600 text-gray-900 text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-colors">
-                      اختر الدائرة
-                    </button>
-                  ) : (
-                    <button
-                      className="px-6 py-3 bg-gray-600 text-gray-900 text-lg font-semibold rounded-lg shadow-lg"
-                      disabled
-                    >
-                      غير متاح
-                    </button>
-                  )}
-                </div>
+                <a
+                  href={`/district/${district.id}`}
+                  className={`absolute bottom-6 left-6 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg ${
+                    district.isUserDistrict
+                      ? "cursor-pointer"
+                      : "cursor-not-allowed"
+                  }`}
+                >
+                  {district.isUserDistrict ? "عرض التفاصيل" : "مغلق"}
+                </a>
               </div>
             </div>
           ))}
