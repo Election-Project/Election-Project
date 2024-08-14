@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const OTPBox = ({ index, value, onChange, inputRef }) => {
   const handleChange = (e) => {
@@ -41,7 +43,6 @@ const OTPBox = ({ index, value, onChange, inputRef }) => {
 const VerifyOTP = () => {
   const [nationalId, setNationalId] = useState("");
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const [message, setMessage] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const inputRefs = useRef([]);
@@ -73,11 +74,17 @@ const VerifyOTP = () => {
 
       // Store the token in localStorage
       localStorage.setItem("accessToken", accessToken);
-      navigate(`/set-new-password`);
 
-      setMessage("تم التحقق بنجاح! تم تخزين رمز الوصول.");
+      // Show success toast
+      toast.success("تم التحقق بنجاح! تم تخزين رمز الوصول.");
+
+      // Delay navigation to allow the toast to be visible
+      setTimeout(() => {
+        navigate(`/set-new-password`);
+      }, 2000); // 2 seconds delay
     } catch (error) {
-      setMessage(error.response?.data?.message || "حدث خطأ");
+      // Show error toast
+      toast.error(error.response?.data?.message || "حدث خطأ");
     }
   };
 
@@ -132,9 +139,15 @@ const VerifyOTP = () => {
           </button>
         </form>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-        )}
+        {/* Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
       </div>
     </div>
   );
