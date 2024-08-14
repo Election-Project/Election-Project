@@ -4,91 +4,96 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert("local_lists", [
-      // District 1 (عمان - الأولى)
+      // District 6 (عمان - الأولى)
       {
-        name: "قائمة التنمية - عمان الأولى",
+        name: "عزم",
+        district_id: 6,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // الوطني الاسلامي
+      {
+        name: "الوطني الاسلامي",
+        district_id: 6,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // جبهة العمل الاسلامي
+      {
+        name: "جبهة العمل الاسلامي",
+        district_id: 6,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // تقدم
+      {
+        name: "تقدم",
+        district_id: 6,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        name: "الهمة",
+        district_id: 1,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // العهد
+      {
+        name: "العهد",
+        district_id: 1,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // عمان
+      {
+        name: "عمان",
+        district_id: 1,
+        votes: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      // المستقبل
+      {
+        name: "المستقبل",
         district_id: 1,
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        name: "قائمة الإصلاح - عمان الأولى",
-        district_id: 1,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "قائمة المستقبل - عمان الأولى",
-        district_id: 1,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "قائمة الوحدة - عمان الأولى",
-        district_id: 1,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-
-      // District 2 (عمان - الثانية)
-      {
-        name: "قائمة النهضة - عمان الثانية",
+        name: "الكرامة",
         district_id: 2,
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // الحق
       {
-        name: "قائمة العدالة - عمان الثانية",
+        name: "الحق",
         district_id: 2,
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // نمو
       {
-        name: "قائمة الأمل - عمان الثانية",
+        name: "نمو",
         district_id: 2,
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      // الاتحاد
       {
-        name: "قائمة التغيير - عمان الثانية",
+        name: "الاتحاد",
         district_id: 2,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-
-      // District 3 (الزرقاء - الأولى)
-      {
-        name: "قائمة التقدم - الزرقاء الأولى",
-        district_id: 3,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "قائمة الوطن - الزرقاء الأولى",
-        district_id: 3,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "قائمة الإنجاز - الزرقاء الأولى",
-        district_id: 3,
-        votes: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        name: "قائمة الشباب - الزرقاء الأولى",
-        district_id: 3,
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),

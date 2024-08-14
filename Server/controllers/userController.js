@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, ElectoralDistrict } = require("../models");
 
-exports.getUserDistrictInfo = async (req, res) => {
+getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -52,9 +52,7 @@ const getUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login, getUser };
-
-exports.getAllDistricts = async (req, res) => {
+getAllDistricts = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -90,3 +88,4 @@ exports.getAllDistricts = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+module.exports = { getUser, getAllDistricts, getUserDistrictInfo };

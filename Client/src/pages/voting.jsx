@@ -19,18 +19,21 @@ const VotingPage = () => {
   useEffect(() => {
     (async () => {
       const usersData = await axios.get(
-        "http://localhost:4000/api/users/get/744819755628"
+        "http://localhost:4000/api/users/get/885070607165"
       );
       setUsers(usersData.data);
 
       const localListData = await axios.get(
         "http://localhost:4000/api/local-list/get"
       );
+      console.log(usersData.data);
+
       setLocalLists(
         Object.values(localListData.data)[0].filter(list => {
           return list.district_id === usersData.data.user.district_id;
         })
       );
+      console.log(localLists);
 
       // const partyListData = await axios.get(
       //   "http://localhost:4000/api/party-list/get"
