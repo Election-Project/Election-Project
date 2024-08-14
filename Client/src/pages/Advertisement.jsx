@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import TailwindCard from "../components/advertisment/TailwindCard";
 
 const BillboardDesignPage = () => {
@@ -71,7 +71,7 @@ const BillboardDesignPage = () => {
           <div className="mb-4">
             <label
               htmlFor="photoURL"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-sm  font-medium text-gray-700 mb-1"
             >
               Photo URL
             </label>
@@ -81,7 +81,7 @@ const BillboardDesignPage = () => {
               name="photoURL"
               value={candidateDetails.photoURL}
               onChange={handleCandidateDetailsChange}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 shadow-sm focus:ring-[#134B70] focus:border-[#134B70] sm:text-sm rounded-md"
+              className="mt-1 block w-full  px-4 py-2 border border-gray-300 shadow-sm focus:ring-[#134B70] focus:border-[#134B70] sm:text-sm rounded-md"
             />
           </div>
 
@@ -132,15 +132,15 @@ const BillboardDesignPage = () => {
 
           {/* Background Selection */}
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm h-ful font-medium text-gray-700 mb-2">
               Select Background
             </label>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2  gap-4">
               <button
                 onClick={() =>
                   handleCustomizationChange("backgroundImage", "/bg1.jpg")
                 }
-                className="h-24 w-full bg-cover bg-center rounded-lg"
+                className="h-full w-full bg-cover bg-center rounded-lg"
                 style={{
                   backgroundImage:
                     "url('https://i.pinimg.com/236x/59/4a/be/594abe6b07489555b970057bf0f0b69b.jpg')",

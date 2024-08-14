@@ -20,7 +20,7 @@ const TailwindCard = ({ candidateDetails, customization }) => {
           <img
             src={photoURL}
             alt={name}
-            className="w-full h-48 object-cover rounded-lg mb-4"
+            className="w-full h-full object-cover rounded-lg mb-4"
           />
         )}
         <h3 className="text-2xl font-bold" style={{ color: fontColor }}>
