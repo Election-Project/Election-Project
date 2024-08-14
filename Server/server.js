@@ -3,7 +3,9 @@ const cors = require("cors");
 const app = express();
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
-const contactRoutes = require('./routes/contact');
+const contactRoutes = require("./routes/contact");
+const chatRoutes = require("./routes/chatRoutes");
+
 // Configure CORS
 app.use(
   cors({
@@ -19,7 +21,9 @@ app.use("/api", userRoutes);
 //authenticate
 app.use("/auth", authRoutes);
 
-app.use('/api', contactRoutes);
+app.use("/api", contactRoutes);
+
+app.use("/api", chatRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
