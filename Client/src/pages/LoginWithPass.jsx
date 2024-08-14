@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css"; // Import CSS for toastify
 
 const LoginWithPass = () => {
   const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,13 +26,17 @@ const LoginWithPass = () => {
 
       // Handle successful login
       const { accessToken } = response.data;
-      setMessage("تم تسجيل الدخول بنجاح!");
+      toast.success("تم تسجيل الدخول بنجاح!");
 
       // Optionally, save the token to localStorage and navigate to another page
       localStorage.setItem("accessToken", accessToken);
-      navigate("/"); // Navigate to the dashboard or another protected route
+
+      // Delay navigation to allow the toast to be seen
+      setTimeout(() => {
+        navigate("/");
+      }, 2000); // Adjust the delay as needed
     } catch (error) {
-      setMessage(error.response?.data?.message || "فشل تسجيل الدخول");
+      toast.error(error.response?.data?.message || "فشل تسجيل الدخول");
     }
   };
 
@@ -93,11 +98,16 @@ const LoginWithPass = () => {
             تسجيل الدخول
           </button>
         </form>
-
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-        )}
       </div>
+      {/* Add ToastContainer to render toast notifications */}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+      />{" "}
     </div>
   );
 };
