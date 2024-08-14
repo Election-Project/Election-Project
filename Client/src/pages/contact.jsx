@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import backgroundImage from '../assets/img/5.png'; // Import your image
+import React, { useState } from "react";
+import axios from "axios";
+import backgroundImage from "../assets/img/5.png";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    national_id: '',
-    message: '',
+    message: "",
   });
 
-  const [responseMessage, setResponseMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [responseMessage, setResponseMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,24 +18,40 @@ const ContactForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:4000/api/contact', {
-        national_id: "100782462747",
-        message: formData.message,
-      });
+      const token = localStorage.getItem("accessToken");
+
+      const baseURL = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(
+        `${baseURL}/api/contact`,
+        {
+          message: formData.message,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setResponseMessage(response.data.message);
-      setErrorMessage('');
-     
-      setFormData({ national_id: '100782462747', message: 'kkkkk' });
+      setErrorMessage("");
+
+      // Reset form fields
+      setFormData({ message: "" });
     } catch (error) {
-      setErrorMessage('Failed to send the message. Please try again later.');
-      setResponseMessage('');
+      setErrorMessage("Failed to send the message. Please try again later.");
+      setResponseMessage("");
     }
   };
 
   return (
     <div
       className="min-h-screen py-6 flex flex-col justify-center sm:py-12"
-      style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-[#A3C7C1] to-[#7B9F99] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
@@ -47,14 +62,13 @@ const ContactForm = () => {
           </div>
 
           <form onSubmit={handleSubmit}>
-           
             <textarea
               className="shadow mb-4 min-h-0 appearance-none border rounded h-64 w-full py-2 px-3 text-[#556F6A] leading-tight focus:outline-none focus:shadow-outline"
               placeholder="ادخل النص هنا.."
               name="message"
               value={formData.message}
               onChange={handleChange}
-              style={{ height: '121px' }}
+              style={{ height: "121px" }}
             ></textarea>
 
             <div className="flex justify-between">
@@ -67,7 +81,9 @@ const ContactForm = () => {
           </form>
 
           {/* Display response or error messages */}
-          {responseMessage && <p className="text-green-500 mt-4">{responseMessage}</p>}
+          {responseMessage && (
+            <p className="text-green-500 mt-4">{responseMessage}</p>
+          )}
           {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
 
           <a
