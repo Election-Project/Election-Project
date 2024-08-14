@@ -2,11 +2,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ElectoralDistrict extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       ElectoralDistrict.hasMany(models.User, { foreignKey: "district_id" });
       ElectoralDistrict.hasMany(models.LocalList, {
@@ -16,12 +11,32 @@ module.exports = (sequelize, DataTypes) => {
   }
   ElectoralDistrict.init(
     {
-      name: DataTypes.STRING,
-      city: DataTypes.STRING,
+      district_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: DataTypes.STRING(100),
+      city: DataTypes.STRING(50),
+      number_of_seats: DataTypes.INTEGER,
+      Female_seat: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      Circassian_or_Chechen_seat: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      Christian_seat: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
       modelName: "ElectoralDistrict",
+      tableName: "electoral_districts", // Ensure this matches the table name in the migration
+      timestamps: true, // Assuming createdAt and updatedAt columns are managed by Sequelize
     }
   );
   return ElectoralDistrict;
