@@ -12,6 +12,7 @@ import VerifyOTP from "./pages/VerifuOTP";
 import CheckEmail from "./pages/CheckEmail";
 import SetNewPassword from "./pages/SetNewPassword";
 import VoterListSelection from "./pages/TypesOfElection";
+import LoginWithPass from "./pages/LoginWithPass";
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/votinglist" element={<VoterListSelection />} />
           <Route path="/" element={<Home />} />
           <Route path="/login-otp" element={<LoginOTP />} />
+          <Route path="/login-with-password" element={<LoginWithPass />} />
           <Route path="/verify-otp" element={<VerifyOTP />} />
           <Route path="/check-email" element={<CheckEmail />} />
           <Route path="/set-new-password" element={<SetNewPassword />} />

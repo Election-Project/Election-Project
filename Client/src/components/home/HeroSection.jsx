@@ -68,7 +68,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
 
   return (
     <>
-      <div className="container mx-auto lg:px-32 px-0  my-5">
+      <div className="container mx-auto lg:px-28 px-0  my-5">
         <div
           className="bg-cover bg-center text-white py-16 px-4 sm:py-24 sm:px-8 lg:py-32 lg:px-12 text-center rounded-lg shadow-lg"
           style={{

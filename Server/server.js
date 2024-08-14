@@ -4,6 +4,7 @@ const app = express();
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const localList = require("./routes/localListRouter");
+const contactRoutes = require("./routes/contact");
 // Configure CORS
 // app.use(
 //   cors({
@@ -20,6 +21,8 @@ app.use("/api/local-list", localList);
 
 //authenticate
 app.use("/auth", authRoutes);
+
+app.use("/api", contactRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
