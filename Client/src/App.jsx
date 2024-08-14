@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import BillboardDesignPage from "./pages/Advertisement";
+// import BillboardDesignPage from "./pages/Advertisement";
 import { Nav } from "./components/header";
 import { Foot } from "./components/footer";
 import ContactForm from "./pages/contact";
@@ -11,7 +11,7 @@ import LoginOTP from "./pages/LoginOTP";
 import VerifyOTP from "./pages/VerifuOTP";
 import CheckEmail from "./pages/CheckEmail";
 import SetNewPassword from "./pages/SetNewPassword";
-
+import VoterListSelection from "./pages/TypesOfElection";
 function App() {
   return (
     <Router>
