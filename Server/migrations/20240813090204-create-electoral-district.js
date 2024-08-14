@@ -1,31 +1,56 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('ElectoralDistricts', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("electoral_districts", {
+      district_id: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false,
       },
       city: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(50),
+        allowNull: false,
+      },
+      number_of_seats: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      Female_seat: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      blankVotes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
+      Circassian_or_Chechen_seat: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      Christian_seat: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('ElectoralDistricts');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("electoral_districts");
+  },
 };

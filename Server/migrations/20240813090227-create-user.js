@@ -1,40 +1,58 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
-      },
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("users", {
       national_id: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(20),
+        primaryKey: true,
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255),
+        allowNull: false,
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false,
+        unique: true,
       },
       full_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(100),
+        allowNull: false,
       },
       user_type: {
-        type: Sequelize.ENUM('voter', 'candidate', 'admin')
+        type: Sequelize.ENUM("voter", "candidate"),
+        allowNull: false,
+      },
+      district_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "electoral_districts",
+          key: "district_id",
+        },
+      },
+      is_voted_local: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      is_voted_party: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("users");
+  },
 };

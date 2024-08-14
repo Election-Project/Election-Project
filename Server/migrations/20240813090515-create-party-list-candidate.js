@@ -1,28 +1,43 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('PartyListCandidates', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("party_list_candidates", {
+      candidate_id: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
+      },
+      national_id: {
+        type: Sequelize.STRING(20),
+        references: {
+          model: "users",
+          key: "national_id",
+        },
+      },
+      party_list_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "party_lists",
+          key: "list_id",
+        },
       },
       rank: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('PartyListCandidates');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("party_list_candidates");
+  },
 };

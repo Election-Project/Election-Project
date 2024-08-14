@@ -1,34 +1,51 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Candidates', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable("candidates", {
+      candidate_id: {
+        type: Sequelize.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
+      },
+      national_id: {
+        type: Sequelize.STRING(20),
+        references: {
+          model: "users",
+          key: "national_id",
+        },
+      },
+      list_id: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "local_lists",
+          key: "list_id",
+        },
       },
       votes: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       religion: {
-        type: Sequelize.ENUM('Muslim', 'Christian', 'Circassian', 'Chechen')
+        type: Sequelize.ENUM("Muslim", "Christian", "Circassian", "Chechen"),
+        allowNull: false,
       },
       gender: {
-        type: Sequelize.ENUM('Male', 'Female')
+        type: Sequelize.ENUM("Male", "Female"),
+        allowNull: false,
       },
       createdAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
       },
       updatedAt: {
+        type: Sequelize.DATE,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Candidates');
-  }
+
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable("candidates");
+  },
 };

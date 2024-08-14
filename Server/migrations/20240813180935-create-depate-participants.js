@@ -1,27 +1,24 @@
 "use strict";
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("local_lists", {
-      list_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      name: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-      },
-      district_id: {
+    await queryInterface.createTable("debate_participants", {
+      debate_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "electoral_districts",
-          key: "district_id",
+          model: "debates",
+          key: "debate_id",
         },
+        primaryKey: true,
       },
-      votes: {
+      candidate_id: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
+        references: {
+          model: "candidates",
+          key: "candidate_id",
+        },
+        primaryKey: true,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -35,6 +32,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("local_lists");
+    await queryInterface.dropTable("debate_participants");
   },
 };
