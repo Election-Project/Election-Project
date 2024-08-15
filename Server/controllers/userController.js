@@ -63,6 +63,17 @@ const getAllcandidateUsers = async (req, res) => {
   }
 };
 
+const getCnadidateInfo = async (req, res) => {
+  try {
+    const candidate = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+    res.json({ candidate });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 getAllDistricts = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -104,4 +115,5 @@ module.exports = {
   getAllDistricts,
   getUserDistrictInfo,
   getAllcandidateUsers,
+  getCnadidateInfo,
 };
