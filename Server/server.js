@@ -6,6 +6,9 @@ const authRoutes = require("./routes/auth");
 const localList = require("./routes/localListRouter");
 const contactRoutes = require("./routes/contact");
 const candidateRoutes = require("./routes/candidateRouter");
+const chatRoutes = require("./routes/chatRoutes");
+
+
 // Configure CORS
 // app.use(
 //   cors({
@@ -25,6 +28,9 @@ app.use("/api/candidate", candidateRoutes);
 app.use("/auth", authRoutes);
 
 app.use("/api", contactRoutes);
+
+
+app.use("/api", chatRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

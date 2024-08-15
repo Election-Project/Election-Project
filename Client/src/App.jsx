@@ -13,6 +13,7 @@ import CheckEmail from "./pages/CheckEmail";
 import SetNewPassword from "./pages/SetNewPassword";
 import VoterListSelection from "./pages/TypesOfElection";
 import LoginWithPass from "./pages/LoginWithPass";
+import ChatWidget from "./pages/ChatWidget";
 function App() {
   return (
     <Router>
@@ -30,6 +31,8 @@ function App() {
           <Route path="/check-email" element={<CheckEmail />} />
           <Route path="/set-new-password" element={<SetNewPassword />} />
         </Routes>
+        <ChatWidget />
+
         <Foot />
       </div>
     </Router>
