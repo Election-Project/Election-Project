@@ -32,4 +32,22 @@ const sendOTPEmail = async (email, otp) => {
   }
 };
 
-module.exports = { generateOTP, sendOTPEmail };
+// Define and export the new function for sending password reset email
+const sendPasswordResetEmail = async (email, resetLink) => {
+  const mailOptions = {
+    from: "JO_ELECTION <islamomarhafith@gmail.com>",
+    to: email,
+    subject: "Password Reset Request",
+    text: `Please use the following link to reset your password: ${resetLink}`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Password reset email sent successfully");
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw error;
+  }
+};
+
+module.exports = { generateOTP, sendOTPEmail, sendPasswordResetEmail };
