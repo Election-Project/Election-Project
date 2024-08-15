@@ -2,24 +2,30 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class ContactUsMessage extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       ContactUsMessage.belongsTo(models.User, { foreignKey: "national_id" });
     }
   }
   ContactUsMessage.init(
     {
-      content: DataTypes.TEXT,
-      timestamp: DataTypes.DATE,
-      is_from_user: DataTypes.BOOLEAN,
+      message_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      national_id: DataTypes.STRING(20),
+      message: DataTypes.TEXT,
+      // timestamp: {
+      //   type: DataTypes.DATE,
+      //   defaultValue: DataTypes.NOW,
+      // },
+      // is_from_user: DataTypes.BOOLEAN,
     },
     {
       sequelize,
       modelName: "ContactUsMessage",
+      tableName: "contactus_messages",
+      // timestamps: true,
     }
   );
   return ContactUsMessage;

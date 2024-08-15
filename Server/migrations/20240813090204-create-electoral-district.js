@@ -25,6 +25,10 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
+      blankVotes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
       Circassian_or_Chechen_seat: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
