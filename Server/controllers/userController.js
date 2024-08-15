@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, ElectoralDistrict } = require("../models");
 
-exports.getUserDistrictInfo = async (req, res) => {
+getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -42,7 +42,28 @@ exports.getUserDistrictInfo = async (req, res) => {
   }
 };
 
-exports.getAllDistricts = async (req, res) => {
+const getUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    res.json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getAllcandidateUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      where: { user_type: "candidate", district_id: req.params.id },
+    });
+    res.json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+getAllDistricts = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -61,7 +82,7 @@ exports.getAllDistricts = async (req, res) => {
 
     const districts = await ElectoralDistrict.findAll();
 
-    const districtData = districts.map((district) => ({
+    const districtData = districts.map(district => ({
       id: district.district_id,
       name: district.name,
       city: district.city,
@@ -77,4 +98,10 @@ exports.getAllDistricts = async (req, res) => {
     console.error("Error retrieving districts:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+module.exports = {
+  getUser,
+  getAllDistricts,
+  getUserDistrictInfo,
+  getAllcandidateUsers,
 };
