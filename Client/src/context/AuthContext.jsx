@@ -14,8 +14,11 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (token) => {
+  const login = (token, callback) => {
     localStorage.setItem("accessToken", token);
+    if (callback) {
+      callback();
+    }
     setIsAuthenticated(true);
   };
 

@@ -99,9 +99,24 @@ const ElectionInfoSection = ({ className }) => {
   }, []);
 
   const districtImages = {
-    1: "https://img.freepik.com/free-vector/international-day-democracy-concept_23-2148610052.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid",
-    2: "https://img.freepik.com/free-vector/international-day-democracy-concept_23-2148610052.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid",
-    3: "https://img.freepik.com/free-vector/international-day-democracy-concept_23-2148610052.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid",
+    1: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    2: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    3: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    4: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    5: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    6: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    7: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    8: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    9: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    10: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    11: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    12: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    13: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    14: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    15: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    16: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    17: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    18: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
   };
 
   const steps = [
@@ -126,7 +141,7 @@ const ElectionInfoSection = ({ className }) => {
           style={noSelectStyle}
         >
           <div style={overlayStyle}></div>
-          <div style={watermarkStyle}>Your Watermark Here</div>
+          <div style={watermarkStyle}></div>
           <Joyride
             steps={steps}
             run={runTour}
@@ -159,8 +174,8 @@ const ElectionInfoSection = ({ className }) => {
                     district.id
                   } ${
                     district.isUserDistrict
-                      ? "bg-gradient-to-r from-green-300 to-green-500"
-                      : "bg-gradient-to-r from-gray-200 to-gray-400 cursor-not-allowed opacity-60"
+                      ? "bg-gradient-to-r from-green-300 to-green-600"
+                      : "bg-gradient-to-r from-green-300 to-green-200 cursor-not-allowed opacity-60"
                   }`}
                 >
                   <img

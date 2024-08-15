@@ -41,7 +41,7 @@ const ChatWidget = () => {
   return (
     <div>
       <div
-        className={`fixed bottom-10 right-12 z-50 cursor-pointer ${
+        className={`fixed bottom-36 right-12 z-50 cursor-pointer ${
           isOpen ? "hidden" : "block"
         }`}
         onClick={toggleChat}
