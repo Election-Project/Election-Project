@@ -1,13 +1,11 @@
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
-require("dotenv").config();
 
-// Create a transporter object using SMTP transport
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Use environment variable for password
+    pass: "kior hcmy mspa bjwi",
   },
 });
 
@@ -17,7 +15,7 @@ const generateOTP = () => {
 
 const sendOTPEmail = async (email, otp) => {
   const mailOptions = {
-    from: "JO_ELECTION <islamomarhafith@gmail.com>",
+    from: "JO_ELECTION",
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}`,

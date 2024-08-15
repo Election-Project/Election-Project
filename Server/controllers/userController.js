@@ -1,107 +1,34 @@
+const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { User, ElectoralDistrict } = require("../models");
+const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
+dotenv.config();
 
-getUserDistrictInfo = async (req, res) => {
+const register = async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    // Verify the token and extract the user's national ID
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const nationalId = decoded.national_id;
-
-    // Find the user by national ID
-    const user = await User.findOne({ where: { national_id: nationalId } });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Find the electoral district by the user's district ID
-    const district = await ElectoralDistrict.findOne({
-      where: { district_id: user.district_id },
-    });
-
-    if (!district) {
-      return res.status(404).json({ message: "District not found" });
-    }
-
-    // Send the response with user full name and district information
-    res.json({
-      full_name: user.full_name,
-      district_id: district.district_id,
-      name: district.name,
-      city: district.city,
-    });
-  } catch (error) {
-    console.error("Error retrieving district info:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-const getUser = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const user = await User.findByPk(id);
-    res.json({ user });
+    const { name, email, password } = req.body;
+    const user = await User.create({ name, email, password });
+    res.status(201).json({ user });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const getAllcandidateUsers = async (req, res) => {
+const login = async (req, res) => {
   try {
-    const users = await User.findAll({
-      where: { user_type: "candidate", district_id: req.params.id },
-    });
-    res.json({ users });
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (user && (await user.validatePassword(password))) {
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.json({ token });
+    } else {
+      res.status(401).json({ message: "Invalid credentials" });
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-getAllDistricts = async (req, res) => {
-  try {
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    const nationalId = decoded.national_id;
-
-    const user = await User.findOne({ where: { national_id: nationalId } });
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    const districts = await ElectoralDistrict.findAll();
-
-    const districtData = districts.map(district => ({
-      id: district.district_id,
-      name: district.name,
-      city: district.city,
-      number_of_seats: district.number_of_seats,
-      female_seat: district.Female_seat,
-      circassian_or_chechen_seat: district.Circassian_or_Chechen_seat,
-      christian_seat: district.Christian_seat,
-      isUserDistrict: district.district_id === user.district_id,
-    }));
-
-    res.json(districtData);
-  } catch (error) {
-    console.error("Error retrieving districts:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-module.exports = {
-  getUser,
-  getAllDistricts,
-  getUserDistrictInfo,
-  getAllcandidateUsers,
-};
+module.exports = { register, login };

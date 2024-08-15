@@ -26,6 +26,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
+      blankVotes: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
       religion: {
         type: Sequelize.ENUM("Muslim", "Christian", "Circassian", "Chechen"),
         allowNull: false,

@@ -18,12 +18,9 @@ module.exports = {
       message: {
         type: Sequelize.TEXT,
       },
-      // timestamp: {
-      //   type: Sequelize.DATE,
-      //   defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-      // },
-      is_from_user: {
-        type: Sequelize.BOOLEAN,
+      timestamp: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       createdAt: {
         type: Sequelize.DATE,

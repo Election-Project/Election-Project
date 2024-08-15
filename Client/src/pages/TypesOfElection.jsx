@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { UserCircle, ListChecks, Users } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+
 const VoterListSelection = () => {
   const [selectedList, setSelectedList] = useState(null);
-  const navigate = useNavigate();
+
   const handleSelection = listType => {
     setSelectedList(listType);
   };
@@ -72,7 +72,6 @@ const VoterListSelection = () => {
                 ? "hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                 : "opacity-50 cursor-not-allowed"
             }`}
-            onClick={() => navigate(`/voting/${selectedList}`)}
           >
             المتابعة إلى التصويت
           </button>

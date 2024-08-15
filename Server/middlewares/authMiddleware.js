@@ -9,7 +9,7 @@ const passwordResetMiddleware = async (req, res, next) => {
 
   try {
     // Verify the token
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Find the user associated with the token
     const user = await User.findByPk(decoded.id);

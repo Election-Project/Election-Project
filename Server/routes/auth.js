@@ -11,7 +11,4 @@ router.post("/verify-otp", authController.verifyOTP);
 //set new password
 router.post("/set-new-password", authController.setNewPassword);
 
-//Login with password
-router.post("/login-with-password", authController.loginWithPassword);
-
 module.exports = router;

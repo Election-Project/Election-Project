@@ -1,16 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const {
-  getUser,
-  getUserDistrictInfo,
-  getAllDistricts,
-  getAllcandidateUsers,
-} = require("../controllers/userController");
+const { register, login } = require("../controllers/userController");
 
-router.get("/get/:id", getUser);
-
-router.get("/user/district-info", getUserDistrictInfo);
-router.get("/election-info", getAllDistricts);
-router.get("/candidate/:id", getAllcandidateUsers);
+router.post("/register", register);
+router.post("/login", login);
 
 module.exports = router;
