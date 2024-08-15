@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // Import Link from react-router-dom
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -73,6 +73,16 @@ const LoginOTP = () => {
           >
             إرسال OTP
           </button>
+
+          {/* Link for Already Registered Users */}
+          <div className="text-center mt-4">
+            <Link
+              to="/login-with-password"
+              className="text-[#0e7490] hover:underline"
+            >
+              هل أنت مسجل بالفعل؟ تسجيل الدخول هنا
+            </Link>
+          </div>
         </form>
 
         {/* Toast Container */}
