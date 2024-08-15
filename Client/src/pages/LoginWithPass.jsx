@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext";
 
 const LoginWithPass = () => {
   const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,8 +30,7 @@ const LoginWithPass = () => {
       const { accessToken } = response.data;
       toast.success("تم تسجيل الدخول بنجاح!");
 
-      // Optionally, save the token to localStorage and navigate to another page
-      localStorage.setItem("accessToken", accessToken);
+      login(accessToken);
 
       // Delay navigation to allow the toast to be seen
       setTimeout(() => {
@@ -99,12 +100,17 @@ const LoginWithPass = () => {
           </button>
 
           <div className="text-center mt-4">
-            <a
-              href="/request-password-reset"
+            <Link to="/login-otp" className="text-[#0e7490] hover:underline">
+              انشأ ملف تعريفي جديد
+            </Link>
+
+            <p className="text-sm text-gray-600 mt-2">أو</p>
+            <Link
+              to="/request-password-reset"
               className="text-[#0e7490] hover:underline"
             >
               نسيت كلمة المرور؟
-            </a>
+            </Link>
           </div>
         </form>
       </div>

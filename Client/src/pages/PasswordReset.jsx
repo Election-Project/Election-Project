@@ -3,10 +3,12 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext"; // Adjust the import based on your file structure
 
 const PasswordReset = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from AuthContext
   const params = new URLSearchParams(search);
   const token = params.get("token");
   const national_id = params.get("id");
@@ -25,12 +27,13 @@ const PasswordReset = () => {
       // Extract and store the access token in local storage
       const accessToken = response.data.accessToken;
       localStorage.setItem("accessToken", accessToken);
-      toast.success("Password reset successfully");
+      login(accessToken); // Update context with the new access token
+      toast.success("تم إعادة تعيين كلمة المرور بنجاح");
       setTimeout(() => {
-        navigate("/");
+        navigate("/"); // Redirect to home page
       }, 2000);
     } catch (error) {
-      toast.error("Error resetting password");
+      toast.error("حدث خطأ أثناء إعادة تعيين كلمة المرور");
     }
   };
 
