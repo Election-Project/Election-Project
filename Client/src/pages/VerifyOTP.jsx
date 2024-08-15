@@ -74,16 +74,17 @@ const VerifyOTP = () => {
       });
       const { accessToken } = response.data;
 
-      // Store the token in localStorage and update context
+      // Store the token in localStorage
       localStorage.setItem("accessToken", accessToken);
-      login(accessToken);
 
       // Show success toast
       toast.success("تم التحقق بنجاح! تم تخزين رمز الوصول.");
 
       // Delay navigation to allow the toast to be visible
       setTimeout(() => {
-        navigate(`/set-new-password`);
+        login(accessToken, () => {
+          navigate(`/set-new-password`);
+        });
       }, 2000); // 2 seconds delay
     } catch (error) {
       // Show error toast

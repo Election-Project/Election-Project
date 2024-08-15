@@ -57,10 +57,7 @@ function App() {
             path="/check-email"
             element={<PublicRoute element={<CheckEmail />} />}
           />
-          <Route
-            path="/set-new-password"
-            element={<PublicRoute element={<SetNewPassword />} />}
-          />
+          <Route path="/set-new-password" element={<SetNewPassword />} />
           <Route
             path="/request-password-reset"
             element={<PublicRoute element={<PasswordResetRequest />} />}

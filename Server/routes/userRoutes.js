@@ -4,5 +4,6 @@ const UserController = require("../controllers/userController");
 
 router.get("/user/district-info", UserController.getUserDistrictInfo);
 router.get("/election-info", UserController.getAllDistricts);
+router.get("/user-count", UserController.getUserCount);
 
 module.exports = router;
