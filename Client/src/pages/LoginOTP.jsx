@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginOTP = () => {
   const [nationalId, setNationalId] = useState("");
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,10 +19,17 @@ const LoginOTP = () => {
       const response = await axios.post(`${baseURL}/auth/login`, {
         national_id: nationalId,
       });
-      setMessage(response.data.message);
-      navigate(`/check-email?national_id=${nationalId}`);
+
+      // Show success toast
+      toast.success(response.data.message || "تم إرسال OTP بنجاح!");
+
+      // Delay the navigation to allow the toast to be visible
+      setTimeout(() => {
+        navigate(`/check-email?national_id=${nationalId}`);
+      }, 2000); // 2 seconds delay
     } catch (error) {
-      setMessage(error.response?.data?.message || "حدث خطأ");
+      // Show error toast
+      toast.error(error.response?.data?.message || "حدث خطأ");
     }
   };
 
@@ -67,9 +75,15 @@ const LoginOTP = () => {
           </button>
         </form>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-        )}
+        {/* Toast Container */}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
       </div>
     </div>
   );

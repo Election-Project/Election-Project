@@ -11,4 +11,14 @@ router.post("/verify-otp", authController.verifyOTP);
 //set new password
 router.post("/set-new-password", authController.setNewPassword);
 
+//Login with password
+router.post("/login-with-password", authController.loginWithPassword);
+
+//forggetting password
+router.post(
+  "/send-password-reset-email",
+  authController.sendPasswordResetEmail
+);
+router.post("/reset-password", authController.resetPassword);
+
 module.exports = router;
