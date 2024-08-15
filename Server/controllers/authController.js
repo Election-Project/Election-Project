@@ -144,12 +144,26 @@ exports.resetPassword = async (req, res) => {
     const user = await User.findOne({ where: { national_id } });
     if (!user) return res.status(404).json({ message: "User not found" });
 
+    // Update the user's password
     user.password = newPassword;
     await user.save();
 
+    // Remove the token from the store
     delete resetTokensStore[national_id];
 
-    res.status(200).json({ message: "Password reset successfully" });
+    // Generate a new JWT token
+    const tokenPayload = { national_id: user.national_id };
+    const accessToken = jwt.sign(
+      tokenPayload,
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    res
+      .status(200)
+      .json({ message: "Password reset successfully", accessToken });
   } catch (error) {
     console.error("Error in resetPassword:", error);
     res.status(500).json({ message: "Server error", error: error.message });
