@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext"; // Adjust the import based on your file structure
 
 const OTPBox = ({ index, value, onChange, inputRef }) => {
   const handleChange = (e) => {
@@ -46,6 +47,7 @@ const VerifyOTP = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const { login } = useAuth(); // Get login function from AuthContext
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -72,8 +74,9 @@ const VerifyOTP = () => {
       });
       const { accessToken } = response.data;
 
-      // Store the token in localStorage
+      // Store the token in localStorage and update context
       localStorage.setItem("accessToken", accessToken);
+      login(accessToken);
 
       // Show success toast
       toast.success("تم التحقق بنجاح! تم تخزين رمز الوصول.");
