@@ -52,6 +52,17 @@ const getUser = async (req, res) => {
   }
 };
 
+const getAllcandidateUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      where: { user_type: "candidate", district_id: req.params.id },
+    });
+    res.json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 getAllDistricts = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -88,4 +99,9 @@ getAllDistricts = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-module.exports = { getUser, getAllDistricts, getUserDistrictInfo };
+module.exports = {
+  getUser,
+  getAllDistricts,
+  getUserDistrictInfo,
+  getAllcandidateUsers,
+};

@@ -5,6 +5,7 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const localList = require("./routes/localListRouter");
 const contactRoutes = require("./routes/contact");
+const candidateRoutes = require("./routes/candidateRouter");
 // Configure CORS
 // app.use(
 //   cors({
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/local-list", localList);
+app.use("/api/candidate", candidateRoutes);
 
 //authenticate
 app.use("/auth", authRoutes);

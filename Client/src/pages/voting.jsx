@@ -3,6 +3,7 @@ import { ArrowRight, UserCircle, CheckCircle } from "lucide-react";
 import Popup from "../components/popup";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { get } from "../../../Server/routes/userRoutes";
 
 const VotingPage = () => {
   const [users, setUsers] = useState(null);
@@ -19,7 +20,7 @@ const VotingPage = () => {
   useEffect(() => {
     (async () => {
       const usersData = await axios.get(
-        "http://localhost:4000/api/users/get/885070607165"
+        "http://localhost:4000/api/users/get/101567553077"
       );
       setUsers(usersData.data);
 
@@ -34,6 +35,11 @@ const VotingPage = () => {
         })
       );
       console.log(localLists);
+
+      const getAllcandidateUsers = await axios.get(
+        `http://localhost:4000/api/users/candidate/${usersData.data.user.district_id}`
+      );
+      console.log(getAllcandidateUsers.data);
 
       // const partyListData = await axios.get(
       //   "http://localhost:4000/api/party-list/get"

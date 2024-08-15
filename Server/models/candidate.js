@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Candidate.init(
     {
+      candidate_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       votes: DataTypes.INTEGER,
       religion: DataTypes.ENUM("Muslim", "Christian", "Circassian", "Chechen"),
       gender: DataTypes.ENUM("Male", "Female"),
@@ -22,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Candidate",
+      tableName: "candidates",
     }
   );
   return Candidate;
