@@ -17,8 +17,8 @@ import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
 // Uncomment and use if needed
-// import BillboardDesignPage from "./pages/BillboardDesignPage";
-// import Advertisement from "./pages/Advertisement";
+import BillboardDesignPage from "./pages/BillboardDesignPage";
+import Advertisement from "./pages/advertisements";
 import ElectionResults from "./pages/result";
 import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
@@ -79,10 +79,10 @@ function App() {
               element={<PublicRoute element={<PasswordReset />} />}
             />
             {/* Uncomment and use if needed */}
-            {/* <Route path="/billboard" element={<BillboardDesignPage />} /> */}
+            <Route path="/billboard" element={<BillboardDesignPage />} />
             <Route path="/result" element={<ElectionResults />} />
             {/* Uncomment and use if needed */}
-            {/* <Route path="/Advertisement" element={<Advertisement />} /> */}
+            <Route path="/Advertisement" element={<Advertisement />} />
           </Routes>
           <ChatWidget />
           <Foot />

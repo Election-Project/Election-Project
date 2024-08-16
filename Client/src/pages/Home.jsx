@@ -4,6 +4,7 @@ import HeroSection from "../components/home/HeroSection";
 import ElectionInfoSection from "../components/home/ElectionInfoSection";
 import Joyride from "react-joyride";
 import AdvertisementsList from "../components/home/AdvertisementsList";
+import { MasonryGridGallery } from "../components/home/MasonryGridGallery";
 
 const Home = () => {
   const [voterInfo, setVoterInfo] = useState({
@@ -81,6 +82,7 @@ const Home = () => {
       <ElectionInfoSection className="election-info-section" />
 
       <AdvertisementsList />
+      <MasonryGridGallery />
     </div>
   );
 };
