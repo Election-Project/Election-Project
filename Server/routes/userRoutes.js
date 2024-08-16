@@ -2,20 +2,19 @@ const express = require("express");
 const router = express.Router();
 const {
   getUser,
-  getUserDistrictInfo,
   getAllDistricts,
   getAllcandidateUsers,
   getCnadidateInfo,
   isVoteLocal,
   getUserIDByName,
   isVoteParty,
-  getUserDistrictInfo,
-  getAllDistricts,
   getUserCount,
   getVotedLocalPercentage,
+  getUserByToken,
 } = require("../controllers/userController");
 
 router.get("/get/:id", getUser);
+router.get("/get-by-token", getUserByToken);
 
 router.get("/user/district-info", getUserDistrictInfo);
 router.get("/election-info", getAllDistricts);

@@ -3,6 +3,7 @@ import { ArrowRight, UserCircle, CheckCircle } from "lucide-react";
 import Popup from "../components/popup";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const VotingPage = () => {
   const [users, setUsers] = useState(null);
@@ -16,28 +17,40 @@ const VotingPage = () => {
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [isBlankVote, setIsBlankVote] = useState(false);
   const [llist, setLlist] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
+      const token = localStorage.getItem("accessToken");
+      console.log("token", token);
+      if (!token) {
+        navigate("/login-with-password");
+        return;
+      }
       const usersData = await axios.get(
-        "http://localhost:4000/api/users/get/101402369019"
+        "http://localhost:4000/api/get-by-token",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setUsers(usersData.data);
-
       const localListData = await axios.get(
         "http://localhost:4000/api/local-list/get"
       );
-      // console.log(usersData.data);
+      console.log("localListData", localListData.data);
       const filteredLocalLists = Object.values(localListData.data)[0].filter(
         list => {
           return list.district_id === usersData.data.user.district_id;
         }
       );
+      console.log("filteredLocalLists", filteredLocalLists);
       setLocalLists(filteredLocalLists);
       // console.log(localLists);
 
       const getAllcandidateUsers = await axios.get(
-        `http://localhost:4000/api/users/candidate/${usersData.data.user.district_id}`
+        `http://localhost:4000/api/candidate/${usersData.data.user.district_id}`
       );
       // console.log(getAllcandidateUsers.data);
 
@@ -76,14 +89,14 @@ const VotingPage = () => {
               Object.values(getAllcandidateUsers.data)[0][i].national_id
             }`
           );
-
+          console.log("candidateData", candidateData.data);
           if (Object.values(candidateData.data)[0]) {
             const listId = Object.values(candidateData.data)[0].list_id;
             const nationalId = Object.values(candidateData.data)[0].national_id;
 
             // Get full name for this national ID
             const usersData = await axios.get(
-              `http://localhost:4000/api/users/get/${nationalId}`
+              `http://localhost:4000/api/get/${nationalId}`
             );
             const fullName = usersData.data.user.full_name; // Adjust this based on the actual structure of your API response
 
@@ -199,14 +212,14 @@ const VotingPage = () => {
         console.log("userID", userId);
         console.log("districtId", districtId);
         axios.post(`http://localhost:4000/api/election/district/${districtId}`);
-        axios.post(`http://localhost:4000/api/users/is-vote-local/${userId}`);
+        axios.post(`http://localhost:4000/api/is-vote-local/${userId}`);
         console.log(`Blank vote cast for Local list`);
       }
       if (listtype === "party") {
         console.log(`Blank vote cast for Party list
         `);
         axios.post(
-          `http://localhost:4000/api/users/is-vote-party/${users.user.national_id}`
+          `http://localhost:4000/api/is-vote-party/${users.user.national_id}`
         );
         axios.post(`http://localhost:4000/api/election/party`);
       }
@@ -223,7 +236,7 @@ const VotingPage = () => {
             .length === 0
         ) {
           axios.post(
-            `http://localhost:4000/api/users/is-vote-local/${users.user.national_id}`
+            `http://localhost:4000/api/is-vote-local/${users.user.national_id}`
           );
           axios.post(
             `http://localhost:4000/api/local-list/increase-vote/${selectedList.name}`
@@ -233,7 +246,7 @@ const VotingPage = () => {
             Object.keys(votedCandidates).filter(c => votedCandidates[c])
           );
           axios.post(
-            `http://localhost:4000/api/users/is-vote-local/${users.user.national_id}`
+            `http://localhost:4000/api/is-vote-local/${users.user.national_id}`
           );
           axios.post(
             `http://localhost:4000/api/local-list/increase-vote/${selectedList.name}`
@@ -246,7 +259,7 @@ const VotingPage = () => {
           ) {
             axios
               .get(
-                `http://localhost:4000/api/users/user-id/${
+                `http://localhost:4000/api/user-id/${
                   Object.keys(votedCandidates).filter(c => votedCandidates[c])[
                     i
                   ]
@@ -266,7 +279,7 @@ const VotingPage = () => {
       if (listtype === "party") {
         console.log("Voted for test: ", selectedList.name);
         axios.post(
-          `http://localhost:4000/api/users/is-vote-party/${users.user.national_id}`
+          `http://localhost:4000/api/is-vote-party/${users.user.national_id}`
         );
         axios.put(
           `http://localhost:4000/api/party-list/increase/${selectedList.name}`

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, ElectoralDistrict } = require("../models");
 
-exports.getUserDistrictInfo = async (req, res) => {
+getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -46,6 +46,25 @@ const getUser = async (req, res) => {
   const id = req.params.id;
   try {
     const user = await User.findByPk(id);
+    res.json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getUserByToken = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  // Verify the token and extract the user's national ID
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  const nationalId = decoded.national_id;
+
+  try {
+    const user = await User.findByPk(nationalId);
     res.json({ user });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -207,4 +226,5 @@ module.exports = {
   isVoteParty,
   getUserCount,
   getVotedLocalPercentage,
+  getUserByToken,
 };
