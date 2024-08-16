@@ -16,6 +16,7 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
+import ElectionResults from './pages/result';
 
 import { useAuth } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
@@ -66,6 +67,8 @@ function App() {
             path="/reset-password"
             element={<PublicRoute element={<PasswordReset />} />}
           />
+          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/result" element={<ElectionResults />} />
         </Routes>
         <ChatWidget />
 
