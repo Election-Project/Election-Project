@@ -44,6 +44,7 @@ const OTPBox = ({ index, value, onChange, inputRef }) => {
 const VerifyOTP = () => {
   const [nationalId, setNationalId] = useState("");
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [timeLeft, setTimeLeft] = useState(30); // Initialize with 60 seconds
   const location = useLocation();
   const navigate = useNavigate();
   const inputRefs = useRef([]);
@@ -56,6 +57,16 @@ const VerifyOTP = () => {
       setNationalId(id);
     }
   }, [location.search]);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer); // Clear the interval when the component is unmounted or timeLeft changes
+    }
+  }, [timeLeft]);
 
   const handleOtpChange = (index, value) => {
     const newOtp = [...otp];
@@ -101,6 +112,8 @@ const VerifyOTP = () => {
       toast.success(response.data.message || "تم إرسال OTP مرة أخرى!");
 
       // Optionally, you can reset OTP input fields or handle UI updates
+      setOtp(Array(6).fill(""));
+      setTimeLeft(60); // Reset the timer after resending OTP
     } catch (error) {
       toast.error(
         error.response?.data?.message || "حدث خطأ في إعادة إرسال OTP"
@@ -172,27 +185,32 @@ const VerifyOTP = () => {
             <div className="text-center mt-6">
               <button
                 onClick={handleResendOTP}
-                className="text-black hover:text-green-700 transition-colors duration-200 hover:underline"
+                className={`px-6 py-3 font-semibold rounded-lg shadow-md transition-colors duration-300 transform ${
+                  timeLeft > 0
+                    ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+                    : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:bg-gradient-to-r hover:from-green-700 hover:to-green-800"
+                }`}
+                disabled={timeLeft > 0} // Disable button while timer is running
               >
-                إعادة إرسال رمز OTP
+                {timeLeft > 0
+                  ? `يمكنك إعادة إرسال OTP بعد ${timeLeft} ثانية`
+                  : "إعادة إرسال رمز OTP"}
               </button>
             </div>
+
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar={false}
+              closeOnClick
+              rtl={true}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </div>
         </div>
       </div>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={true}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </div>
   );
 };
