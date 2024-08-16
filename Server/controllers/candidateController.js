@@ -11,4 +11,27 @@ const getAllCandidates = async (req, res) => {
   }
 };
 
-module.exports = { getAllCandidates };
+const increaseVote = async (req, res) => {
+  try {
+    const candidate = await Candidate.findOne({
+      where: { national_id: req.params.id },
+    });
+
+    if (!candidate) {
+      return res.status(404).json({ message: "Candidate not found" });
+    }
+    console.log("candidate", candidate);
+    candidate.votes += 1;
+    await candidate.save();
+
+    res.json({
+      message: "votes increased",
+      votes: candidate.votes,
+    });
+  } catch (error) {
+    console.error("Error increasing votes:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = { getAllCandidates, increaseVote };

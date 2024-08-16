@@ -3,7 +3,6 @@ import { ArrowRight, UserCircle, CheckCircle } from "lucide-react";
 import Popup from "../components/popup";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { get } from "../../../Server/routes/userRoutes";
 
 const VotingPage = () => {
   const [users, setUsers] = useState(null);
@@ -16,63 +15,127 @@ const VotingPage = () => {
   const [selectedList, setSelectedList] = useState(null);
   const [selectedCandidates, setSelectedCandidates] = useState({});
   const [isBlankVote, setIsBlankVote] = useState(false);
+  const [llist, setLlist] = useState(null);
 
   useEffect(() => {
     (async () => {
       const usersData = await axios.get(
-        "http://localhost:4000/api/users/get/101567553077"
+        "http://localhost:4000/api/users/get/101402369019"
       );
       setUsers(usersData.data);
 
       const localListData = await axios.get(
         "http://localhost:4000/api/local-list/get"
       );
-      console.log(usersData.data);
-
-      setLocalLists(
-        Object.values(localListData.data)[0].filter(list => {
+      // console.log(usersData.data);
+      const filteredLocalLists = Object.values(localListData.data)[0].filter(
+        list => {
           return list.district_id === usersData.data.user.district_id;
-        })
+        }
       );
-      console.log(localLists);
+      setLocalLists(filteredLocalLists);
+      // console.log(localLists);
 
       const getAllcandidateUsers = await axios.get(
         `http://localhost:4000/api/users/candidate/${usersData.data.user.district_id}`
       );
-      console.log(getAllcandidateUsers.data);
+      // console.log(getAllcandidateUsers.data);
 
       // const partyListData = await axios.get(
       //   "http://localhost:4000/api/party-list/get"
       // );
       // setPartyLists(partyListData.data);
-      setPartyLists([
-        { id: 1, name: "حزب العدالة", logo: "🌟" },
-        { id: 2, name: "حزب التقدم", logo: "🌿" },
-        { id: 3, name: "حزب الوحدة", logo: "😁" },
-      ]);
+      const partyListData = await axios.get(
+        "http://localhost:4000/api/party-list/get"
+      );
+      console.log("partList : ", partyListData.data.partyLists);
+      const plist = [];
+      const logos = ["🌟", "🌿", "😁", "💎"];
+      partyListData.data.partyLists.forEach((party, index) => {
+        plist.push({
+          id: party.list_id,
+          name: party.name,
+          logo: logos[index],
+        });
+      });
+      setPartyLists(plist);
 
+      const llist1 = [];
+      const candidatesByList = {};
+      const candidatesByListWithNames = {};
+      // console.log(Object.values(getAllcandidateUsers.data)[0]);
+
+      for (
+        let i = 0;
+        i < Object.values(getAllcandidateUsers.data)[0].length;
+        i++
+      ) {
+        try {
+          const candidateData = await axios.get(
+            `http://localhost:4000/api/candidate/candidate/${
+              Object.values(getAllcandidateUsers.data)[0][i].national_id
+            }`
+          );
+
+          if (Object.values(candidateData.data)[0]) {
+            const listId = Object.values(candidateData.data)[0].list_id;
+            const nationalId = Object.values(candidateData.data)[0].national_id;
+
+            // Get full name for this national ID
+            const usersData = await axios.get(
+              `http://localhost:4000/api/users/get/${nationalId}`
+            );
+            const fullName = usersData.data.user.full_name; // Adjust this based on the actual structure of your API response
+
+            // If this list_id doesn't exist in our objects yet, initialize them
+            if (!candidatesByList[listId]) {
+              candidatesByList[listId] = {
+                id: listId,
+                national_ids: [],
+              };
+              candidatesByListWithNames[listId] = {
+                id: listId,
+                candidates: [],
+                name: filteredLocalLists.find(list => list.list_id === listId)
+                  .name,
+              };
+            }
+
+            // Add the national_id and full name to the respective arrays for this list_id
+            candidatesByList[listId].national_ids.push(nationalId);
+            candidatesByListWithNames[listId].candidates.push(fullName);
+          }
+        } catch (error) {
+          console.error(
+            `Error fetching data for candidate at index ${i}:`,
+            error
+          );
+        }
+      }
+
+      // Convert the objects to arrays if needed
+      const resultArrayWithIds = Object.values(candidatesByList);
+      const resultArrayWithNames = Object.values(candidatesByListWithNames);
+
+      // console.log("Candidates by List (with National IDs):", candidatesByList);
+      // console.log(
+      //   "Candidates by List (with Full Names):",
+      //   candidatesByListWithNames
+      // );
+      // console.log("Result Array (with National IDs):", resultArrayWithIds);
+      // console.log("Result Array (with Full Names):", resultArrayWithNames);
+      llist1.push(resultArrayWithNames);
+      setLlist(llist1);
       setIsLocalVoted(usersData.data.user.is_voted_local);
       setIsPartyVoted(usersData.data.user.is_voted_party);
     })();
   }, []);
-
+  // console.log(llist && llist[0]);
   const lists = {
-    local:
-      localLists &&
-      localLists.map((list, index) => ({
-        id: index + 1,
-        name: list.name,
-        candidates: [`test${index}`, `test${index + 1}`, `test${index + 2}`],
-      })),
-    party:
-      partyLists &&
-      partyLists.map((party, index) => ({
-        id: index + 1,
-        name: party.name,
-        logo: party.logo,
-      })),
+    local: llist && llist[0],
+    party: partyLists && partyLists,
   };
-
+  console.log(lists);
   const selectedLists = lists[listtype];
 
   const handleListClick = list => {
@@ -130,7 +193,23 @@ const VotingPage = () => {
 
   const handleConfirmVote = () => {
     if (isBlankVote) {
-      console.log(`Blank vote cast for ${listtype} list`);
+      if (listtype === "local") {
+        const districtId = users.user.district_id;
+        const userId = users.user.national_id;
+        console.log("userID", userId);
+        console.log("districtId", districtId);
+        axios.post(`http://localhost:4000/api/election/district/${districtId}`);
+        axios.post(`http://localhost:4000/api/users/is-vote-local/${userId}`);
+        console.log(`Blank vote cast for Local list`);
+      }
+      if (listtype === "party") {
+        console.log(`Blank vote cast for Party list
+        `);
+        axios.post(
+          `http://localhost:4000/api/users/is-vote-party/${users.user.national_id}`
+        );
+        axios.post(`http://localhost:4000/api/election/party`);
+      }
     } else {
       const votedCandidates = selectedCandidates[selectedList.id] || {};
       console.log(`Voted for: ${selectedList.name}`);
@@ -138,6 +217,61 @@ const VotingPage = () => {
         "Selected candidates:",
         Object.keys(votedCandidates).filter(c => votedCandidates[c])
       );
+      if (listtype === "local") {
+        if (
+          Object.keys(votedCandidates).filter(c => votedCandidates[c])
+            .length === 0
+        ) {
+          axios.post(
+            `http://localhost:4000/api/users/is-vote-local/${users.user.national_id}`
+          );
+          axios.post(
+            `http://localhost:4000/api/local-list/increase-vote/${selectedList.name}`
+          );
+        } else {
+          console.log(
+            Object.keys(votedCandidates).filter(c => votedCandidates[c])
+          );
+          axios.post(
+            `http://localhost:4000/api/users/is-vote-local/${users.user.national_id}`
+          );
+          axios.post(
+            `http://localhost:4000/api/local-list/increase-vote/${selectedList.name}`
+          );
+          for (
+            let i = 0;
+            i <
+            Object.keys(votedCandidates).filter(c => votedCandidates[c]).length;
+            i++
+          ) {
+            axios
+              .get(
+                `http://localhost:4000/api/users/user-id/${
+                  Object.keys(votedCandidates).filter(c => votedCandidates[c])[
+                    i
+                  ]
+                }`
+              )
+              .then(res => {
+                return res.data.national_id;
+              })
+              .then(national_id => {
+                axios.post(
+                  `http://localhost:4000/api/candidate/vote/${national_id}`
+                );
+              });
+          }
+        }
+      }
+      if (listtype === "party") {
+        console.log("Voted for test: ", selectedList.name);
+        axios.post(
+          `http://localhost:4000/api/users/is-vote-party/${users.user.national_id}`
+        );
+        axios.put(
+          `http://localhost:4000/api/party-list/increase/${selectedList.name}`
+        );
+      }
     }
     setShowPopup(false);
     setSelectedList(null);

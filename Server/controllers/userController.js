@@ -110,10 +110,78 @@ getAllDistricts = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+const isVoteLocal = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    console.log("user", user);
+    user.is_voted_local = true;
+    await user.save();
+
+    res.json({
+      message: "Local vote boolean updated",
+      blankVotes: user.is_voted_local,
+    });
+  } catch (error) {
+    console.error("Error increasing blank vote:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const isVoteParty = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    console.log("user", user);
+    user.is_voted_party = true;
+    await user.save();
+
+    res.json({
+      message: "Party vote boolean updated",
+      blankVotes: user.is_voted_party,
+    });
+  } catch (error) {
+    console.error("Error increasing blank vote:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getUserIDByName = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { full_name: req.params.name },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    res.json({
+      national_id: user.national_id,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   getAllDistricts,
   getUserDistrictInfo,
   getAllcandidateUsers,
   getCnadidateInfo,
+  isVoteLocal,
+  getUserIDByName,
+  isVoteParty,
 };
