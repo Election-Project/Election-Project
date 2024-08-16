@@ -78,3 +78,24 @@ exports.getAllDistricts = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.getUserCount = async (req, res) => {
+  try {
+    const userCount = await User.count();
+    res.status(200).json({ count: userCount });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving the user count." });
+  }
+};
+
+exports.getVotedLocalPercentage = async (req, res) => {
+  try {
+    const percentage = await User.getVotedLocalPercentage();
+    res.json({ percentage });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

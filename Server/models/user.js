@@ -1,3 +1,5 @@
+// models/user.js
+
 "use strict";
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
@@ -14,6 +16,24 @@ module.exports = (sequelize, DataTypes) => {
 
     async comparePassword(password) {
       return await bcrypt.compare(password, this.password);
+    }
+
+    static async getVotedLocalPercentage() {
+      try {
+        const totalUsers = await User.count();
+        const votedLocalUsers = await User.count({
+          where: {
+            is_voted_local: true,
+          },
+        });
+
+        if (totalUsers === 0) return 0;
+
+        return (votedLocalUsers / totalUsers) * 100;
+      } catch (error) {
+        console.error("Error calculating voted local percentage:", error);
+        throw error;
+      }
     }
   }
 

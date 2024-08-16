@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext"; // Adjust the import based on your file structure
 
 const OTPBox = ({ index, value, onChange, inputRef }) => {
   const handleChange = (e) => {
@@ -46,6 +47,7 @@ const VerifyOTP = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const inputRefs = useRef([]);
+  const { login } = useAuth(); // Get login function from AuthContext
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -80,7 +82,9 @@ const VerifyOTP = () => {
 
       // Delay navigation to allow the toast to be visible
       setTimeout(() => {
-        navigate(`/set-new-password`);
+        login(accessToken, () => {
+          navigate(`/set-new-password`);
+        });
       }, 2000); // 2 seconds delay
     } catch (error) {
       // Show error toast

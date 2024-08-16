@@ -5,12 +5,17 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const contactRoutes = require("./routes/contact");
 const chatRoutes = require("./routes/chatRoutes");
+<<<<<<< HEAD
 // const { LocalList, PartyList, Candidate, ElectoralDistrict, User } = require('./models');
 const LocalList = require('./models/locallist');
 const PartyList = require('./models/partylist');
 const Candidate = require('./models/candidate');
 const ElectoralDistrict = require('./models/electoraldistrict');
 const User = require('./models/user');
+=======
+const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
+
+>>>>>>> db0621c0e019a538f88054a27cdd52ebf1330f52
 // Configure CORS
 app.use(
   cors({
@@ -59,6 +64,7 @@ app.get('/api/election-results', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+app.use("/api", electoralDistrictRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
