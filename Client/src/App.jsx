@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 // import BillboardDesignPage from "./pages/Advertisement";
 import { Nav } from "./components/header";
@@ -16,8 +17,17 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
+import BillboardDesignPage from "./pages/BillboardDesignPage";
 function App() {
+
+  const options = {
+    "client-id":
+      "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
+  };
+
   return (
+
+    <PayPalScriptProvider options={options}>
     <Router>
       <div className="App">
         <Nav />
@@ -37,12 +47,14 @@ function App() {
             element={<PasswordResetRequest />}
           />
           <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/billboard" element={<BillboardDesignPage />} />
         </Routes>
         <ChatWidget />
 
         <Foot />
       </div>
     </Router>
+    </PayPalScriptProvider>
   );
 }
 
