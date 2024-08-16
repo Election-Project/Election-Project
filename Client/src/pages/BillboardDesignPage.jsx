@@ -25,7 +25,7 @@ const BillboardDesignPage = () => {
   const onSubmit = async () => {
     try {
       const designData = {
-        national_id: "409757581080", // Replace with actual user input or session data
+        national_id: "409757581080",
         content: JSON.stringify({
           candidateDetails,
           customization,

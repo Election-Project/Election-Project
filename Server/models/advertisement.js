@@ -3,16 +3,10 @@ const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Advertisement extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // Define the association with the User model
       Advertisement.belongsTo(models.User, {
         foreignKey: "national_id",
-        as: "user", // Alias for the association
+        as: "user",
       });
     }
   }
@@ -23,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
       },
       national_id: {
         type: DataTypes.STRING(20),
@@ -31,43 +26,60 @@ module.exports = (sequelize, DataTypes) => {
           model: "users",
           key: "national_id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      content: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
-      start_date: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      end_date: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      payment_amount: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: true,
-      },
-      image: {
+      name: {
         type: DataTypes.STRING,
-        allowNull: true,
-      },
-      createdAt: {
-        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW,
       },
-      updatedAt: {
-        type: DataTypes.DATE,
+      election_slogan: {
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: DataTypes.NOW,
+      },
+      design_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      personal_image: {
+        type: DataTypes.TEXT,
+      },
+      color_font: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      color_card: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      color_border: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      border_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      total_amount: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0.0,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "active",
       },
     },
     {
       sequelize,
       modelName: "Advertisement",
       tableName: "advertisements",
-      timestamps: true,
+      timestamps: true, // Automatically manages createdAt and updatedAt fields
     }
   );
 

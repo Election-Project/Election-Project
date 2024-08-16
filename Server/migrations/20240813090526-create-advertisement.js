@@ -14,21 +14,46 @@ module.exports = {
           model: "users",
           key: "national_id",
         },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
-      content: {
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      election_slogan: {
+        type: Sequelize.STRING,
+      },
+      design_type: {
+        type: Sequelize.STRING,
+      },
+      description: {
         type: Sequelize.TEXT,
       },
-      start_date: {
-        type: Sequelize.DATE,
+      personal_image: {
+        type: Sequelize.TEXT,
       },
-      end_date: {
-        type: Sequelize.DATE,
-      },
-      payment_amount: {
-        type: Sequelize.DECIMAL(10, 2),
-      },
-      image: {
+
+      color_font: {
         type: Sequelize.STRING,
+      },
+      color_card: {
+        type: Sequelize.STRING,
+      },
+      color_border: {
+        type: Sequelize.STRING,
+      },
+      border_type: {
+        type: Sequelize.STRING,
+      },
+      total_amount: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0.0,
+      },
+      status: {
+        type: Sequelize.ENUM("active", "inactive"),
+        defaultValue: "active",
       },
       createdAt: {
         type: Sequelize.DATE,
