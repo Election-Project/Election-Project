@@ -92,6 +92,22 @@ const VerifyOTP = () => {
     }
   };
 
+  const handleResendOTP = async () => {
+    try {
+      const baseURL = import.meta.env.VITE_API_BASE_URL;
+      const response = await axios.post(`${baseURL}/auth/resend-otp`, {
+        national_id: nationalId,
+      });
+      toast.success(response.data.message || "تم إرسال OTP مرة أخرى!");
+
+      // Optionally, you can reset OTP input fields or handle UI updates
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "حدث خطأ في إعادة إرسال OTP"
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-600 via-white to-red-600 p-4">
       <div className="w-full max-w-md relative">
@@ -154,12 +170,12 @@ const VerifyOTP = () => {
             </form>
 
             <div className="text-center mt-6">
-              {/* <button
+              <button
                 onClick={handleResendOTP}
                 className="text-black hover:text-green-700 transition-colors duration-200 hover:underline"
               >
                 إعادة إرسال رمز OTP
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
@@ -169,10 +185,13 @@ const VerifyOTP = () => {
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
+        newestOnTop={false}
         closeOnClick
-        pauseOnHover
+        rtl={true}
+        pauseOnFocusLoss
         draggable
-        className="mt-10"
+        pauseOnHover
+        theme="dark"
       />
     </div>
   );
