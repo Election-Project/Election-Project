@@ -4,9 +4,13 @@ const app = express();
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const contactRoutes = require("./routes/contact");
+const candidateRoutes = require("./routes/candidateRouter");
+const electionRoutes = require("./routes/electionRouter");
+const partyList = require("./routes/partyListRouter");
 const chatRoutes = require("./routes/chatRoutes");
 const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
 const advertisementRoutes = require("./routes/advertisementRoutes");
+const localList = require("./routes/localListRouter");
 
 // Configure CORS
 app.use(
@@ -19,6 +23,10 @@ app.use(
 
 app.use(express.json());
 app.use("/api", userRoutes);
+app.use("/api/local-list", localList);
+app.use("/api/candidate", candidateRoutes);
+app.use("/api/election", electionRoutes);
+app.use("/api/party-list", partyList);
 
 //authenticate
 app.use("/auth", authRoutes);

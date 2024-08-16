@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert("advertisements", [
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 1",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -15,7 +15,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 2",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -27,7 +27,7 @@ module.exports = {
       },
       // Add more records here with valid `national_id` values
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 3",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -38,7 +38,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 4",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -49,7 +49,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 5",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -60,7 +60,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 6",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -71,7 +71,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 7",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -82,7 +82,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 8",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -93,7 +93,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 9",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),
@@ -104,7 +104,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: "539876049504",
+        national_id: "123456789019",
         content: "Sample advertisement content 10",
         start_date: new Date(),
         end_date: new Date(new Date().setDate(new Date().getDate() + 30)),

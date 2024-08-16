@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, ElectoralDistrict } = require("../models");
 
-exports.getUserDistrictInfo = async (req, res) => {
+getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -42,7 +42,58 @@ exports.getUserDistrictInfo = async (req, res) => {
   }
 };
 
-exports.getAllDistricts = async (req, res) => {
+const getUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await User.findByPk(id);
+    res.json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getUserByToken = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
+
+  // Verify the token and extract the user's national ID
+  const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+  const nationalId = decoded.national_id;
+
+  try {
+    const user = await User.findByPk(nationalId);
+    res.json({ user });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getAllcandidateUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      where: { user_type: "candidate", district_id: req.params.id },
+    });
+    res.json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getCnadidateInfo = async (req, res) => {
+  try {
+    const candidate = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+    res.json({ candidate });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+getAllDistricts = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -61,7 +112,7 @@ exports.getAllDistricts = async (req, res) => {
 
     const districts = await ElectoralDistrict.findAll();
 
-    const districtData = districts.map((district) => ({
+    const districtData = districts.map(district => ({
       id: district.district_id,
       name: district.name,
       city: district.city,
@@ -79,7 +130,71 @@ exports.getAllDistricts = async (req, res) => {
   }
 };
 
-exports.getUserCount = async (req, res) => {
+const isVoteLocal = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    console.log("user", user);
+    user.is_voted_local = true;
+    await user.save();
+
+    res.json({
+      message: "Local vote boolean updated",
+      blankVotes: user.is_voted_local,
+    });
+  } catch (error) {
+    console.error("Error increasing blank vote:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const isVoteParty = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { national_id: req.params.id },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    console.log("user", user);
+    user.is_voted_party = true;
+    await user.save();
+
+    res.json({
+      message: "Party vote boolean updated",
+      blankVotes: user.is_voted_party,
+    });
+  } catch (error) {
+    console.error("Error increasing blank vote:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getUserIDByName = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { full_name: req.params.name },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+
+    res.json({
+      national_id: user.national_id,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+getUserCount = async (req, res) => {
   try {
     const userCount = await User.count();
     res.status(200).json({ count: userCount });
@@ -91,11 +206,25 @@ exports.getUserCount = async (req, res) => {
   }
 };
 
-exports.getVotedLocalPercentage = async (req, res) => {
+getVotedLocalPercentage = async (req, res) => {
   try {
     const percentage = await User.getVotedLocalPercentage();
     res.json({ percentage });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
+};
+
+module.exports = {
+  getUser,
+  getAllDistricts,
+  getUserDistrictInfo,
+  getAllcandidateUsers,
+  getCnadidateInfo,
+  isVoteLocal,
+  getUserIDByName,
+  isVoteParty,
+  getUserCount,
+  getVotedLocalPercentage,
+  getUserByToken,
 };

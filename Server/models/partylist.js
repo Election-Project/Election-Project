@@ -15,12 +15,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   PartyList.init(
     {
+      list_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       name: DataTypes.STRING,
       votes: DataTypes.INTEGER,
     },
     {
       sequelize,
       modelName: "PartyList",
+      tableName: "party_lists",
     }
   );
   return PartyList;
