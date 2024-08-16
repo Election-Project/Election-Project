@@ -56,7 +56,7 @@ const ChatWidget = () => {
         message,
       });
       setTimeout(() => {
-        setResponses((prev) =>
+        setResponses(prev =>
           prev.map((chat, index) =>
             index === prev.length - 1
               ? { ...chat, response: res.data.response }
@@ -164,7 +164,7 @@ const ChatWidget = () => {
           <input
             type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={e => setMessage(e.target.value)}
             placeholder="اكتب رسالتك..."
             className="w-full p-2 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-red-600"
           />

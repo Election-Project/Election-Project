@@ -30,6 +30,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      party_blank_vote: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },
     });
   },
 
