@@ -16,9 +16,11 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
+import Advertisement from "./pages/Advertisement";
 
 import { useAuth } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
+import AdvertisementView from "./components/home/AdvertisementView";
 
 function App() {
   const { login } = useAuth();
@@ -35,7 +37,12 @@ function App() {
       <div className="App">
         <Nav />
         <Routes>
-          {/* <Route path="/Advertisement" element={<BillboardDesignPage />} /> */}
+          <Route path="/Advertisement" element={<Advertisement />} />
+          {/* <Route path="/advertisementsList" element={<AdvertisementsList />} /> */}
+          <Route
+            path="/advertisementsView/:id"
+            element={<AdvertisementView />}
+          />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/voting/:listtype" element={<Voting />} />
           <Route path="/votinglist" element={<VoterListSelection />} />

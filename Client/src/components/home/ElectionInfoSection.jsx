@@ -276,7 +276,7 @@ const ElectionInfoSection = ({ className }) => {
           </section>
         </div>
       ) : (
-        <NotLogElectionInfoSection />
+        <p></p>
       )}
     </>
   );

@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const contactRoutes = require("./routes/contact");
 const chatRoutes = require("./routes/chatRoutes");
 const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
+const advertisementRoutes = require("./routes/advertisementRoutes");
 
 // Configure CORS
 app.use(
@@ -27,6 +28,8 @@ app.use("/api", contactRoutes);
 app.use("/api", chatRoutes);
 
 app.use("/api", electoralDistrictRoutes);
+
+app.use("/api", advertisementRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
