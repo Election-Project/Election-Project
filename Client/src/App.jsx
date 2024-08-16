@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-// import BillboardDesignPage from "./pages/Advertisement";
 import { Nav } from "./components/header";
 import { Foot } from "./components/footer";
 import ContactForm from "./pages/contact";
@@ -17,12 +16,13 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
-import BillboardDesignPage from "./pages/BillboardDesignPage";
-
+// Uncomment and use if needed
+// import BillboardDesignPage from "./pages/BillboardDesignPage";
+// import Advertisement from "./pages/Advertisement";
 import ElectionResults from "./pages/result";
-
-import { useAuth } from "./context/AuthContext";
+import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
   const { login } = useAuth();
@@ -44,11 +44,14 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-            {/* <Route path="/Advertisement" element={<BillboardDesignPage />} /> */}
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />
             <Route path="/" element={<Home />} />
+            <Route
+              path="/advertisementsView/:id"
+              element={<AdvertisementView />}
+            />
             {/* Public Routes for non-authenticated users */}
             <Route
               path="/login-otp"
@@ -75,12 +78,13 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
-            <Route path="/reset-password" element={<PasswordReset />} />
-            <Route path="/billboard" element={<BillboardDesignPage />} />
+            {/* Uncomment and use if needed */}
+            {/* <Route path="/billboard" element={<BillboardDesignPage />} /> */}
             <Route path="/result" element={<ElectionResults />} />
+            {/* Uncomment and use if needed */}
+            {/* <Route path="/Advertisement" element={<Advertisement />} /> */}
           </Routes>
           <ChatWidget />
-
           <Foot />
         </div>
       </Router>

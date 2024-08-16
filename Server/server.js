@@ -14,6 +14,7 @@ const ElectoralDistrict = require('./models/electoraldistrict');
 const User = require('./models/user');
 =======
 const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
+const advertisementRoutes = require("./routes/advertisementRoutes");
 
 >>>>>>> db0621c0e019a538f88054a27cdd52ebf1330f52
 // Configure CORS
@@ -65,6 +66,8 @@ app.get('/api/election-results', async (req, res) => {
   }
 });
 app.use("/api", electoralDistrictRoutes);
+
+app.use("/api", advertisementRoutes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
