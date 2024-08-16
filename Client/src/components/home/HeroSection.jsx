@@ -313,7 +313,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   المزيد من التفاصيل
                 </motion.button>
               </motion.div>
-              <div className="flex justify-center mt-12 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
                 {[
                   {
                     value: `${voterCount !== null ? voterCount : "Loading..."}`,
@@ -345,17 +345,15 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                       delay: 0.3 * (index + 1),
                       ease: "easeOut",
                     }}
-                    className={index > 0 ? "ml-10" : ""} // Adjust margin for spacing
+                    className="flex flex-col items-center justify-center p-4 bg-white shadow-md rounded-lg"
                   >
                     <motion.div
-                      className="text-4xl font-bold px-6 text-[#ce1126]"
+                      className="text-4xl font-bold text-[#ce1126] mb-2"
                       whileHover={{ scale: 1.15, color: "#007a3d" }}
                     >
                       {stat.value}
                     </motion.div>
-                    <div className="text-sm text-gray-900 px-6">
-                      {stat.label}
-                    </div>
+                    <div className="text-sm text-gray-900">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
