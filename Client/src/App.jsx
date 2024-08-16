@@ -16,9 +16,10 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
-import BillboardDesignPage from "./pages/BillboardDesignPage";
+// import BillboardDesignPage from "./pages/BillboardDesignPage";
 
 import ElectionResults from "./pages/result";
+// import Advertisement from "./pages/Advertisement";
 
 import { useAuth } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
@@ -77,7 +78,7 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
-            <Route path="/billboard" element={<BillboardDesignPage />} />
+            {/* <Route path="/billboard" element={<BillboardDesignPage />} /> */}
             <Route path="/result" element={<ElectionResults />} />
             {/* Uncomment the following line if needed */}
             {/* <Route path="/Advertisement" element={<Advertisement />} /> */}
