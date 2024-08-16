@@ -90,3 +90,12 @@ exports.getUserCount = async (req, res) => {
       .json({ message: "An error occurred while retrieving the user count." });
   }
 };
+
+exports.getVotedLocalPercentage = async (req, res) => {
+  try {
+    const percentage = await User.getVotedLocalPercentage();
+    res.json({ percentage });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

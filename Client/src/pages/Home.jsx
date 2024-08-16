@@ -26,7 +26,7 @@ const Home = () => {
         setVoterInfo({
           voterName: response.data.full_name,
           district: response.data.name,
-          electionDate: "2024-08-20T00:00:00", // Use appropriate date if provided by API
+          electionDate: "2024-11-05T00:00:00", // Use appropriate date if provided by API
         });
       } catch (error) {
         console.error("Error fetching voter info:", error);
