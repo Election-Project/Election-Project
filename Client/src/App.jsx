@@ -16,14 +16,13 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
+// Uncomment and use if needed
 // import BillboardDesignPage from "./pages/BillboardDesignPage";
-
-import ElectionResults from "./pages/result";
 // import Advertisement from "./pages/Advertisement";
-
-import { useAuth } from "./context/AuthContext";
-import PublicRoute from "./components/PublicRoute";
+import ElectionResults from "./pages/result";
 import AdvertisementView from "./components/home/AdvertisementView";
+import PublicRoute from "./components/PublicRoute";
+import { useAuth } from "./context/AuthContext";
 
 function App() {
   const { login } = useAuth();
@@ -53,6 +52,7 @@ function App() {
               path="/advertisementsView/:id"
               element={<AdvertisementView />}
             />
+            {/* Public Routes for non-authenticated users */}
             <Route
               path="/login-otp"
               element={<PublicRoute element={<LoginOTP />} />}
@@ -78,9 +78,10 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
+            {/* Uncomment and use if needed */}
             {/* <Route path="/billboard" element={<BillboardDesignPage />} /> */}
             <Route path="/result" element={<ElectionResults />} />
-            {/* Uncomment the following line if needed */}
+            {/* Uncomment and use if needed */}
             {/* <Route path="/Advertisement" element={<Advertisement />} /> */}
           </Routes>
           <ChatWidget />
