@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext"; // Adjust the import based on your file structure
 
 const SetNewPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  const token = localStorage.getItem("accessToken");
+  const { login } = useAuth();
 
   const handlePasswordChange = (e) => {
     setNewPassword(e.target.value);
@@ -33,22 +33,27 @@ const SetNewPassword = () => {
     }
     try {
       const baseURL = import.meta.env.VITE_API_BASE_URL;
-      await axios.post(
+      const response = await axios.post(
         `${baseURL}/auth/set-new-password`,
         { newPassword },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
         }
       );
 
       toast.success("تم تعيين كلمة المرور الجديدة بنجاح.");
 
-      // Delay the navigation by 2 seconds
-      setTimeout(() => {
-        navigate(`/`);
-      }, 2000);
+      // Log in the user with the new access token, if provided
+      const { accessToken } = response.data;
+      if (accessToken) {
+        login(accessToken);
+        localStorage.setItem("accessToken", accessToken); // Update localStorage
+      }
+
+      // Navigate to the home page
+      navigate(`/`);
     } catch (error) {
       toast.error(error.response?.data?.message || "حدث خطأ");
     }
@@ -57,7 +62,6 @@ const SetNewPassword = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        {/* Logo Section */}
         <div className="text-center mb-6">
           <img
             src="https://img.freepik.com/premium-vector/ballot-box-ballot-icon_928715-1379.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid"
@@ -143,7 +147,7 @@ const SetNewPassword = () => {
           closeOnClick
           pauseOnHover
           draggable
-        />{" "}
+        />
       </div>
     </div>
   );

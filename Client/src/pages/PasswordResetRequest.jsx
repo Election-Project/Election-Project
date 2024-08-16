@@ -1,50 +1,70 @@
 import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PasswordResetRequest = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/auth/send-password-reset-email", {
-        email,
-      });
-      setMessage("Password reset link sent to your email");
+      const baseURL = import.meta.env.VITE_API_BASE_URL;
+      await axios.post(`${baseURL}/auth/send-password-reset-email`, { email });
+      toast.success(
+        "رابط إعادة تعيين كلمة المرور تم إرساله إلى بريدك الإلكتروني"
+      );
     } catch (error) {
-      setMessage("Error sending password reset link");
+      toast.error("خطأ في إرسال رابط إعادة تعيين كلمة المرور");
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Forgot Password</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            required
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
+        <div className="text-center mb-6">
+          <img
+            src="https://img.freepik.com/premium-vector/ballot-box-ballot-icon_928715-1379.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid"
+            alt="Logo"
+            className="w-24 h-auto mx-auto"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600"
-        >
-          Send Password Reset Link
-        </button>
-      </form>
-      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          نسيت كلمة المرور
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              البريد الإلكتروني:
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#0e7490] focus:border-[#0e7490] opacity-90 sm:text-sm"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 bg-[#0e7490] text-white font-semibold rounded-lg shadow-md hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0e7490]"
+          >
+            إرسال رابط إعادة تعيين كلمة المرور
+          </button>
+        </form>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
+      </div>
     </div>
   );
 };

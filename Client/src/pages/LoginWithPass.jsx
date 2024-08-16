@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
-import "react-toastify/dist/ReactToastify.css"; // Import CSS for toastify
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../context/AuthContext";
 
 const LoginWithPass = () => {
   const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,13 +30,12 @@ const LoginWithPass = () => {
       const { accessToken } = response.data;
       toast.success("تم تسجيل الدخول بنجاح!");
 
-      // Optionally, save the token to localStorage and navigate to another page
-      localStorage.setItem("accessToken", accessToken);
+      login(accessToken);
 
       // Delay navigation to allow the toast to be seen
       setTimeout(() => {
         navigate("/");
-      }, 2000); // Adjust the delay as needed
+      }, 2000);
     } catch (error) {
       toast.error(error.response?.data?.message || "فشل تسجيل الدخول");
     }
@@ -45,7 +46,7 @@ const LoginWithPass = () => {
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
         <div className="text-center mb-6">
           <img
-            src="https://img.freepik.com/premium-vector/ballot-box-ballot-icon_928715-1379.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid" // Replace with the path to your logo
+            src="https://img.freepik.com/premium-vector/ballot-box-ballot-icon_928715-1379.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid"
             alt="Logo"
             className="w-24 h-auto mx-auto"
           />
@@ -97,9 +98,22 @@ const LoginWithPass = () => {
           >
             تسجيل الدخول
           </button>
+
+          <div className="text-center mt-4">
+            <Link to="/login-otp" className="text-[#0e7490] hover:underline">
+              انشأ ملف تعريفي جديد
+            </Link>
+
+            <p className="text-sm text-gray-600 mt-2">أو</p>
+            <Link
+              to="/request-password-reset"
+              className="text-[#0e7490] hover:underline"
+            >
+              نسيت كلمة المرور؟
+            </Link>
+          </div>
         </form>
       </div>
-      {/* Add ToastContainer to render toast notifications */}
       <ToastContainer
         position="top-center"
         autoClose={5000}
@@ -107,7 +121,7 @@ const LoginWithPass = () => {
         closeOnClick
         pauseOnHover
         draggable
-      />{" "}
+      />
     </div>
   );
 };

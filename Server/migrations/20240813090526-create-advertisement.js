@@ -27,6 +27,9 @@ module.exports = {
       payment_amount: {
         type: Sequelize.DECIMAL(10, 2),
       },
+      image: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
