@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HeroSection from "../components/home/HeroSection";
 import ElectionInfoSection from "../components/home/ElectionInfoSection";
+import Joyride from "react-joyride";
+import AdvertisementsList from "../components/home/AdvertisementsList";
+import { MasonryGridGallery } from "../components/home/MasonryGridGallery";
 
 const Home = () => {
   const [voterInfo, setVoterInfo] = useState({
@@ -9,7 +12,7 @@ const Home = () => {
     district: "",
     electionDate: "",
   });
-  console.log(voterInfo);
+  const [runTour, setRunTour] = useState(true);
 
   useEffect(() => {
     const fetchVoterInfo = async () => {
@@ -35,14 +38,51 @@ const Home = () => {
     fetchVoterInfo();
   }, []);
 
+  const steps = [
+    {
+      target: ".hero-section",
+      content:
+        "This is the hero section where you can find the main introduction and details.",
+    },
+    {
+      target: ".election-info-section",
+      content:
+        "Here you will find detailed information about the election process and districts.",
+    },
+  ];
+
   return (
     <div>
+      <Joyride
+        steps={steps}
+        run={runTour}
+        continuous
+        scrollToFirstStep
+        showSkipButton
+        showProgress
+        locale={{
+          back: "Back",
+          close: "Close",
+          last: "Finish",
+          next: "Next",
+          skip: "Skip",
+        }}
+        styles={{
+          options: {
+            zIndex: 10000,
+          },
+        }}
+      />
       <HeroSection
+        className="hero-section"
         voterName={voterInfo.voterName}
         district={voterInfo.district}
         electionDate={voterInfo.electionDate}
       />
-      <ElectionInfoSection />
+      <ElectionInfoSection className="election-info-section" />
+
+      <AdvertisementsList />
+      <MasonryGridGallery />
     </div>
   );
 };

@@ -1,6 +1,4 @@
-import React from "react";
-
-const Popup = ({ show, onClose, onConfirm, isBlankVote }) => {
+const Popup = ({ show, onClose, onConfirm }) => {
   if (!show) return null;
 
   return (
@@ -12,9 +10,8 @@ const Popup = ({ show, onClose, onConfirm, isBlankVote }) => {
           </h3>
           <div className="mt-2 px-7 py-3">
             <p className="text-sm text-gray-500">
-              {isBlankVote
-                ? "هل انت متأكد ان تريد ان تصوت ورقة بيضاء تستخدم للاعتراض"
-                : "هل أنت متأكد من التصويت؟ اذا قمت بالتصويت لن تستطيع التراجع عن قرارك بعد ذلك"}
+              هل أنت متأكد من التصويت؟ اذا قمت بالتصويت لن تستطيع التراجع عن
+              قرارك بعد ذلك
             </p>
           </div>
           <div className="items-center px-4 py-3">

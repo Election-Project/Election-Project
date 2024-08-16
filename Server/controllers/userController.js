@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { User, ElectoralDistrict } = require("../models");
 
-getUserDistrictInfo = async (req, res) => {
+exports.getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
 
@@ -175,6 +175,27 @@ const getUserIDByName = async (req, res) => {
   }
 };
 
+getUserCount = async (req, res) => {
+  try {
+    const userCount = await User.count();
+    res.status(200).json({ count: userCount });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while retrieving the user count." });
+  }
+};
+
+getVotedLocalPercentage = async (req, res) => {
+  try {
+    const percentage = await User.getVotedLocalPercentage();
+    res.json({ percentage });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getUser,
   getAllDistricts,
@@ -184,4 +205,6 @@ module.exports = {
   isVoteLocal,
   getUserIDByName,
   isVoteParty,
+  getUserCount,
+  getVotedLocalPercentage,
 };
