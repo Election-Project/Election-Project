@@ -14,6 +14,8 @@ import SetNewPassword from "./pages/SetNewPassword";
 import VoterListSelection from "./pages/TypesOfElection";
 import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
+import BillAds from "./pages/BillAds";
+
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
 // Uncomment and use if needed
@@ -23,7 +25,7 @@ import ElectionResults from "./pages/result";
 import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
 import { useAuth } from "./context/AuthContext";
-
+import ElectionResults5 from "./pages/ElectionResults";
 function App() {
   const { login } = useAuth();
   const options = {
@@ -52,6 +54,8 @@ function App() {
               path="/advertisementsView/:id"
               element={<AdvertisementView />}
             />
+            <Route path="/BillAds" element={<BillAds />} />
+
             {/* Public Routes for non-authenticated users */}
             <Route
               path="/login-otp"
@@ -83,6 +87,7 @@ function App() {
             <Route path="/result" element={<ElectionResults />} />
             {/* Uncomment and use if needed */}
             <Route path="/Advertisement" element={<Advertisement />} />
+            <Route path="/Electionresult" element={<ElectionResults5 />} />
           </Routes>
           <ChatWidget />
           <Foot />
