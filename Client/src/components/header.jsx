@@ -1,7 +1,8 @@
 import { Button, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Adjust the import based on your file structure
-import Logo from "../assets/img/Logo.jpg.png";
+import { useAuth } from "../context/AuthContext";
+import Logo from "../assets/img/Logo.png";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export function Nav() {
   const { isAuthenticated, logout } = useAuth();
@@ -13,8 +14,7 @@ export function Nav() {
   return (
     <Navbar
       fluid
-      rounded
-      className="bg-gradient-to-r from-black via-[#007a3d] to-[#ce1126] text-white shadow-md sticky top-0 z-50"
+      className="bg-gradient-to-r from-black via-[#007a3d] to-[#ce1126] text-white shadow-md sticky top-0 z-50 "
     >
       <Link to="/">
         <img src={Logo} alt="انتخاباتي" className="w-full h-20 object-cover" />
@@ -23,15 +23,15 @@ export function Nav() {
         {isAuthenticated ? (
           <Button
             onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white transition-colors duration-300"
+            className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors duration-300 mr-32"
           >
-            تسجيل خروج
+            <FaSignOutAlt size={20} />
           </Button>
         ) : (
           <Button
             as={Link}
             to="/login-with-password"
-            className="bg-green-600 hover:bg-green-700 text-white transition-colors duration-300"
+            className="bg-green-600 hover:bg-green-700 text-white transition-colors duration-300 mr-32"
           >
             تسجيل الدخول
           </Button>
