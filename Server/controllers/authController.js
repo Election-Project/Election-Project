@@ -11,6 +11,7 @@ require("dotenv").config();
 
 let otpStore = {};
 let resetTokensStore = {};
+const OTP_EXPIRATION = 1 * 60 * 1000;
 
 exports.login = async (req, res) => {
   const { national_id } = req.body;
@@ -20,13 +21,14 @@ exports.login = async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const otp = generateOTP();
-    otpStore[national_id] = otp;
+    const expiresAt = Date.now() + OTP_EXPIRATION;
+    otpStore[national_id] = { otp, expiresAt };
 
     await sendOTPEmail(user.email, otp);
 
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (error) {
-    console.error("Error in login:", error); // Log the error details
+    console.error("Error in login:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -35,7 +37,17 @@ exports.verifyOTP = (req, res) => {
   const { national_id, otp } = req.body;
 
   try {
-    if (otpStore[national_id] !== parseInt(otp, 10)) {
+    const otpData = otpStore[national_id];
+    if (!otpData) {
+      return res.status(401).json({ message: "OTP not found" });
+    }
+
+    if (Date.now() > otpData.expiresAt) {
+      delete otpStore[national_id];
+      return res.status(401).json({ message: "OTP has expired" });
+    }
+
+    if (otpData.otp !== parseInt(otp, 10)) {
       return res.status(401).json({ message: "Invalid OTP" });
     }
 
@@ -48,7 +60,30 @@ exports.verifyOTP = (req, res) => {
 
     res.json({ accessToken });
   } catch (error) {
-    console.error("Error in verifyOTP:", error); // Log the error details
+    console.error("Error in verifyOTP:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.resendOTP = async (req, res) => {
+  const { national_id } = req.body;
+
+  if (!national_id)
+    return res.status(400).json({ message: "No national ID found in session" });
+
+  try {
+    const user = await User.findOne({ where: { national_id } });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const otp = generateOTP();
+    const expiresAt = Date.now() + OTP_EXPIRATION;
+    otpStore[national_id] = { otp, expiresAt };
+
+    await sendOTPEmail(user.email, otp);
+
+    res.status(200).json({ message: "OTP resent to your email" });
+  } catch (error) {
+    console.error("Error in resendOTP:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

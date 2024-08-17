@@ -16,12 +16,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   LocalList.init(
     {
+      list_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       name: DataTypes.STRING,
       votes: DataTypes.INTEGER,
     },
     {
       sequelize,
       modelName: "LocalList",
+      tableName: "local_lists",
     }
   );
   return LocalList;

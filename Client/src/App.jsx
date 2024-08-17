@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
-// import BillboardDesignPage from "./pages/Advertisement";
 import { Nav } from "./components/header";
 import { Foot } from "./components/footer";
 import ContactForm from "./pages/contact";
@@ -15,15 +14,18 @@ import SetNewPassword from "./pages/SetNewPassword";
 import VoterListSelection from "./pages/TypesOfElection";
 import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
+import BillAds from "./pages/BillAds";
+
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
+// Uncomment and use if needed
 import BillboardDesignPage from "./pages/BillboardDesignPage";
-
+import Advertisement from "./pages/advertisements";
 import ElectionResults from "./pages/result";
-
-import { useAuth } from "./context/AuthContext";
+import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
-
+import { useAuth } from "./context/AuthContext";
+import ElectionResults5 from "./pages/ElectionResults";
 function App() {
   const { login } = useAuth();
   const options = {
@@ -44,11 +46,16 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-            {/* <Route path="/Advertisement" element={<BillboardDesignPage />} /> */}
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />
             <Route path="/" element={<Home />} />
+            <Route
+              path="/advertisementsView/:id"
+              element={<AdvertisementView />}
+            />
+            <Route path="/BillAds" element={<BillAds />} />
+
             {/* Public Routes for non-authenticated users */}
             <Route
               path="/login-otp"
@@ -75,12 +82,14 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
-            <Route path="/reset-password" element={<PasswordReset />} />
+            {/* Uncomment and use if needed */}
             <Route path="/billboard" element={<BillboardDesignPage />} />
             <Route path="/result" element={<ElectionResults />} />
+            {/* Uncomment and use if needed */}
+            <Route path="/Advertisement" element={<Advertisement />} />
+            <Route path="/Electionresult" element={<ElectionResults5 />} />
           </Routes>
           <ChatWidget />
-
           <Foot />
         </div>
       </Router>

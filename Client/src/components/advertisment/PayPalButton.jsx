@@ -3,7 +3,7 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const PayPalButton = ({ amount }) => {
   const createOrder = (data, actions) => {
-    return fetch("http://localhost:3000/api/orders", {
+    return fetch("http://localhost:4000/api/orders", {
       method: "POST",
     })
       .then((response) => response.json())
@@ -30,35 +30,3 @@ const PayPalButton = ({ amount }) => {
 };
 
 export default PayPalButton;
-
-// import React from 'react';
-// import { PayPalButtons } from "@paypal/react-paypal-js";
-
-// const PayPalButton = ({ amount }) => {
-//   const createOrder = (data, actions) => {
-//     return fetch('http://localhost:3000/api/orders', {
-//       method: 'POST',
-//     }).then((response) => response.json())
-//       .then((order) => order.id);
-//   };
-
-//   const onApprove = (data, actions) => {
-//     return actions.order.capture().then((details) => {
-//       alert("Transaction completed by " + details.payer.name.given_name);
-//     });
-//   };
-
-//   return (
-
-//     <div className=''>
-//       <form className='' >
-//     <PayPalButtons
-//       createOrder={createOrder}
-//       onApprove={onApprove}
-//     />
-//     </form>
-//     </div>
-//   );
-// };
-
-// export default PayPalButton;
