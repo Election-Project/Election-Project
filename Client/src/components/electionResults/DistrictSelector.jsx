@@ -1,28 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 
-const districts = [
-  "عمان 1",
-  "عمان 2",
-  "عمان 3",
-  "إربد 1",
-  "إربد 2",
-  "الزرقاء",
-  "البلقاء",
-  "الكرك",
-  "عجلون",
-  "مادبا",
-  "معان",
-  "جرش",
-  "المفرق",
-  "العقبة",
-  "الطفيلة",
-  "بدو الشمال",
-  "بدو الوسط",
-  "بدو الجنوب",
-];
-
 function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
+  const [districts, setDistricts] = useState([]);
+
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/districts`,
+          {
+            params: { name: selectedDistrict },
+          }
+        );
+        setDistricts(response.data);
+      } catch (error) {
+        console.error("Failed to fetch districts:", error);
+      }
+    };
+
+    fetchDistricts();
+  }, [selectedDistrict]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -44,8 +44,8 @@ function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
       >
         <option value="">جميع الدوائر</option>
         {districts.map((district) => (
-          <option key={district} value={district}>
-            {district}
+          <option key={district.district_id} value={district.name}>
+            {district.name}
           </option>
         ))}
       </select>

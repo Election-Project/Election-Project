@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
-const { User, ElectoralDistrict } = require("../models");
+const { User, ElectoralDistrict, Candidate, LocalList } = require("../models");
+const { Op } = require("sequelize");
+
+const THRESHOLD_PERCENTAGE = 0.05;
 
 getUserDistrictInfo = async (req, res) => {
   try {
@@ -112,7 +115,7 @@ getAllDistricts = async (req, res) => {
 
     const districts = await ElectoralDistrict.findAll();
 
-    const districtData = districts.map(district => ({
+    const districtData = districts.map((district) => ({
       id: district.district_id,
       name: district.name,
       city: district.city,
@@ -215,6 +218,7 @@ getVotedLocalPercentage = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
 const getAllUsersByDistrictId = async (req, res) => {
   try {
     const users = await User.findAll({
@@ -237,6 +241,121 @@ const changeFromVoterToCandidate = async (req, res) => {
     res.json({ message: "User type updated to candidate" });
   } catch (error) {
     res.status(400).json({ error: error.message });
+=======
+const getAllWinnersForDistrict = async (req, res) => {
+  const { district_id } = req.params;
+
+  try {
+    const localLists = await LocalList.findAll({
+      where: {
+        district_id: district_id,
+      },
+      include: [
+        {
+          model: Candidate,
+          attributes: ["national_id", "votes", "religion", "gender"],
+          required: true,
+        },
+      ],
+    });
+
+    const totalVoters = await User.count({
+      where: {
+        user_type: "voter",
+        district_id: district_id,
+      },
+    });
+
+    const localThreshold = totalVoters * 0.07;
+    console.log(localThreshold);
+
+    const qualifiedLocalLists = localLists.filter((list) => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      return totalVotesForList > localThreshold;
+    });
+
+    if (qualifiedLocalLists.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No qualified local lists found" });
+    }
+
+    const totalQualifiedVotes = qualifiedLocalLists.reduce((sum, list) => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      return sum + totalVotesForList;
+    }, 0);
+
+    const district = await ElectoralDistrict.findByPk(district_id);
+    const muslimSeats = district ? district.number_of_seats : 0;
+
+    const localResults = qualifiedLocalLists.map((list) => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      const seatShare = (totalVotesForList / totalQualifiedVotes) * muslimSeats;
+      const seatsWon = Math.round(seatShare);
+      return { ...list.toJSON(), seatsWon };
+    });
+
+    // Track selected candidates to prevent duplicates
+    const selectedCandidates = new Set();
+
+    const electedMuslims = [];
+    localResults.forEach((list) => {
+      const listCandidates = list.Candidates.filter(
+        (c) => c.religion === "Muslim"
+      ).sort((a, b) => b.votes - a.votes);
+      listCandidates.forEach((candidate) => {
+        if (
+          electedMuslims.length < list.seatsWon &&
+          !selectedCandidates.has(candidate.national_id)
+        ) {
+          electedMuslims.push(candidate);
+          selectedCandidates.add(candidate.national_id);
+        }
+      });
+    });
+
+    const categories = ["Christian", "Circassian", "Chechen"];
+    const electedOthers = categories.map((category) => {
+      const candidates = qualifiedLocalLists
+        .flatMap((list) => list.Candidates)
+        .filter((c) => c.religion === category)
+        .sort((a, b) => b.votes - a.votes);
+      const topCandidate = candidates.find(
+        (candidate) => !selectedCandidates.has(candidate.national_id)
+      );
+      if (topCandidate) {
+        selectedCandidates.add(topCandidate.national_id);
+      }
+      return topCandidate || null;
+    });
+
+    const electedWomen = qualifiedLocalLists
+      .flatMap((list) => list.Candidates)
+      .filter((c) => c.gender === "Female")
+      .sort((a, b) => b.votes - a.votes)
+      .filter((candidate) => !selectedCandidates.has(candidate.national_id))
+      .slice(0, 1);
+
+    const allElectedCandidates = [
+      ...electedMuslims,
+      ...electedOthers.filter((candidate) => candidate !== null),
+      ...electedWomen,
+    ];
+
+    res.json({ electedCandidates: allElectedCandidates });
+  } catch (error) {
+    console.error("Error calculating elected candidates:", error);
+    res.status(500).json({ message: "Internal server error" });
+>>>>>>> 1d1e261 (create a back_End for the result page)
   }
 };
 
@@ -254,4 +373,5 @@ module.exports = {
   getUserByToken,
   getAllUsersByDistrictId,
   changeFromVoterToCandidate,
+  getAllWinnersForDistrict,
 };
