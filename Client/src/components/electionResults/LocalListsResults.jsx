@@ -1,69 +1,118 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function useFetchLocalListResults(selectedDistrict) {
+  const [localListResults, setLocalListResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLocalListResults = async () => {
+      if (!selectedDistrict) {
+        setLocalListResults([]);
+        return;
+      }
+
+      setLoading(true);
+      setError(null);
+
+      try {
+        // Fetch the district ID based on the selected district name
+        const { data: districtData } = await axios.get(
+          "http://localhost:4000/api/districts",
+          { params: { name: selectedDistrict } }
+        );
+        const districtId = districtData[0]?.district_id;
+
+        if (districtId) {
+          // Fetch the local list results based on the district ID
+          const { data: resultsData } = await axios.get(
+            `http://localhost:4000/api/candidates/details/${districtId}`
+          );
+          setLocalListResults(resultsData.electedCandidates || []);
+        } else {
+          setLocalListResults([]);
+        }
+      } catch (error) {
+        setError("فشل في جلب نتائج القوائم المحلية. حاول مرة أخرى.");
+        console.error("Failed to fetch local list results:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLocalListResults();
+  }, [selectedDistrict]);
+
+  return { localListResults, loading, error };
+}
 
 function LocalListsResults({ selectedDistrict }) {
-  // بيانات وهمية - استبدلها بالبيانات الفعلية
-  const localLists = [
-    {
-      id: 1,
-      name: "قائمة عمان الأولى",
-      district: "عمان 1",
-      seatsWon: 2,
-      winners: [
-        { name: "أحمد محمد", category: "مسلم" },
-        { name: "ماريا جورج", category: "مسيحي" },
-      ],
-    },
-    // أضف المزيد من القوائم المحلية...
-  ];
+  const { localListResults, loading, error } =
+    useFetchLocalListResults(selectedDistrict);
 
-  const filteredLists = selectedDistrict
-    ? localLists.filter((list) => list.district.includes(selectedDistrict))
-    : localLists;
+  if (loading) {
+    return <div>جاري جلب النتائج...</div>;
+  }
+
+  if (error) {
+    return (
+      <div>
+        {error}{" "}
+        <button onClick={() => window.location.reload()}>إعادة المحاولة</button>
+      </div>
+    );
+  }
+
+  if (!localListResults.length) {
+    return <div>لا توجد نتائج للدائرة المحددة.</div>;
+  }
 
   return (
-    <section className="mt-8">
-      <motion.h2
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-3xl font-bold mb-6 text-red-800"
+    <div
+      style={{
+        marginBottom: "16px",
+        border: "1px solid #ddd",
+        padding: "16px",
+      }}
+    >
+      <h2 style={{ marginBottom: "8px" }}>نتائج القوائم المحلية</h2>
+      <table
+        style={{ width: "100%", borderCollapse: "collapse" }}
+        aria-label="Local List Results"
       >
-        نتائج القوائم المحلية {selectedDistrict ? `- ${selectedDistrict}` : ""}
-      </motion.h2>
-      {filteredLists.map((list, index) => (
-        <motion.div
-          key={list.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 hover:shadow-xl transition-shadow duration-300 border-2 border-red-700"
-        >
-          <div className="px-6 py-4 bg-gradient-to-r from-red-700 to-green-700">
-            <h3 className="text-2xl font-bold text-white">
-              {list.name} - {list.district}
-            </h3>
-            <p className="text-white mt-1 text-lg">
-              عدد المقاعد: {list.seatsWon}
-            </p>
-          </div>
-          <div className="px-6 py-4">
-            <h4 className="text-xl font-bold text-red-700 mb-3">الفائزون:</h4>
-            {list.winners.map((winner, index) => (
-              <div
-                key={index}
-                className="flex justify-between items-center py-2 border-b border-red-100 last:border-b-0"
-              >
-                <span className="text-lg text-red-800">{winner.name}</span>
-                <span className="text-sm text-white bg-green-700 px-3 py-1 rounded-full font-semibold">
-                  {winner.category}
-                </span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      ))}
-    </section>
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+              اسم المرشح
+            </th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>
+              الأصوات
+            </th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>الدين</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px" }}>الجنس</th>
+          </tr>
+        </thead>
+        <tbody>
+          {localListResults.map((candidate) => (
+            <tr key={candidate.national_id}>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                {candidate.User?.full_name || "اسم غير متوفر"}
+              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                {candidate.votes}
+              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                {candidate.religion}
+              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                {candidate.gender}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
