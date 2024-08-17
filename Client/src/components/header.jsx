@@ -60,6 +60,13 @@ export function Nav() {
             className="text-white hover:text-gray-300 transition-colors duration-300"
           >
             إعرف أكثر
+          </Navbar.Link>{" "}
+          <Navbar.Link
+            as={Link}
+            to="/BillAds"
+            className="text-white hover:text-gray-300 transition-colors duration-300"
+          >
+            للاعلانات
           </Navbar.Link>
           <Navbar.Link
             as={Link}

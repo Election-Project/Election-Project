@@ -45,3 +45,4 @@ const createLocalList = async (req, res) => {
 };
 
 module.exports = { getLocalLists, increaseVoteCounter, createLocalList };
+module.exports = { getLocalLists, increaseVoteCounter };
