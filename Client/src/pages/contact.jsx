@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import backgroundImage from "../assets/img/5.png";
+import backgroundImage from "../assets/img/4.jpeg";
+import jordanFlag from "../assets/img/1.png";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -46,24 +47,32 @@ const ContactForm = () => {
 
   return (
     <div
-      className="min-h-screen py-6 flex flex-col justify-center sm:py-12"
+      className="min-h-screen py-6 flex flex-col justify-center sm:py-12 relative"
       style={{
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      {/* Blur overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm"></div>
+
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#A3C7C1] to-[#7B9F99] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div className="text-white relative px-4 py-10 bg-[#CDF0EA] bg-opacity-80 shadow-lg sm:rounded-3xl sm:p-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#007A3D] to-[#CE1126] shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="text-white relative px-4 py-10 bg-[#F9F9F9] bg-opacity-90 shadow-lg sm:rounded-3xl sm:p-20">
           <div className="text-center pb-6">
-            <h1 className="text-3xl">تواصل معنا</h1>
-            <p className="text-[#556F6A]">الرجاء ادخال رسالتك هنا</p>
+            <img
+              src={jordanFlag}
+              alt="Jordan Flag"
+              className="mx-auto w-16 mb-4"
+            />
+            <h1 className="text-4xl font-bold text-[#CE1126]">تواصل معنا</h1>
+            <p className="text-[#000000]">الرجاء إدخال رسالتك هنا</p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <textarea
-              className="shadow mb-4 min-h-0 appearance-none border rounded h-64 w-full py-2 px-3 text-[#556F6A] leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow mb-4 min-h-0 appearance-none border border-[#CE1126] rounded-lg h-64 w-full py-2 px-3 text-[#000000] leading-tight focus:outline-none focus:shadow-outline"
               placeholder="ادخل النص هنا.."
               name="message"
               value={formData.message}
@@ -71,11 +80,11 @@ const ContactForm = () => {
               style={{ height: "121px" }}
             ></textarea>
 
-            <div className="flex justify-between">
+            <div className="flex justify-center">
               <input
-                className="shadow bg-[#0E7490] hover:bg-[#A3C7C1] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="shadow bg-[#007A3D] hover:bg-[#CE1126] text-white font-bold py-2 px-6 rounded-lg focus:outline-none focus:shadow-outline"
                 type="submit"
-                value="ارسل ➤"
+                value="أرسل"
               />
             </div>
           </form>
@@ -86,12 +95,14 @@ const ContactForm = () => {
           )}
           {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
 
-          <a
-            href="https://veilmail.io/e/FkKh7o"
-            className="font-medium text-[#556F6A] dark:text-[#7B9F99] hover:underline"
-          >
-            Or click here to send for email address
-          </a>
+          <div className="text-center mt-6">
+            <a
+              href="https://veilmail.io/e/FkKh7o"
+              className="font-medium text-[#CE1126] hover:underline"
+            >
+              أو انقر هنا لإرسال بريد إلكتروني
+            </a>
+          </div>
         </div>
       </div>
     </div>
