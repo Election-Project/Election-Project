@@ -218,30 +218,6 @@ getVotedLocalPercentage = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-const getAllUsersByDistrictId = async (req, res) => {
-  try {
-    const users = await User.findAll({
-      where: { district_id: req.params.id, user_type: "voter" },
-    });
-    res.json({ users });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-const changeFromVoterToCandidate = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    user.user_type = "candidate";
-    await user.save();
-    res.json({ message: "User type updated to candidate" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-=======
 const getAllWinnersForDistrict = async (req, res) => {
   const { district_id } = req.params;
 
@@ -355,7 +331,6 @@ const getAllWinnersForDistrict = async (req, res) => {
   } catch (error) {
     console.error("Error calculating elected candidates:", error);
     res.status(500).json({ message: "Internal server error" });
->>>>>>> 1d1e261 (create a back_End for the result page)
   }
 };
 
