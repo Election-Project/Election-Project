@@ -46,8 +46,7 @@ const Home = () => {
     },
     {
       target: ".election-info-section",
-      content:
-        "Here you will find detailed information about the election process and districts.",
+      content: "ستجد هنا معلومات تفصيلية عن عملية الانتخابات والدواير.",
     },
   ];
 
@@ -61,11 +60,11 @@ const Home = () => {
         showSkipButton
         showProgress
         locale={{
-          back: "Back",
-          close: "Close",
-          last: "Finish",
-          next: "Next",
-          skip: "Skip",
+          back: "رجوع",
+          close: "إغلاق",
+          last: "إنهاء",
+          next: "التالي",
+          skip: "تخطي",
         }}
         styles={{
           options: {
@@ -82,7 +81,6 @@ const Home = () => {
       <ElectionInfoSection className="election-info-section" />
 
       <AdvertisementsList />
-      <MasonryGridGallery />
     </div>
   );
 };

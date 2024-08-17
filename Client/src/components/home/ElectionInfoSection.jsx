@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Joyride from "react-joyride";
 import { useAuth } from "../../context/AuthContext"; // Import your AuthContext
-import NotLogElectionInfoSection from "./NotLogElectionInfoSection";
+import { FaMapMarkerAlt, FaChair, FaFemale, FaMale } from "react-icons/fa";
 
 // Define CSS styles for watermark, overlay, and disabling text selection
 const watermarkStyle = {
@@ -123,12 +123,12 @@ const ElectionInfoSection = ({ className }) => {
     {
       target: ".district-card-1",
       content:
-        "This is the section where you can explore various electoral districts.",
+        "هذا هو القسم الذي يمكنك من خلاله استكشاف الدوائر الانتخابية المختلفة.",
     },
     {
-      target: ".district-card-2",
+      target: ".district-card-6",
       content:
-        "Click on the available districts to get more information or select them.",
+        "اضغط على الدوائر المتاحة للحصول على مزيد من المعلومات أو لاختيارها.",
     },
   ];
 
@@ -150,18 +150,34 @@ const ElectionInfoSection = ({ className }) => {
             showSkipButton
             showProgress
             locale={{
-              back: "Back",
-              close: "Close",
-              last: "Finish",
-              next: "Next",
-              skip: "Skip",
+              back: "رجوع",
+              close: "إغلاق",
+              last: "إنهاء",
+              next: "التالي",
+              skip: "تخطي",
             }}
             styles={{
               options: {
                 zIndex: 10000,
               },
+              buttonBack: {
+                color: "#00000",
+              },
+              buttonClose: {
+                color: "#00000",
+              },
+              buttonLast: {
+                color: "#00000",
+              },
+              buttonNext: {
+                color: "#00000",
+              },
+              buttonSkip: {
+                color: "#00000",
+              },
             }}
           />
+
           <section className="mt-8">
             <h2 className="text-4xl font-extrabold text-gray-900 mb-8">
               استكشاف الدوائر الانتخابية الخاصة بك
@@ -175,87 +191,67 @@ const ElectionInfoSection = ({ className }) => {
                   } ${
                     district.isUserDistrict
                       ? "bg-gradient-to-r from-green-300 to-green-600"
-                      : "bg-gradient-to-r from-green-300 to-green-200 cursor-not-allowed opacity-60"
+                      : "bg-gradient-to-r from-gray-300 to-gray-400 cursor-not-allowed"
                   }`}
                 >
                   <img
                     src={districtImages[district.id]}
                     alt={district.name}
-                    className="absolute inset-0 object-cover w-full h-full opacity-40"
+                    className={`absolute inset-0 object-cover w-full h-full ${
+                      district.isUserDistrict ? "opacity-40" : "opacity-20"
+                    }`}
                   />
                   <div className="relative z-10">
                     <div className="flex items-center mb-6">
-                      <h3 className="text-3xl font-bold gray-900 leading-tight">
+                      <h3
+                        className={`text-3xl font-bold leading-tight ${
+                          district.isUserDistrict
+                            ? "text-gray-900"
+                            : "text-gray-700"
+                        }`}
+                      >
                         {district.name}
                       </h3>
                     </div>
                     <div className="space-y-3 mb-6">
-                      <p className="gray-900 flex items-center text-lg font-medium">
-                        <svg
-                          className="w-6 h-6 gray-900 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14h2v2h-2v-2zm0-4h2v2h-2v-2zm0-4h2v2h-2V6zm4 4h2v2h-2zm4 4h2v2h-2v-2zm-4-4h2v2h-2v-2z"
-                          />
-                        </svg>
+                      <p
+                        className={`flex items-center text-lg font-medium ${
+                          district.isUserDistrict
+                            ? "text-gray-900"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        <FaMapMarkerAlt className="w-6 h-6 mr-2" />
                         {district.city}
                       </p>
-                      <p className="text-gray-900 flex items-center text-lg font-medium">
-                        <svg
-                          className="w-6 h-6 text-gray-900 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M3 7l1.293-1.293a1 1 0 011.414 0L12 8.586l6.293-6.293a1 1 0 011.414 1.414L13 9l7 7a1 1 0 01-1.414 1.414L12 12.586l-7.293 7.293a1 1 0 01-1.414-1.414L11 10 4.707 3.707A1 1 0 013 7z"
-                          />
-                        </svg>
+                      <p
+                        className={`flex items-center text-lg font-medium ${
+                          district.isUserDistrict
+                            ? "text-gray-900"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        <FaChair className="w-6 h-6 mr-2" />
                         عدد المقاعد: {district.number_of_seats}
                       </p>
-                      <p className="text-gray-900 flex items-center text-lg font-medium">
-                        <svg
-                          className="w-6 h-6 text-gray-900 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4 7l8 8 8-8"
-                          />
-                        </svg>
+                      <p
+                        className={`flex items-center text-lg font-medium ${
+                          district.isUserDistrict
+                            ? "text-gray-900"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        <FaFemale className="w-6 h-6 mr-2" />
                         مقعد نسائي: {district.female_seat ? "نعم" : "لا"}
                       </p>
-                      <p className="text-gray-900 flex items-center text-lg font-medium">
-                        <svg
-                          className="w-6 h-6 text-gray-900 mr-2"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M3 7l8 8 8-8"
-                          />
-                        </svg>
+                      <p
+                        className={`flex items-center text-lg font-medium ${
+                          district.isUserDistrict
+                            ? "text-gray-900"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        <FaMale className="w-6 h-6 mr-2" />
                         مقعد شركاء: {district.municipal_seat ? "نعم" : "لا"}
                       </p>
                     </div>
@@ -264,7 +260,7 @@ const ElectionInfoSection = ({ className }) => {
                       className={`absolute bottom-6 left-6 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg ${
                         district.isUserDistrict
                           ? "cursor-pointer"
-                          : "cursor-not-allowed"
+                          : "cursor-not-allowed opacity-60"
                       }`}
                     >
                       {district.isUserDistrict ? "عرض التفاصيل" : "مغلق"}
