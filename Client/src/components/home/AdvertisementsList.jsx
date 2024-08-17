@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import Slider from "react-slick";
 import { Link } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const AdvertisementsList = () => {
   const [advertisements, setAdvertisements] = useState([]);
@@ -25,29 +22,9 @@ const AdvertisementsList = () => {
     fetchAdvertisements();
   }, []);
 
-  // Slick slider settings
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  // Function to determine the card style based on design_type
+  const getCardStyle = (design_type) => {
+    return design_type === "circle" ? "rounded-full" : "rounded-lg";
   };
 
   return (
@@ -56,33 +33,41 @@ const AdvertisementsList = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl font-bold text-center mb-6">الإعلانات</h2>
           {advertisements.length > 0 ? (
-            <Slider {...settings} className="mySlider">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {advertisements.map((ad) => (
                 <div
                   key={ad.ad_id}
-                  className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center"
-                  dir="rtl"
+                  className={`p-4 shadow-lg flex flex-col items-center ${getCardStyle(
+                    ad.design_type
+                  )}`}
+                  style={{
+                    backgroundColor: ad.color_card,
+                    border: `2px ${ad.border_type} ${ad.color_border}`,
+                    color: ad.color_font,
+                    textAlign: "center",
+                    borderRadius: ad.design_type === "circle" ? "50%" : "8px",
+                  }}
                 >
-                  {ad.image && (
+                  {ad.personal_image && (
                     <img
-                      src={ad.image}
+                      src={ad.personal_image}
                       alt="إعلان"
-                      className="w-full h-40 object-cover rounded-lg mb-4"
+                      className={`w-full ${
+                        ad.design_type === "circle"
+                          ? "h-40 rounded-full"
+                          : "h-40 object-cover rounded-lg"
+                      } mb-4`}
                     />
                   )}
-                  <h3 className="text-lg font-semibold mb-2 text-center">
-                    {ad.content}
-                  </h3>
+                  <h3 className="text-lg font-semibold mb-2">{ad.name}</h3>
                   <p className="text-gray-600 text-sm mb-1">
-                    تاريخ البدء:{" "}
-                    {new Date(ad.start_date).toLocaleDateString("ar-SA")}
+                    الشعار الانتخابي: {ad.election_slogan}
                   </p>
                   <p className="text-gray-600 text-sm mb-1">
-                    تاريخ الانتهاء:{" "}
-                    {new Date(ad.end_date).toLocaleDateString("ar-SA")}
+                    الوصف: {ad.description}
                   </p>
                   <p className="text-gray-600 text-sm">
-                    مبلغ الدفع: {ad.payment_amount}
+                    مبلغ الدفع: {ad.total_amount}
                   </p>
                   <Link
                     to={`/advertisementsView/${ad.ad_id}`}
@@ -92,7 +77,7 @@ const AdvertisementsList = () => {
                   </Link>
                 </div>
               ))}
-            </Slider>
+            </div>
           ) : (
             <p className="text-center text-gray-600">لا توجد إعلانات متاحة.</p>
           )}

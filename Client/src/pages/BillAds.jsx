@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
@@ -15,6 +15,12 @@ const BillAds = () => {
   const [advertisementId, setAdvertisementId] = useState(null);
   const [showPayPal, setShowPayPal] = useState(false);
   const totalAmount = 100;
+
+  useEffect(() => {
+    if (advertisementId) {
+      setShowPayPal(true);
+    }
+  }, [advertisementId]);
 
   const handleSubmit = async () => {
     try {
@@ -39,12 +45,9 @@ const BillAds = () => {
         }
       );
 
-      const advertisementId = response.data.ad_id;
-      setAdvertisementId(advertisementId);
-      setShowPayPal(true);
+      const adId = response.data.ad_id;
+      setAdvertisementId(adId);
       console.log("Advertisement created:", response.data);
-      console.log("showPayPal:", showPayPal);
-      console.log("advertisementId:", advertisementId);
     } catch (error) {
       console.error("Error creating advertisement:", error);
     }
@@ -233,48 +236,67 @@ const BillAds = () => {
               />
             )}
             <h3 className="text-2xl font-bold mb-2">{candidateName}</h3>
-            <p className="text-lg mb-2">{electionSlogan}</p>
-            <p className="text-sm">{candidateDescription}</p>
+            <p className="text-lg font-semibold mb-4">{electionSlogan}</p>
+            <p className="text-base">{candidateDescription}</p>
           </div>
         </div>
       </div>
 
-      {showPayPal && advertisementId && (
-        <div className="w-full max-w-xs mx-auto mt-8">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-700">
-            دفع المبلغ
+      {showPayPal && (
+        <div className="w-full max-w-4xl mt-12 bg-white p-8 rounded-lg shadow-lg">
+          <h2 className="text-4xl font-bold mb-6 text-center text-indigo-700">
+            ادفع الإعلان
           </h2>
-          <PayPalScriptProvider
-            options={{
-              "client-id":
-                "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
-              currency: "USD",
-            }}
-          >
-            <PayPalButtons
-              createOrder={(data, actions) => {
-                console.log("Creating order");
-                return actions.order.create({
-                  purchase_units: [
-                    {
-                      amount: {
-                        value: totalAmount,
-                      },
-                    },
-                  ],
-                });
-              }}
-              onApprove={async (data, actions) => {
-                console.log("Payment approved");
-                const details = await actions.order.capture();
-                console.log("Payment successful:", details);
-                handlePaymentSuccess(details);
-              }}
-              onError={(err) => {
-                console.error("PayPal payment error:", err);
-              }}
-            />
-          </PayPalScriptProvider>
+          <div className="flex flex-col items-center">
+            <div className="mb-6">
+              <p className="text-lg font-medium text-gray-600">
+                يرجى إكمال الدفع لإتمام عملية تقديم الإعلان.
+              </p>
+              <p className="text-lg font-semibold text-gray-800 mt-2">
+                المبلغ الإجمالي:{" "}
+                <span className="text-indigo-600">
+                  {totalAmount.toFixed(2)} USD
+                </span>
+              </p>
+            </div>
+            <div className="w-full max-w-lg">
+              <PayPalScriptProvider
+                options={{
+                  "client-id":
+                    "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
+                }}
+              >
+                <PayPalButtons
+                  style={{
+                    layout: "horizontal",
+                    color: "blue",
+                    shape: "rect",
+                    label: "pay",
+                  }}
+                  createOrder={(data, actions) => {
+                    return actions.order.create({
+                      purchase_units: [
+                        {
+                          amount: {
+                            value: totalAmount.toFixed(2),
+                          },
+                        },
+                      ],
+                    });
+                  }}
+                  onApprove={(data, actions) => {
+                    return actions.order.capture().then((details) => {
+                      console.log(
+                        "Transaction completed by " +
+                          details.payer.name.given_name
+                      );
+                      handlePaymentSuccess(details);
+                    });
+                  }}
+                />
+              </PayPalScriptProvider>
+            </div>
+          </div>
         </div>
       )}
     </div>
