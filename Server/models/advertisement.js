@@ -1,4 +1,4 @@
-"use strict";
+// models/advertisement.js
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
@@ -74,12 +74,15 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: "active",
       },
+      stripeChargeId: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
       modelName: "Advertisement",
       tableName: "advertisements",
-      timestamps: true, // Automatically manages createdAt and updatedAt fields
+      timestamps: true,
     }
   );
 

@@ -42,14 +42,14 @@ export function Nav() {
         <div className="flex flex-col md:flex-row md:space-x-6 ">
           <Navbar.Link
             as={Link}
-            to="/"
+            to="/votinglist"
             className="text-white hover:text-gray-300 ml-5 transition-colors duration-300"
           >
             الانتخابات
           </Navbar.Link>
           <Navbar.Link
             as={Link}
-            to="/results"
+            to="/Electionresult"
             className="text-white hover:text-gray-300 transition-colors duration-300"
           >
             نتائج الانتخابات

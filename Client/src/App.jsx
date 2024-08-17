@@ -27,6 +27,8 @@ import PublicRoute from "./components/PublicRoute";
 import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
 import NominationForm from "./pages/NominationForm";
+import About from "./pages/About";
+
 function App() {
   const { login } = useAuth();
   const options = {
@@ -90,6 +92,7 @@ function App() {
             {/* Uncomment and use if needed */}
             <Route path="/Advertisement" element={<Advertisement />} />
             <Route path="/Electionresult" element={<ElectionResults5 />} />
+            <Route path="/About" element={<About />} />
           </Routes>
           <ChatWidget />
           <Foot />

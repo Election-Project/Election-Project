@@ -55,6 +55,10 @@ module.exports = {
         type: Sequelize.ENUM("active", "inactive"),
         defaultValue: "active",
       },
+      stripeChargeId: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
