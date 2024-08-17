@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+
 module.exports = (sequelize, DataTypes) => {
   class PartyList extends Model {
     /**
@@ -8,11 +9,13 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // Association with the PartyListCandidate model
       PartyList.hasMany(models.PartyListCandidate, {
         foreignKey: "party_list_id",
       });
     }
   }
+
   PartyList.init(
     {
       list_id: {
@@ -20,8 +23,24 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: DataTypes.STRING,
-      votes: DataTypes.INTEGER,
+      name: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      votes: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
     },
     {
       sequelize,
@@ -29,5 +48,6 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "party_lists",
     }
   );
+
   return PartyList;
 };
