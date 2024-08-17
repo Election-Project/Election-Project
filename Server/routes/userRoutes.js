@@ -37,4 +37,7 @@ router.put("/change-to-candidate/:id", changeFromVoterToCandidate);
 //result Page
 router.get("/candidates/details/:district_id", getAllWinnersForDistrict);
 
+router.get("/users-by-district/:id", getAllUsersByDistrictId);
+router.put("/change-to-candidate/:id", changeFromVoterToCandidate);
+
 module.exports = router;

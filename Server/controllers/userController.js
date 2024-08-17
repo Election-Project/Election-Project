@@ -359,6 +359,31 @@ const getAllWinnersForDistrict = async (req, res) => {
   }
 };
 
+const getAllUsersByDistrictId = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      where: { district_id: req.params.id, user_type: "voter" },
+    });
+    res.json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const changeFromVoterToCandidate = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.user_type = "candidate";
+    await user.save();
+    res.json({ message: "User type updated to candidate" });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   getUser,
   getAllDistricts,
