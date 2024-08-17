@@ -26,6 +26,7 @@ import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
 import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
+
 function App() {
   const { login } = useAuth();
   const options = {

@@ -11,7 +11,7 @@ const AdvertisementsList = () => {
     const fetchAdvertisements = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/advertisements"
+          "http://localhost:4000/api/advertisements-active"
         );
         setAdvertisements(response.data);
       } catch (error) {
