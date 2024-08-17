@@ -229,16 +229,18 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                     {timeLeft}
                   </div>
                 </motion.div>
-                <motion.button
-                  className="bg-gradient-to-l from-red-600 to-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
-                  whileHover={{
-                    scale: 1.1,
-                    boxShadow: "0px 0px 10px rgba(255, 0, 0, 0.7)",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  سجل للتصويت الآن
-                </motion.button>
+                <Link to="/votinglist">
+                  <motion.button
+                    className="bg-gradient-to-l from-red-600 to-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
+                    whileHover={{
+                      scale: 1.1,
+                      boxShadow: "0px 0px 10px rgba(255, 0, 0, 0.7)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    صوت الآن
+                  </motion.button>
+                </Link>
               </motion.div>
             </div>
 
@@ -289,29 +291,33 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
               >
-                <motion.button
-                  whileHover={{
-                    scale: 1.1,
-                    boxShadow: "0 0 20px rgba(206, 17, 38, 0.7)", // Red shadow
-                    border: "2px solid rgba(206, 17, 38, 0.7)", // Red border
-                    backgroundColor: "rgba(206, 17, 38, 0.7)", // Enhance background
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white px-8 py-3 rounded-full transition-all duration-300 ml-10"
-                >
-                  سجل للمشاركة
-                </motion.button>
-                <motion.button
-                  whileHover={{
-                    scale: 1.1,
-                    backgroundColor: "#007a3d", // Green background on hover
-                    color: "#ffffff",
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="border-2 border-[#007a3d] text-[#007a3d] px-8 py-3 rounded-full transition-all duration-300"
-                >
-                  المزيد من التفاصيل
-                </motion.button>
+                <Link to="/Electionresult">
+                  <motion.button
+                    whileHover={{
+                      scale: 1.1,
+                      boxShadow: "0 0 20px rgba(206, 17, 38, 0.7)", // Red shadow
+                      border: "2px solid rgba(206, 17, 38, 0.7)", // Red border
+                      backgroundColor: "rgba(206, 17, 38, 0.7)", // Enhance background
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white px-8 py-3 rounded-full transition-all duration-300 ml-10"
+                  >
+                    سجل للمشاركة
+                  </motion.button>
+                </Link>
+                <Link to="/contact">
+                  <motion.button
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "#007a3d", // Green background on hover
+                      color: "#ffffff",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border-2 border-[#007a3d] text-[#007a3d] px-8 py-3 rounded-full transition-all duration-300"
+                  >
+                    المزيد من التفاصيل
+                  </motion.button>
+                </Link>
               </motion.div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
                 {[

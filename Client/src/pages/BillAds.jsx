@@ -1,6 +1,64 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { CardElement, ElementsConsumer } from "@stripe/react-stripe-js";
+
+// Load Stripe outside of a component’s render to avoid recreating the `loadStripe` instance on every render.
+const stripePromise = loadStripe(
+  "pk_test_51Pnz1SATqmsNuw1AvRAKcoH0tJTDb09gyeEYPJw2ZCR0yv2PqghcohnNKjqN7kRrtVi9mHIeqAKACEa3CmW18cYh00XeHXafj2"
+);
+
+const StripeCheckoutForm = ({
+  totalAmount,
+  advertisementId,
+  onPaymentSuccess,
+}) => {
+  return (
+    <ElementsConsumer>
+      {({ stripe, elements }) => (
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            if (!stripe || !elements) {
+              // Stripe.js has not loaded yet.
+              return;
+            }
+            const cardElement = elements.getElement(CardElement);
+            const { error, paymentMethod } = await stripe.createPaymentMethod({
+              type: "card",
+              card: cardElement,
+            });
+            if (error) {
+              console.error("Payment error:", error);
+            } else {
+              try {
+                // Send paymentMethod.id, totalAmount, and advertisementId to your server to complete the payment.
+                await axios.post("http://localhost:4000/api/payment", {
+                  ad_id: advertisementId,
+                  payment_method_id: paymentMethod.id, // Ensure this field is included
+                  total_amount: totalAmount * 100, // amount in cents
+                });
+                onPaymentSuccess();
+              } catch (error) {
+                console.error("Error processing payment:", error);
+              }
+            }
+          }}
+        >
+          <CardElement />
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 mt-4"
+          >
+            Pay with Stripe
+          </button>
+        </form>
+      )}
+    </ElementsConsumer>
+  );
+};
 
 const BillAds = () => {
   const [candidateName, setCandidateName] = useState("الاسم الكامل");
@@ -14,11 +72,13 @@ const BillAds = () => {
   const [cardShape, setCardShape] = useState("circle");
   const [advertisementId, setAdvertisementId] = useState(null);
   const [showPayPal, setShowPayPal] = useState(false);
+  const [showStripe, setShowStripe] = useState(false);
   const totalAmount = 100;
 
   useEffect(() => {
     if (advertisementId) {
       setShowPayPal(true);
+      setShowStripe(true);
     }
   }, [advertisementId]);
 
@@ -216,7 +276,9 @@ const BillAds = () => {
         <div className="w-full bg-gray-50 p-10 shadow-lg rounded-lg flex items-center justify-center hover:shadow-2xl">
           <div
             className={`p-8 text-center w-full ${
-              cardShape === "circle" ? "rounded-full" : "rounded-lg"
+              cardShape === "circle"
+                ? "rounded-full h-full "
+                : "rounded-lg h-full"
             } border-4`}
             style={{
               backgroundColor: cardColor,
@@ -299,8 +361,378 @@ const BillAds = () => {
           </div>
         </div>
       )}
+      {showStripe && (
+        <div className="mt-12 w-full max-w-md p-8 bg-white shadow-xl rounded-lg">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+            الدفع عبر Stripe
+          </h2>
+          <Elements stripe={stripePromise}>
+            <StripeCheckoutForm
+              totalAmount={totalAmount}
+              advertisementId={advertisementId}
+              onPaymentSuccess={() => handlePaymentSuccess({})}
+            />
+          </Elements>
+        </div>
+      )}
     </div>
   );
 };
 
 export default BillAds;
+
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import { Elements } from "@stripe/react-stripe-js";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { CardElement, ElementsConsumer } from "@stripe/react-stripe-js";
+
+// // Load Stripe outside of a component’s render to avoid recreating the `loadStripe` instance on every render.
+// const stripePromise = loadStripe(
+//   "pk_test_51Pnz1SATqmsNuw1AvRAKcoH0tJTDb09gyeEYPJw2ZCR0yv2PqghcohnNKjqN7kRrtVi9mHIeqAKACEa3CmW18cYh00XeHXafj2"
+// );
+
+// const StripeCheckoutForm = ({
+//   totalAmount,
+//   advertisementId,
+//   onPaymentSuccess,
+// }) => {
+//   return (
+//     <ElementsConsumer>
+//       {({ stripe, elements }) => (
+//         <form
+//           onSubmit={async (event) => {
+//             event.preventDefault();
+//             if (!stripe || !elements) {
+//               // Stripe.js has not loaded yet.
+//               return;
+//             }
+//             const cardElement = elements.getElement(CardElement);
+//             const { error, paymentMethod } = await stripe.createPaymentMethod({
+//               type: "card",
+//               card: cardElement,
+//             });
+//             if (error) {
+//               console.error("Payment error:", error);
+//             } else {
+//               try {
+//                 // Send paymentMethod.id, totalAmount, and advertisementId to your server to complete the payment.
+//                 await axios.post("http://localhost:4000/api/payment", {
+//                   ad_id: advertisementId,
+//                   paymentMethodId: paymentMethod.id,
+//                   total_amount: totalAmount * 100, // amount in cents
+//                 });
+//                 onPaymentSuccess();
+//               } catch (error) {
+//                 console.error("Error processing payment:", error);
+//               }
+//             }
+//           }}
+//         >
+//           <CardElement />
+//           <button
+//             type="submit"
+//             className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700 mt-4"
+//           >
+//             Pay with Stripe
+//           </button>
+//         </form>
+//       )}
+//     </ElementsConsumer>
+//   );
+// };
+
+// const BillAds = () => {
+//   const [candidateName, setCandidateName] = useState("الاسم الكامل");
+//   const [electionSlogan, setElectionSlogan] = useState("الشعار الانتخابي");
+//   const [candidateDescription, setCandidateDescription] = useState("الوصف");
+//   const [candidatePhoto, setCandidatePhoto] = useState("");
+//   const [fontColor, setFontColor] = useState("#000000");
+//   const [cardColor, setCardColor] = useState("#FFFFFF");
+//   const [borderColor, setBorderColor] = useState("#FF0000");
+//   const [borderType, setBorderType] = useState("solid");
+//   const [cardShape, setCardShape] = useState("circle");
+//   const [advertisementId, setAdvertisementId] = useState(null);
+//   const [showPayPal, setShowPayPal] = useState(false);
+//   const [showStripe, setShowStripe] = useState(false);
+//   const totalAmount = 100;
+
+//   useEffect(() => {
+//     if (advertisementId) {
+//       setShowPayPal(true);
+//       setShowStripe(true);
+//     }
+//   }, [advertisementId]);
+
+//   const handleSubmit = async () => {
+//     try {
+//       const response = await axios.post(
+//         "http://localhost:4000/api/advertisements",
+//         {
+//           name: candidateName,
+//           election_slogan: electionSlogan,
+//           design_type: cardShape,
+//           description: candidateDescription,
+//           personal_image: candidatePhoto,
+//           color_font: fontColor,
+//           color_card: cardColor,
+//           color_border: borderColor,
+//           border_type: borderType,
+//           status: "inactive",
+//         },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+//           },
+//         }
+//       );
+
+//       const adId = response.data.ad_id;
+//       setAdvertisementId(adId);
+//       console.log("Advertisement created:", response.data);
+//     } catch (error) {
+//       console.error("Error creating advertisement:", error);
+//     }
+//   };
+
+//   const handlePaymentSuccess = async (details) => {
+//     try {
+//       await axios.put(
+//         `http://localhost:4000/api/advertisements/${advertisementId}`,
+//         {
+//           total_amount: totalAmount,
+//         },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+//           },
+//         }
+//       );
+//       console.log("Advertisement updated with payment details.");
+//     } catch (error) {
+//       console.error(
+//         "Error updating advertisement with payment details:",
+//         error
+//       );
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex flex-col items-center bg-gray-50 p-6">
+//       <h1 className="text-4xl font-extrabold mb-12 text-indigo-600">
+//         مخصص اللوحة الإعلانية
+//       </h1>
+
+//       <div className="w-full max-w-[80rem] flex flex-row gap-8">
+//         <div className="w-full max-w-md h-[35rem] bg-white p-8 shadow-2xl rounded-xl overflow-y-auto">
+//           <h2 className="text-3xl font-semibold mb-6 text-gray-700">
+//             تخصيص اللوحة الإعلانية الخاصة بك
+//           </h2>
+
+//           {/* Form Fields */}
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               اسم المرشح
+//             </label>
+//             <input
+//               type="text"
+//               value={candidateName}
+//               onChange={(e) => setCandidateName(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               شعار الانتخابات
+//             </label>
+//             <input
+//               type="text"
+//               value={electionSlogan}
+//               onChange={(e) => setElectionSlogan(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-900">
+//               الوصف
+//             </label>
+//             <textarea
+//               value={candidateDescription}
+//               onChange={(e) => setCandidateDescription(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               الصورة
+//             </label>
+//             <input
+//               type="text"
+//               placeholder="رابط الصورة"
+//               value={candidatePhoto}
+//               onChange={(e) => setCandidatePhoto(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               لون الخط
+//             </label>
+//             <input
+//               type="color"
+//               value={fontColor}
+//               onChange={(e) => setFontColor(e.target.value)}
+//               className="w-full p-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               لون البطاقة
+//             </label>
+//             <input
+//               type="color"
+//               value={cardColor}
+//               onChange={(e) => setCardColor(e.target.value)}
+//               className="w-full p-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               لون الإطار
+//             </label>
+//             <input
+//               type="color"
+//               value={borderColor}
+//               onChange={(e) => setBorderColor(e.target.value)}
+//               className="w-full p-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             />
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               نوع الإطار
+//             </label>
+//             <select
+//               value={borderType}
+//               onChange={(e) => setBorderType(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             >
+//               <option value="none">بدون</option>
+//               <option value="solid">خط متصل</option>
+//               <option value="dashed">خط متقطع</option>
+//               <option value="dotted">نقاط</option>
+//             </select>
+//           </div>
+
+//           <div className="mb-6">
+//             <label className="block text-lg font-medium mb-2 text-gray-600">
+//               شكل البطاقة
+//             </label>
+//             <select
+//               value={cardShape}
+//               onChange={(e) => setCardShape(e.target.value)}
+//               className="w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//             >
+//               <option value="circle">دائرة</option>
+//               <option value="square">مربع</option>
+//               <option value="rectangle">مستطيل</option>
+//             </select>
+//           </div>
+
+//           <button
+//             onClick={handleSubmit}
+//             className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-indigo-700"
+//           >
+//             أرسل طلب
+//           </button>
+//         </div>
+
+//         {/* Preview Section */}
+//         <div
+//           className="w-full max-w-md h-[35rem] bg-white p-8 shadow-2xl rounded-xl"
+//           style={{
+//             color: fontColor,
+//             backgroundColor: cardColor,
+//             borderColor: borderColor,
+//             borderStyle: borderType,
+//             borderRadius:
+//               cardShape === "circle"
+//                 ? "50%"
+//                 : cardShape === "square"
+//                 ? "0%"
+//                 : "10%",
+//             borderWidth: "2px",
+//           }}
+//         >
+//           <div
+//             className="w-full h-full bg-cover bg-center"
+//             style={{ backgroundImage: `url(${candidatePhoto})` }}
+//           >
+//             <div className="p-4">
+//               <h3 className="text-2xl font-bold mb-2">{candidateName}</h3>
+//               <p className="text-lg">{electionSlogan}</p>
+//               <p className="mt-4">{candidateDescription}</p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Payment Section */}
+//       {showPayPal && (
+//         <div className="mt-12 w-full max-w-md p-8 bg-white shadow-xl rounded-lg">
+//           <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+//             الدفع عبر PayPal
+//           </h2>
+//           <PayPalScriptProvider
+//             options={{
+//               "client-id":
+//                 "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
+//             }}
+//           >
+//             <PayPalButtons
+//               createOrder={(data, actions) => {
+//                 return actions.order.create({
+//                   purchase_units: [
+//                     {
+//                       amount: {
+//                         value: totalAmount.toString(),
+//                       },
+//                     },
+//                   ],
+//                 });
+//               }}
+//               onApprove={async (data, actions) => {
+//                 await actions.order.capture();
+//                 handlePaymentSuccess(data);
+//               }}
+//             />
+//           </PayPalScriptProvider>
+//         </div>
+//       )}
+
+//       {showStripe && (
+//         <div className="mt-12 w-full max-w-md p-8 bg-white shadow-xl rounded-lg">
+//           <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+//             الدفع عبر Stripe
+//           </h2>
+//           <Elements stripe={stripePromise}>
+//             <StripeCheckoutForm
+//               totalAmount={totalAmount}
+//               advertisementId={advertisementId}
+//               onPaymentSuccess={() => handlePaymentSuccess({})}
+//             />
+//           </Elements>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default BillAds;
