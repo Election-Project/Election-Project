@@ -27,7 +27,12 @@ module.exports = {
         defaultValue: 0,
       },
       religion: {
-        type: Sequelize.ENUM("Muslim", "Christian", "Circassian", "Chechen"),
+        type: Sequelize.ENUM(
+          "Muslim",
+          "Christian",
+          "circassian_chechen",
+          "female_quota"
+        ),
         allowNull: false,
       },
       gender: {

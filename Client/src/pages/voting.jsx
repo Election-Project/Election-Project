@@ -72,6 +72,7 @@ const VotingPage = () => {
         });
       });
       setPartyLists(plist);
+      console.log("localListData: ", localListData.data.localLists);
 
       const llist1 = [];
       const candidatesByList = {};
@@ -129,6 +130,7 @@ const VotingPage = () => {
       // Convert the objects to arrays if needed
       const resultArrayWithIds = Object.values(candidatesByList);
       const resultArrayWithNames = Object.values(candidatesByListWithNames);
+      console.log("resultArrayWithNames", resultArrayWithNames);
 
       // console.log("Candidates by List (with National IDs):", candidatesByList);
       // console.log(

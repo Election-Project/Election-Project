@@ -34,4 +34,13 @@ const increaseVote = async (req, res) => {
   }
 };
 
-module.exports = { getAllCandidates, increaseVote };
+const createCandidate = async (req, res) => {
+  try {
+    const candidate = await Candidate.create(req.body);
+    res.json({ candidate });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { getAllCandidates, increaseVote, createCandidate };

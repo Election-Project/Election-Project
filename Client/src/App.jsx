@@ -26,6 +26,7 @@ import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
 import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
+import NominationForm from "./pages/NominationForm";
 function App() {
   const { login } = useAuth();
   const options = {
@@ -46,6 +47,7 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+            <Route path="/nomination" element={<NominationForm />} />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />

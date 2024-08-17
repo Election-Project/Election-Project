@@ -1,8 +1,11 @@
+const { where } = require("sequelize");
 const db = require("../models");
 
 const getLocalLists = async (req, res) => {
   try {
-    const localLists = await db.LocalList.findAll();
+    const localLists = await db.LocalList.findAll({
+      where: { is_approved: true },
+    });
     res.json({ localLists });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -31,4 +34,14 @@ const increaseVoteCounter = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-module.exports = { getLocalLists, increaseVoteCounter };
+
+const createLocalList = async (req, res) => {
+  try {
+    const localList = await db.LocalList.create(req.body);
+    res.json({ localList });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { getLocalLists, increaseVoteCounter, createLocalList };
