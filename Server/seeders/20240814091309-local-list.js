@@ -11,6 +11,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // الوطني الاسلامي
       {
@@ -19,6 +20,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // جبهة العمل الاسلامي
       {
@@ -27,6 +29,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // تقدم
       {
@@ -35,6 +38,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       {
         name: "الهمة",
@@ -42,6 +46,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // العهد
       {
@@ -50,6 +55,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // عمان
       {
@@ -58,6 +64,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // المستقبل
       {
@@ -66,6 +73,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       {
         name: "الكرامة",
@@ -73,6 +81,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // الحق
       {
@@ -81,6 +90,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // نمو
       {
@@ -89,6 +99,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       // الاتحاد
       {
@@ -97,6 +108,7 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
     ]);
   },

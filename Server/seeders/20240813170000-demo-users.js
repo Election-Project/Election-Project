@@ -121,6 +121,18 @@ module.exports = {
       {
         national_id: generateRandom12DigitID(),
         password: "",
+        email: "rami.ghazzawiabed@gmail.com",
+        full_name: "رامي عبد الرحيم صبري غزاوي",
+        user_type: "voter",
+        district_id: 6,
+        is_voted_local: false,
+        is_voted_party: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        national_id: generateRandom12DigitID(),
+        password: "",
         email: generateUniqueEmail(9),
         full_name: "ثائر خليل سعيد ابو السعود",
         user_type: "voter",

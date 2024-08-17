@@ -21,7 +21,12 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
       },
       votes: DataTypes.INTEGER,
-      religion: DataTypes.ENUM("Muslim", "Christian", "Circassian", "Chechen"),
+      religion: DataTypes.ENUM(
+        "Muslim",
+        "Christian",
+        "circassian_chechen",
+        "female_quota"
+      ),
       gender: DataTypes.ENUM("Male", "Female"),
     },
     {
