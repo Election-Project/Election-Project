@@ -8,12 +8,7 @@ function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
   useEffect(() => {
     const fetchDistricts = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:4000/api/districts`,
-          {
-            params: { name: selectedDistrict },
-          }
-        );
+        const response = await axios.get("http://localhost:4000/api/districts");
         setDistricts(response.data);
       } catch (error) {
         console.error("Failed to fetch districts:", error);
@@ -21,7 +16,7 @@ function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
     };
 
     fetchDistricts();
-  }, [selectedDistrict]);
+  }, []);
 
   return (
     <motion.div
