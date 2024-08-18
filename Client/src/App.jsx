@@ -28,6 +28,7 @@ import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
 import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
+import PartyListNominationForm from "./pages/PartyListNominationForm";
 import News from "./pages/news";
 import Room from "./components/Rooms/Rooms";
 import LiveStreem from "./components/LiveStreem/LiveStreem";
@@ -52,6 +53,12 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+
+            <Route
+              path="/party-list-nomination"
+              element={<PartyListNominationForm />}
+            />
+
             <Route path="LiveStrem/room/:roomId" element={<Room />} />
             <Route path="/LiveStrem" element={<LiveStreem />} />
 

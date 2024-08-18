@@ -9,24 +9,28 @@ module.exports = {
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       {
         name: "حزب الشورى الاردني",
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       {
         name: "حزب الوفاء الوطني",
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
       {
         name: "حزب الارض المباركة",
         votes: 0,
         createdAt: new Date(),
         updatedAt: new Date(),
+        is_approved: true,
       },
     ]);
   },

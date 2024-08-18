@@ -150,7 +150,7 @@ const NominationForm = () => {
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
       <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-        نموذج طلب ترشيح للانتخابات الأردنية
+        نموذج طلب ترشيح للقائمة المحلية
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -158,7 +158,7 @@ const NominationForm = () => {
             htmlFor="listName"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            اسم القائمة المحلية أو الحزب
+            اسم القائمة المحلية
           </label>
           <input
             id="listName"
