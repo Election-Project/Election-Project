@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   PartyListCandidate.init(
     {
+      candidate_id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
       rank: DataTypes.INTEGER,
     },
     {

@@ -24,6 +24,10 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      is_approved: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
     });
   },
 

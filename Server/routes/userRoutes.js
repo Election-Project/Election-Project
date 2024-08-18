@@ -13,6 +13,7 @@ const {
   getUserByToken,
   getAllUsersByDistrictId,
   changeFromVoterToCandidate,
+  getAllVoteUsers,
 } = require("../controllers/userController");
 
 router.get("/get/:id", getUser);
@@ -32,5 +33,6 @@ router.get("/user-count", getUserCount);
 router.get("/voted-local-percentage", getVotedLocalPercentage);
 router.get("/users-by-district/:id", getAllUsersByDistrictId);
 router.put("/change-to-candidate/:id", changeFromVoterToCandidate);
+router.get("/vote-users", getAllVoteUsers);
 
 module.exports = router;

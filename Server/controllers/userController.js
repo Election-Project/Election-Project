@@ -82,6 +82,17 @@ const getAllcandidateUsers = async (req, res) => {
   }
 };
 
+const getAllVoteUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      where: { user_type: "voter" },
+    });
+    res.json({ users });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getCnadidateInfo = async (req, res) => {
   try {
     const candidate = await User.findOne({
@@ -254,4 +265,5 @@ module.exports = {
   getUserByToken,
   getAllUsersByDistrictId,
   changeFromVoterToCandidate,
+  getAllVoteUsers,
 };

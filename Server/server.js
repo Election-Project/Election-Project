@@ -12,6 +12,7 @@ const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
 const advertisementRoutes = require("./routes/advertisementRoutes");
 const localList = require("./routes/localListRouter");
 const paymentRoutes = require("./routes/paymentRoutes");
+const partyListCandidate = require("./routes/partyListCandidateRoutes");
 
 // Configure CORS
 app.use(
@@ -28,6 +29,7 @@ app.use("/api/local-list", localList);
 app.use("/api/candidate", candidateRoutes);
 app.use("/api/election", electionRoutes);
 app.use("/api/party-list", partyList);
+app.use("/api/party-list-candidate", partyListCandidate);
 
 app.use("/api", paymentRoutes);
 

@@ -28,6 +28,7 @@ import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
 import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
+import PartyListNominationForm from "./pages/PartyListNominationForm";
 
 function App() {
   const { login } = useAuth();
@@ -49,6 +50,10 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+            <Route
+              path="/party-list-nomination"
+              element={<PartyListNominationForm />}
+            />
             <Route path="/nomination" element={<NominationForm />} />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />

@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: DataTypes.STRING,
       votes: DataTypes.INTEGER,
+      is_approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,
