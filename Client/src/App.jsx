@@ -20,7 +20,7 @@ import ElectionResults from './pages/result';
 
 import { useAuth } from "./context/AuthContext";
 import PublicRoute from "./components/PublicRoute";
-
+import NewsComponent from "./pages/news";
 function App() {
   const { login } = useAuth();
 
@@ -69,6 +69,7 @@ function App() {
           />
           <Route path="/reset-password" element={<PasswordReset />} />
           <Route path="/result" element={<ElectionResults />} />
+          <Route path="/news" element={<NewsComponent />} />
         </Routes>
         <ChatWidget />
 
