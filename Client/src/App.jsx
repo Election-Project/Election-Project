@@ -18,22 +18,22 @@ import BillAds from "./pages/BillAds";
 
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
-// Uncomment and use if needed
 import BillboardDesignPage from "./pages/BillboardDesignPage";
 import Advertisement from "./pages/advertisements";
 import ElectionResults from "./pages/result";
 import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
+import NewsComponent from "./pages/news";
 import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
 import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
+import News from "./pages/news";
 
 function App() {
   const { login } = useAuth();
   const options = {
-    "client-id":
-      "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
+    "client-id": "AZZnJo9B4ulFid8Kdc6--QozivoXGg7263KyHe5KFomW-t-qQQ4cWR7l2lFScv10s0N_iq-DQpewLwDJ",
   };
 
   useEffect(() => {
@@ -54,45 +54,25 @@ function App() {
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />
             <Route path="/" element={<Home />} />
-            <Route
-              path="/advertisementsView/:id"
-              element={<AdvertisementView />}
-            />
+            <Route path="/advertisementsView/:id" element={<AdvertisementView />} />
             <Route path="/BillAds" element={<BillAds />} />
 
             {/* Public Routes for non-authenticated users */}
-            <Route
-              path="/login-otp"
-              element={<PublicRoute element={<LoginOTP />} />}
-            />
-            <Route
-              path="/login-with-password"
-              element={<PublicRoute element={<LoginWithPass />} />}
-            />
-            <Route
-              path="/verify-otp"
-              element={<PublicRoute element={<VerifyOTP />} />}
-            />
-            <Route
-              path="/check-email"
-              element={<PublicRoute element={<CheckEmail />} />}
-            />
+            <Route path="/login-otp" element={<PublicRoute element={<LoginOTP />} />} />
+            <Route path="/login-with-password" element={<PublicRoute element={<LoginWithPass />} />} />
+            <Route path="/verify-otp" element={<PublicRoute element={<VerifyOTP />} />} />
+            <Route path="/check-email" element={<PublicRoute element={<CheckEmail />} />} />
             <Route path="/set-new-password" element={<SetNewPassword />} />
-            <Route
-              path="/request-password-reset"
-              element={<PublicRoute element={<PasswordResetRequest />} />}
-            />
-            <Route
-              path="/reset-password"
-              element={<PublicRoute element={<PasswordReset />} />}
-            />
+            <Route path="/request-password-reset" element={<PublicRoute element={<PasswordResetRequest />} />} />
+            <Route path="/reset-password" element={<PublicRoute element={<PasswordReset />} />} />
+
             {/* Uncomment and use if needed */}
             <Route path="/billboard" element={<BillboardDesignPage />} />
             <Route path="/result" element={<ElectionResults />} />
-            {/* Uncomment and use if needed */}
             <Route path="/Advertisement" element={<Advertisement />} />
             <Route path="/Electionresult" element={<ElectionResults5 />} />
             <Route path="/About" element={<About />} />
+            <Route path="/news" element={<News />} />
           </Routes>
           <ChatWidget />
           <Foot />

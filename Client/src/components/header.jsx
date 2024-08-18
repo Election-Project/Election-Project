@@ -75,6 +75,14 @@ export function Nav() {
           >
             تواصل معنا
           </Navbar.Link>
+
+          <Navbar.Link
+            as={Link}
+            to="/news"
+            className="text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105"
+          >
+          الاخبار
+          </Navbar.Link>
         </div>
       </Navbar.Collapse>
     </Navbar>
