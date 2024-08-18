@@ -3,6 +3,8 @@ import axios from "axios";
 import HeroSection from "../components/home/HeroSection";
 import ElectionInfoSection from "../components/home/ElectionInfoSection";
 import Joyride from "react-joyride";
+import AdvertisementsList from "../components/home/AdvertisementsList";
+import { MasonryGridGallery } from "../components/home/MasonryGridGallery";
 
 const Home = () => {
   const [voterInfo, setVoterInfo] = useState({
@@ -44,8 +46,7 @@ const Home = () => {
     },
     {
       target: ".election-info-section",
-      content:
-        "Here you will find detailed information about the election process and districts.",
+      content: "ستجد هنا معلومات تفصيلية عن عملية الانتخابات والدواير.",
     },
   ];
 
@@ -59,11 +60,11 @@ const Home = () => {
         showSkipButton
         showProgress
         locale={{
-          back: "Back",
-          close: "Close",
-          last: "Finish",
-          next: "Next",
-          skip: "Skip",
+          back: "رجوع",
+          close: "إغلاق",
+          last: "إنهاء",
+          next: "التالي",
+          skip: "تخطي",
         }}
         styles={{
           options: {
@@ -78,6 +79,8 @@ const Home = () => {
         electionDate={voterInfo.electionDate}
       />
       <ElectionInfoSection className="election-info-section" />
+
+      <AdvertisementsList />
     </div>
   );
 };

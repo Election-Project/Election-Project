@@ -5,25 +5,25 @@ const TailwindCard = ({ candidateDetails, customization }) => {
   const { fontColor, cardColor, borderColor, backgroundImage } = customization;
 
   return (
-    <div 
-      className="flex flex-col items-center justify-center min-h-screen w-full p-8"
+    <div
+      className="flex flex-col items-center justify-center  w-full p-8"
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div 
+      <div
         className="w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden"
-        style={{ borderColor: borderColor, borderWidth: '4px' }}
+        style={{ borderColor: borderColor, borderWidth: "4px" }}
       >
-        <h1 
+        <h1
           className="text-4xl font-bold text-center py-6"
           style={{ color: fontColor, backgroundColor: cardColor }}
         >
           اللوحة الانتخابية
         </h1>
-        <div 
+        <div
           className="flex flex-col md:flex-row p-8"
           style={{ backgroundColor: cardColor }}
         >
@@ -37,10 +37,16 @@ const TailwindCard = ({ candidateDetails, customization }) => {
             </div>
           )}
           <div className="md:w-1/2">
-            <h2 className="text-3xl font-semibold mb-4" style={{ color: fontColor }}>
+            <h2
+              className="text-3xl font-semibold mb-4"
+              style={{ color: fontColor }}
+            >
               {name || "اسم المرشح"}
             </h2>
-            <p className="text-xl leading-relaxed mb-4" style={{ color: fontColor }}>
+            <p
+              className="text-xl leading-relaxed mb-4"
+              style={{ color: fontColor }}
+            >
               {slogan || "الشعار الانتخابي"}
             </p>
             <p className="text-lg" style={{ color: fontColor }}>
@@ -54,23 +60,6 @@ const TailwindCard = ({ candidateDetails, customization }) => {
 };
 
 export default TailwindCard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React from "react";
 
