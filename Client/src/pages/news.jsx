@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 
-const App = () => {
+const News = () => {
   const src = "https://www.addustour.com/search.php?search=%D8%A7%D9%86%D8%AA%D8%AE%D8%A7%D8%A8%D8%A7%D8%AA"; // استبدل بـ URL الموقع الخارجي
 
   const iframeContainerStyle = {
@@ -33,4 +33,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default News;
