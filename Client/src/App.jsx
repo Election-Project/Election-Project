@@ -30,6 +30,8 @@ import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
 import PartyListNominationForm from "./pages/PartyListNominationForm";
 import News from "./pages/news";
+import Room from "./components/Rooms/Rooms";
+import LiveStreem from "./components/LiveStreem/LiveStreem";
 
 function App() {
   const { login } = useAuth();
@@ -51,10 +53,15 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+
             <Route
               path="/party-list-nomination"
               element={<PartyListNominationForm />}
             />
+
+            <Route path="LiveStrem/room/:roomId" element={<Room />} />
+            <Route path="/LiveStrem" element={<LiveStreem />} />
+
             <Route path="/nomination" element={<NominationForm />} />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />

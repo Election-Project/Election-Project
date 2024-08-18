@@ -265,12 +265,16 @@ const getAllWinnersForDistrict = async (req, res) => {
     }
 
     // Determine the number of seats for each category
-    const muslimSeats = district.Female_seat
-      ? district.number_of_seats - 1
-      : district.number_of_seats;
     const christianSeat = district.Christian_seat ? 1 : 0;
     const circassianOrChechenSeat = district.Circassian_or_Chechen_seat ? 1 : 0;
     const femaleQuotaSeat = district.Female_seat ? 1 : 0;
+
+    // Calculate the total number of seats allocated to Muslims
+    const muslimSeats =
+      district.number_of_seats -
+      christianSeat -
+      circassianOrChechenSeat -
+      femaleQuotaSeat;
 
     // Fetch local lists and candidates for the given district
     const localLists = await LocalList.findAll({
@@ -278,7 +282,7 @@ const getAllWinnersForDistrict = async (req, res) => {
       include: [
         {
           model: Candidate,
-          attributes: ["national_id", "votes", "religion", "gender"],
+          attributes: ["national_id", "list_id", "votes", "religion", "gender"],
           include: [
             {
               model: User,
@@ -325,7 +329,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     // Track selected candidates to avoid duplicates
     const selectedCandidates = new Set();
 
-    // Ensure top candidates from each category are selected
+    // Helper function to get the top candidate for a specific category
     const getTopCandidate = (candidates, category) => {
       return candidates
         .filter(c => c.religion === category)
@@ -333,7 +337,7 @@ const getAllWinnersForDistrict = async (req, res) => {
         .find(candidate => !selectedCandidates.has(candidate.national_id));
     };
 
-    // Select the top Christian candidate if applicable
+    // Select the top candidate from each category if applicable
     const electedChristian = christianSeat
       ? getTopCandidate(
           localLists.flatMap(list => list.Candidates),
@@ -345,7 +349,6 @@ const getAllWinnersForDistrict = async (req, res) => {
       selectedCandidates.add(electedChristian.national_id);
     }
 
-    // Select the top Circassian or Chechen candidate if applicable
     const electedCircassianOrChechen = circassianOrChechenSeat
       ? getTopCandidate(
           localLists.flatMap(list => list.Candidates),
@@ -357,7 +360,6 @@ const getAllWinnersForDistrict = async (req, res) => {
       selectedCandidates.add(electedCircassianOrChechen.national_id);
     }
 
-    // Select the top female candidate with "female_quota" religion if applicable
     const electedFemaleQuota = femaleQuotaSeat
       ? getTopCandidate(
           localLists.flatMap(list => list.Candidates),
