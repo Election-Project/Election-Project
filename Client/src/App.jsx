@@ -18,17 +18,18 @@ import BillAds from "./pages/BillAds";
 
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
-// Uncomment and use if needed
 import BillboardDesignPage from "./pages/BillboardDesignPage";
 import Advertisement from "./pages/advertisements";
 import ElectionResults from "./pages/result";
 import AdvertisementView from "./components/home/AdvertisementView";
 import PublicRoute from "./components/PublicRoute";
+import NewsComponent from "./pages/news";
 import { useAuth } from "./context/AuthContext";
 import ElectionResults5 from "./pages/ElectionResults";
 import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
 import PartyListNominationForm from "./pages/PartyListNominationForm";
+import News from "./pages/news";
 
 function App() {
   const { login } = useAuth();
@@ -91,13 +92,14 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
+
             {/* Uncomment and use if needed */}
             <Route path="/billboard" element={<BillboardDesignPage />} />
             <Route path="/result" element={<ElectionResults />} />
-            {/* Uncomment and use if needed */}
             <Route path="/Advertisement" element={<Advertisement />} />
             <Route path="/Electionresult" element={<ElectionResults5 />} />
             <Route path="/About" element={<About />} />
+            <Route path="/news" element={<News />} />
           </Routes>
           <ChatWidget />
           <Foot />

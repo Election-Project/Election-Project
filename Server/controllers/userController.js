@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
-const { User, ElectoralDistrict } = require("../models");
+const { User, ElectoralDistrict, Candidate, LocalList } = require("../models");
+const { Op } = require("sequelize");
+
+const THRESHOLD_PERCENTAGE = 0.05;
 
 getUserDistrictInfo = async (req, res) => {
   try {
@@ -251,6 +254,177 @@ const changeFromVoterToCandidate = async (req, res) => {
   }
 };
 
+const getAllWinnersForDistrict = async (req, res) => {
+  const { district_id } = req.params;
+
+  try {
+    // Fetch district information
+    const district = await ElectoralDistrict.findByPk(district_id);
+    if (!district) {
+      return res.status(404).json({ message: "District not found" });
+    }
+
+    // Determine the number of seats for each category
+    const muslimSeats = district.Female_seat
+      ? district.number_of_seats - 1
+      : district.number_of_seats;
+    const christianSeat = district.Christian_seat ? 1 : 0;
+    const circassianOrChechenSeat = district.Circassian_or_Chechen_seat ? 1 : 0;
+    const femaleQuotaSeat = district.Female_seat ? 1 : 0;
+
+    // Fetch local lists and candidates for the given district
+    const localLists = await LocalList.findAll({
+      where: { district_id: district_id },
+      include: [
+        {
+          model: Candidate,
+          attributes: ["national_id", "votes", "religion", "gender"],
+          include: [
+            {
+              model: User,
+              attributes: ["full_name"],
+              required: true,
+            },
+          ],
+          required: true,
+        },
+      ],
+    });
+
+    // Calculate the total number of voters in the district
+    const totalVoters = await User.count({
+      where: { user_type: "voter", district_id: district_id },
+    });
+
+    const localThreshold = totalVoters * 0.07;
+
+    // Filter local lists that surpassed the threshold
+    const qualifiedLocalLists = localLists.filter(list => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      return totalVotesForList > localThreshold;
+    });
+
+    if (qualifiedLocalLists.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No qualified local lists found" });
+    }
+
+    // Calculate the total votes for qualified local lists
+    const totalQualifiedVotes = qualifiedLocalLists.reduce((sum, list) => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      return sum + totalVotesForList;
+    }, 0);
+
+    // Track selected candidates to avoid duplicates
+    const selectedCandidates = new Set();
+
+    // Ensure top candidates from each category are selected
+    const getTopCandidate = (candidates, category) => {
+      return candidates
+        .filter(c => c.religion === category)
+        .sort((a, b) => b.votes - a.votes)
+        .find(candidate => !selectedCandidates.has(candidate.national_id));
+    };
+
+    // Select the top Christian candidate if applicable
+    const electedChristian = christianSeat
+      ? getTopCandidate(
+          localLists.flatMap(list => list.Candidates),
+          "Christian"
+        )
+      : null;
+
+    if (electedChristian) {
+      selectedCandidates.add(electedChristian.national_id);
+    }
+
+    // Select the top Circassian or Chechen candidate if applicable
+    const electedCircassianOrChechen = circassianOrChechenSeat
+      ? getTopCandidate(
+          localLists.flatMap(list => list.Candidates),
+          "circassian_chechen"
+        )
+      : null;
+
+    if (electedCircassianOrChechen) {
+      selectedCandidates.add(electedCircassianOrChechen.national_id);
+    }
+
+    // Select the top female candidate with "female_quota" religion if applicable
+    const electedFemaleQuota = femaleQuotaSeat
+      ? getTopCandidate(
+          localLists.flatMap(list => list.Candidates),
+          "female_quota"
+        )
+      : null;
+
+    if (electedFemaleQuota) {
+      selectedCandidates.add(electedFemaleQuota.national_id);
+    }
+
+    // Recalculate Muslim seats after reserving the seats for other categories
+    const adjustedMuslimSeats =
+      muslimSeats -
+      (electedChristian ? 1 : 0) -
+      (electedCircassianOrChechen ? 1 : 0) -
+      (electedFemaleQuota ? 1 : 0);
+
+    // Calculate winning seats for Muslims in each qualified local list
+    const localResults = qualifiedLocalLists.map(list => {
+      const totalVotesForList = list.Candidates.reduce(
+        (sum, candidate) => sum + candidate.votes,
+        0
+      );
+      const seatShare =
+        (totalVotesForList / totalQualifiedVotes) * adjustedMuslimSeats;
+      const seatsWon = Math.round(seatShare);
+      return { ...list.toJSON(), seatsWon };
+    });
+
+    // Select Muslim candidates based on the number of seats their list has won
+    const electedMuslims = [];
+    localResults.forEach(list => {
+      const listCandidates = list.Candidates.filter(
+        c => c.religion === "Muslim"
+      ).sort((a, b) => b.votes - a.votes);
+      listCandidates.slice(0, list.seatsWon).forEach(candidate => {
+        if (!selectedCandidates.has(candidate.national_id)) {
+          electedMuslims.push(candidate);
+          selectedCandidates.add(candidate.national_id);
+        }
+      });
+    });
+
+    // Combine all elected candidates
+    let allElectedCandidates = [
+      ...electedMuslims,
+      electedChristian,
+      electedCircassianOrChechen,
+      electedFemaleQuota,
+    ].filter(Boolean); // Filter out any null values
+
+    // Ensure the total number of winners does not exceed the district's seats
+    if (allElectedCandidates.length > district.number_of_seats) {
+      allElectedCandidates = allElectedCandidates.slice(
+        0,
+        district.number_of_seats
+      );
+    }
+
+    res.json({ electedCandidates: allElectedCandidates });
+  } catch (error) {
+    console.error("Error calculating elected candidates:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getUser,
   getAllDistricts,
@@ -266,4 +440,5 @@ module.exports = {
   getAllUsersByDistrictId,
   changeFromVoterToCandidate,
   getAllVoteUsers,
+  getAllWinnersForDistrict,
 };

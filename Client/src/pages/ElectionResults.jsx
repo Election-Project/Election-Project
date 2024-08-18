@@ -3,7 +3,6 @@ import Header from "/src/components/electionResults/Header";
 import PartyListsResults from "/src/components/electionResults/PartyListsResults";
 import LocalListsResults from "/src/components/electionResults/LocalListsResults";
 import VoiceSearch from "/src/components/electionResults/VoiceSearch";
-
 import DistrictSelector from "/src/components/electionResults/DistrictSelector";
 
 function ElectionResults() {

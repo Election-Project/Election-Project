@@ -14,6 +14,7 @@ const {
   getAllUsersByDistrictId,
   changeFromVoterToCandidate,
   getAllVoteUsers,
+  getAllWinnersForDistrict,
 } = require("../controllers/userController");
 
 router.get("/get/:id", getUser);
@@ -34,5 +35,8 @@ router.get("/voted-local-percentage", getVotedLocalPercentage);
 router.get("/users-by-district/:id", getAllUsersByDistrictId);
 router.put("/change-to-candidate/:id", changeFromVoterToCandidate);
 router.get("/vote-users", getAllVoteUsers);
+
+//result Page
+router.get("/candidates/details/:district_id", getAllWinnersForDistrict);
 
 module.exports = router;

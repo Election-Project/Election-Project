@@ -60,6 +60,13 @@ export function Nav() {
             className="text-white hover:text-gray-300 transition-colors duration-300"
           >
             إعرف أكثر
+          </Navbar.Link>{" "}
+          <Navbar.Link
+            as={Link}
+            to="/BillAds"
+            className="text-white hover:text-gray-300 transition-colors duration-300"
+          >
+            للاعلانات
           </Navbar.Link>
           <Navbar.Link
             as={Link}
@@ -67,6 +74,14 @@ export function Nav() {
             className="text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105"
           >
             تواصل معنا
+          </Navbar.Link>
+
+          <Navbar.Link
+            as={Link}
+            to="/news"
+            className="text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105"
+          >
+          الاخبار
           </Navbar.Link>
         </div>
       </Navbar.Collapse>

@@ -4,6 +4,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("admin", {
+      // Ensure this matches the model's table name
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -30,6 +31,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("admin");
+    await queryInterface.dropTable("admin"); // Ensure this matches the model's table name
   },
 };

@@ -67,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       district_id: {
         type: DataTypes.INTEGER,
-        allowNull: true, // Allow null if it's optional
+        allowNull: true,
       },
       is_voted_local: {
         type: DataTypes.BOOLEAN,

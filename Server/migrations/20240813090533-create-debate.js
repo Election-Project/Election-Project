@@ -12,7 +12,8 @@ module.exports = {
         type: Sequelize.STRING(200),
       },
       date: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATE, // Use DATE for timestamp without timezone
+        allowNull: false,
       },
       payment_amount: {
         type: Sequelize.DECIMAL(10, 2),
