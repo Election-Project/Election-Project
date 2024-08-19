@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import HeroSection from "../components/home/HeroSection";
 import ElectionInfoSection from "../components/home/ElectionInfoSection";
-import Joyride from "react-joyride";
 import AdvertisementsList from "../components/home/AdvertisementsList";
-import { MasonryGridGallery } from "../components/home/MasonryGridGallery";
+import Modal from "../components/home/ModalHome"; // Adjust the path as needed
 
 const Home = () => {
   const [voterInfo, setVoterInfo] = useState({
@@ -13,6 +13,10 @@ const Home = () => {
     electionDate: "",
   });
   const [runTour, setRunTour] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [notification, setNotification] = useState("");
+  const [roomIds, setRoomIds] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVoterInfo = async () => {
@@ -38,38 +42,41 @@ const Home = () => {
     fetchVoterInfo();
   }, []);
 
-  const steps = [
-    {
-      target: ".hero-section",
-      content:
-        "This is the hero section where you can find the main introduction and details.",
-    },
-    {
-      target: ".election-info-section",
-      content: "ستجد هنا معلومات تفصيلية عن عملية الانتخابات والدواير.",
-    },
-  ];
+  useEffect(() => {
+    const storedRoomIds = JSON.parse(localStorage.getItem("roomIds")) || [];
+    if (storedRoomIds.length > 0) {
+      setNotification("هناك بث مباشر جاري.");
+      setRoomIds(storedRoomIds); // Store the list of room IDs
+      setIsModalOpen(true); // Show the modal
+    }
+  }, []);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleNavigateToLiveStream = (roomId) => {
+    navigate(`LiveStream/viewer/${roomId}?role=view`);
+    setIsModalOpen(false); // Close the modal after navigating
+  };
 
   return (
     <div>
-      <Joyride
-        steps={steps}
-        run={runTour}
-        continuous
-        scrollToFirstStep
-        showSkipButton
-        showProgress
-        locale={{
-          back: "رجوع",
-          close: "إغلاق",
-          last: "إنهاء",
-          next: "التالي",
-          skip: "تخطي",
-        }}
-        styles={{
-          options: {},
-        }}
-      />
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <p>{notification}</p>
+        <ul className="mt-4">
+          {roomIds.map((id, index) => (
+            <li key={index} className="mb-2">
+              <button
+                className="bg-gradient-to-br from-white via-green-700 to-green-200 text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+                onClick={() => handleNavigateToLiveStream(id)}
+              >
+                الانتقال إلى غرفة رقم: {id}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </Modal>
       <HeroSection
         className="hero-section"
         voterName={voterInfo.voterName}
@@ -77,7 +84,6 @@ const Home = () => {
         electionDate={voterInfo.electionDate}
       />
       <ElectionInfoSection className="election-info-section" />
-
       <AdvertisementsList />
     </div>
   );

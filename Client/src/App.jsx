@@ -30,11 +30,10 @@ import NominationForm from "./pages/NominationForm";
 import About from "./pages/About";
 import PartyListNominationForm from "./pages/PartyListNominationForm";
 import News from "./pages/news";
-import Room from "./components/Rooms/Rooms";
-import LiveStreem from "./components/LiveStreem/LiveStreem";
-import ViewerPage from "./components/testLive/ViewerPage";
-import DebateRoom from "./components/testLive/DebateRoom";
+import ViewerPage from "./components/LiveStreem/ViewerPage";
 import VideoModal from "./pages/VideoModal";
+import LiveStream from "./components/LiveStreem/LiveStream";
+import Room from "./components/LiveStreem/Room";
 
 function App() {
   const { login } = useAuth();
@@ -56,10 +55,11 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-            <Route path="/LiveStreem" element={<LiveStreem />} />
-            <Route path="/viewer/:roomId" element={<ViewerPage />} />
-            <Route path="/debate/:roomId" element={<DebateRoom />} />
-
+            //////////////////////////
+            <Route path="/LiveStream" element={<LiveStream />} />
+            <Route path="LiveStream/room/:roomId" element={<Room />} />
+            <Route path="LiveStream/viewer/:roomId" element={<ViewerPage />} />
+            //////////////////////
             <Route path="/nomination" element={<NominationForm />} />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
