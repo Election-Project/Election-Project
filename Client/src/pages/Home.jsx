@@ -12,7 +12,6 @@ const Home = () => {
     district: "",
     electionDate: "",
   });
-  const [runTour, setRunTour] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notification, setNotification] = useState("");
   const [roomIds, setRoomIds] = useState([]);
@@ -44,10 +43,13 @@ const Home = () => {
 
   useEffect(() => {
     const storedRoomIds = JSON.parse(localStorage.getItem("roomIds")) || [];
-    if (storedRoomIds.length > 0) {
+    const isModalAlreadyShown = localStorage.getItem("modalShown");
+
+    if (storedRoomIds.length > 0 && !isModalAlreadyShown) {
       setNotification("هناك بث مباشر جاري.");
       setRoomIds(storedRoomIds); // Store the list of room IDs
       setIsModalOpen(true); // Show the modal
+      localStorage.setItem("modalShown", "true"); // Mark the modal as shown
     }
   }, []);
 
