@@ -8,8 +8,27 @@ function ViewerPage() {
   const zpRef = useRef(null);
   const videoContainerRef = useRef(null);
   const [joined, setJoined] = useState(false);
+  const [isValidRoom, setIsValidRoom] = useState(false);
 
-  // Initialize ZegoUIKit and join room as viewer
+  useEffect(() => {
+    const storedRoomIds = JSON.parse(localStorage.getItem("roomIds")) || [];
+
+    // Check if the roomId in the URL exists in the stored room IDs in local storage
+    if (storedRoomIds.includes(roomId)) {
+      setIsValidRoom(true);
+      myMeeting();
+    } else {
+      alert("The live stream has ended.");
+      navigate("/");
+    }
+
+    return () => {
+      if (zpRef.current) {
+        zpRef.current.destroy();
+      }
+    };
+  }, [roomId, navigate]);
+
   const myMeeting = () => {
     const appID = 1457610972;
     const serverSecret = "995c7b15cc26ecc235dd0db2261bb86f";
@@ -71,19 +90,9 @@ function ViewerPage() {
     navigate("/");
   };
 
-  useEffect(() => {
-    myMeeting();
-
-    return () => {
-      if (zpRef.current) {
-        zpRef.current.destroy();
-      }
-    };
-  }, [roomId, navigate]);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      {joined && (
+      {isValidRoom && joined && (
         <button
           onClick={handleExit}
           className="mb-4 px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
@@ -91,15 +100,22 @@ function ViewerPage() {
           Exit
         </button>
       )}
-      {!joined && (
+      {isValidRoom && !joined && (
         <header className="text-lg font-semibold text-gray-800 mb-4">
           Watching Live Stream
         </header>
       )}
-      <div
-        ref={videoContainerRef}
-        className="w-full h-full bg-gray-200 rounded-lg overflow-hidden mb-4"
-      />
+      {!isValidRoom && (
+        <div className="text-lg font-semibold text-gray-800 mb-4">
+          The live stream has ended.
+        </div>
+      )}
+      {isValidRoom && (
+        <div
+          ref={videoContainerRef}
+          className="w-full h-full bg-gray-200 rounded-lg overflow-hidden mb-4"
+        />
+      )}
     </div>
   );
 }
