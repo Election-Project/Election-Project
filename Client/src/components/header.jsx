@@ -100,6 +100,13 @@ export function Nav() {
               className="text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link"
             >
               للاعلانات
+            </Navbar.Link>{" "}
+            <Navbar.Link
+              as={Link}
+              to="/LiveStream"
+              className="text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link"
+            >
+              للمناظرات
             </Navbar.Link>
             <Navbar.Link
               as={Link}

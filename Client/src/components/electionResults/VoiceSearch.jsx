@@ -8,96 +8,108 @@ function VoiceSearch({ onSearch }) {
   const [transcript, setTranscript] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState(null);
-  let recognition = null;
+  const [recognition, setRecognition] = useState(null);
 
   useEffect(() => {
     if ("webkitSpeechRecognition" in window) {
-      recognition = new window.webkitSpeechRecognition();
-      recognition.continuous = false;
-      recognition.lang = "ar-JO";
+      const initRecognition = () => {
+        const recog = new window.webkitSpeechRecognition();
+        recog.continuous = false;
+        recog.lang = "ar-JO";
 
-      recognition.onresult = async (event) => {
-        const transcript = event.results[0][0].transcript;
-        console.log("Transcript:", transcript);
-        setTranscript(transcript);
+        recog.onresult = async (event) => {
+          const transcript = event.results[0][0].transcript;
+          console.log("Transcript:", transcript);
+          setTranscript(transcript);
 
-        try {
-          const response = await axios.get(
-            "http://localhost:4000/api/districts",
-            {
-              params: { name: transcript },
-            }
-          );
-          console.log("Response Data:", response.data);
-
-          if (response.data && response.data.length > 0) {
-            const formattedData = response.data.map((district) => (
-              <div
-                key={district.district_id}
-                className="mb-4 p-4 border border-gray-300 rounded-lg shadow-sm text-right"
-              >
-                <h3 className="text-xl font-semibold mb-2 text-gray-700">
-                  {district.name}
-                </h3>
-                <p className="text-gray-700">
-                  <strong>المدينة:</strong> {district.city}
-                </p>
-                <p className="text-gray-700">
-                  <strong>عدد المقاعد:</strong> {district.number_of_seats}
-                </p>
-                <p className="text-gray-700">
-                  <strong>مقعد نسائي:</strong>{" "}
-                  {district.Female_seat ? "نعم" : "لا"}
-                </p>
-                <p className="text-gray-700">
-                  <strong>مقعد شركسي أو شيشاني:</strong>{" "}
-                  {district.Circassian_or_Chechen_seat ? "نعم" : "لا"}
-                </p>
-                <p className="text-gray-700">
-                  <strong>مقعد مسيحي:</strong>{" "}
-                  {district.Christian_seat ? "نعم" : "لا"}
-                </p>
-                <p className="text-gray-700">
-                  <strong>أصوات فارغة:</strong> {district.blankVotes}
-                </p>
-              </div>
-            ));
-            setModalContent(
-              <div>
-                <h2 className="text-2xl font-bold mb-4">نتائج البحث</h2>
-                {formattedData}
-              </div>
+          try {
+            const response = await axios.get(
+              "http://localhost:4000/api/districts",
+              {
+                params: { name: transcript },
+              }
             );
+            console.log("Response Data:", response.data);
+
+            if (response.data && response.data.length > 0) {
+              const formattedData = response.data.map((district) => (
+                <div
+                  key={district.district_id}
+                  className="mb-4 p-4 border border-gray-300 rounded-lg shadow-sm text-right"
+                >
+                  <h3 className="text-xl font-semibold mb-2 text-gray-700">
+                    {district.name}
+                  </h3>
+                  <p className="text-gray-700">
+                    <strong>المدينة:</strong> {district.city}
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>عدد المقاعد:</strong> {district.number_of_seats}
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>مقعد نسائي:</strong>{" "}
+                    {district.Female_seat ? "نعم" : "لا"}
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>مقعد شركسي أو شيشاني:</strong>{" "}
+                    {district.Circassian_or_Chechen_seat ? "نعم" : "لا"}
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>مقعد مسيحي:</strong>{" "}
+                    {district.Christian_seat ? "نعم" : "لا"}
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>أصوات فارغة:</strong> {district.blankVotes}
+                  </p>
+                </div>
+              ));
+              setModalContent(
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">نتائج البحث</h2>
+                  {formattedData}
+                </div>
+              );
+            } else {
+              setModalContent(
+                <div>
+                  <h2 className="text-2xl font-bold mb-4">
+                    لم يتم العثور على نتائج
+                  </h2>
+                  <p>لا توجد دوائر تتطابق مع معايير البحث.</p>
+                </div>
+              );
+            }
             setModalOpen(true);
-          } else {
+          } catch (error) {
+            console.error("Error fetching search results:", error);
             setModalContent(
               <div>
-                <h2 className="text-2xl font-bold mb-4">No Results Found</h2>
-                <p>No districts match the search criteria.</p>
+                <h2 className="text-2xl font-bold mb-4">خطأ</h2>
+                <p>حدث خطأ أثناء جلب نتائج البحث.</p>
               </div>
             );
             setModalOpen(true);
           }
-        } catch (error) {
-          console.error("Error fetching search results:", error);
-          setModalContent(
-            <div>
-              <h2 className="text-2xl font-bold mb-4">Error</h2>
-              <p>There was an error fetching the search results.</p>
-            </div>
-          );
-          setModalOpen(true);
-        }
+
+          // Reset the transcript and stop listening after each search
+          setTranscript("");
+          setIsListening(false);
+          recog.stop(); // Ensure recognition stops
+        };
+
+        recog.onerror = (event) => {
+          console.error("خطأ في التعرف على الصوت:", event.error);
+          setIsListening(false);
+        };
+
+        recog.onend = () => {
+          setIsListening(false);
+        };
+
+        return recog;
       };
 
-      recognition.onerror = (event) => {
-        console.error("خطأ في التعرف على الصوت:", event.error);
-        setIsListening(false);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
+      setRecognition(initRecognition());
     } else {
       console.error("Speech recognition is not supported.");
     }
