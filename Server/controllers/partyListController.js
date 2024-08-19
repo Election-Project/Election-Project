@@ -1,7 +1,9 @@
 const db = require("../models");
 const getPartyList = async (req, res) => {
   try {
-    const partyLists = await db.PartyList.findAll();
+    const partyLists = await db.PartyList.findAll({
+      where: { is_approved: true },
+    });
     res.json({ partyLists });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -31,4 +33,13 @@ const increaseVoteCounter = async (req, res) => {
   }
 };
 
-module.exports = { getPartyList, increaseVoteCounter };
+const createPartyList = async (req, res) => {
+  try {
+    const newPartyList = await db.PartyList.create(req.body);
+    res.json(newPartyList);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { getPartyList, increaseVoteCounter, createPartyList };

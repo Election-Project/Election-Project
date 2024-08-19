@@ -49,6 +49,11 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: false,
       },
+      is_commissioner: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+      },
     });
   },
 

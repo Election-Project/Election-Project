@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      is_approved: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
       name: {
         type: DataTypes.STRING(100),
         allowNull: false,

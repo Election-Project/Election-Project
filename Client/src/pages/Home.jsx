@@ -67,9 +67,7 @@ const Home = () => {
           skip: "تخطي",
         }}
         styles={{
-          options: {
-            zIndex: 10000,
-          },
+          options: {},
         }}
       />
       <HeroSection
