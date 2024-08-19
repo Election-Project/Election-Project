@@ -64,6 +64,13 @@ function ViewerPage() {
     });
   };
 
+  const handleExit = () => {
+    if (zpRef.current) {
+      zpRef.current.destroy();
+    }
+    navigate("/");
+  };
+
   useEffect(() => {
     myMeeting();
 
@@ -76,6 +83,14 @@ function ViewerPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      {joined && (
+        <button
+          onClick={handleExit}
+          className="mb-4 px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+        >
+          Exit
+        </button>
+      )}
       {!joined && (
         <header className="text-lg font-semibold text-gray-800 mb-4">
           Watching Live Stream
