@@ -4,6 +4,7 @@ import Popup from "../components/popup";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const VotingPage = () => {
   const [users, setUsers] = useState(null);
@@ -41,7 +42,7 @@ const VotingPage = () => {
       );
       console.log("localListData", localListData.data);
       const filteredLocalLists = Object.values(localListData.data)[0].filter(
-        list => {
+        (list) => {
           return list.district_id === usersData.data.user.district_id;
         }
       );
@@ -110,7 +111,7 @@ const VotingPage = () => {
               candidatesByListWithNames[listId] = {
                 id: listId,
                 candidates: [],
-                name: filteredLocalLists.find(list => list.list_id === listId)
+                name: filteredLocalLists.find((list) => list.list_id === listId)
                   .name,
               };
             }
@@ -153,18 +154,18 @@ const VotingPage = () => {
   console.log(lists);
   const selectedLists = lists[listtype];
 
-  const handleListClick = list => {
+  const handleListClick = (list) => {
     if (
       (listtype === "local" && isLocalVoted) ||
       (listtype === "party" && isPartyVoted)
     ) {
       return;
     }
-    setSelectedList(prevList =>
+    setSelectedList((prevList) =>
       prevList && prevList.id === list.id ? null : list
     );
     if (list.id !== selectedList?.id) {
-      setSelectedCandidates(prev => ({
+      setSelectedCandidates((prev) => ({
         [list.id]: prev[list.id] || {},
       }));
     }
@@ -180,7 +181,7 @@ const VotingPage = () => {
         (listtype === "party" && isPartyVoted)
       )
     ) {
-      setSelectedCandidates(prev => ({
+      setSelectedCandidates((prev) => ({
         ...prev,
         [listId]: {
           ...prev[listId],
@@ -230,11 +231,11 @@ const VotingPage = () => {
       console.log(`Voted for: ${selectedList.name}`);
       console.log(
         "Selected candidates:",
-        Object.keys(votedCandidates).filter(c => votedCandidates[c])
+        Object.keys(votedCandidates).filter((c) => votedCandidates[c])
       );
       if (listtype === "local") {
         if (
-          Object.keys(votedCandidates).filter(c => votedCandidates[c])
+          Object.keys(votedCandidates).filter((c) => votedCandidates[c])
             .length === 0
         ) {
           axios.post(
@@ -245,7 +246,7 @@ const VotingPage = () => {
           );
         } else {
           console.log(
-            Object.keys(votedCandidates).filter(c => votedCandidates[c])
+            Object.keys(votedCandidates).filter((c) => votedCandidates[c])
           );
           axios.post(
             `http://localhost:4000/api/is-vote-local/${users.user.national_id}`
@@ -256,21 +257,22 @@ const VotingPage = () => {
           for (
             let i = 0;
             i <
-            Object.keys(votedCandidates).filter(c => votedCandidates[c]).length;
+            Object.keys(votedCandidates).filter((c) => votedCandidates[c])
+              .length;
             i++
           ) {
             axios
               .get(
                 `http://localhost:4000/api/user-id/${
-                  Object.keys(votedCandidates).filter(c => votedCandidates[c])[
-                    i
-                  ]
+                  Object.keys(votedCandidates).filter(
+                    (c) => votedCandidates[c]
+                  )[i]
                 }`
               )
-              .then(res => {
+              .then((res) => {
                 return res.data.national_id;
               })
-              .then(national_id => {
+              .then((national_id) => {
                 axios.post(
                   `http://localhost:4000/api/candidate/vote/${national_id}`
                 );
@@ -300,7 +302,7 @@ const VotingPage = () => {
 
   return (
     <div
-      className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen bg-gradient-to-br from-green-500 via-white to-red-500 py-12 px-4 sm:px-6 lg:px-8"
       dir="rtl"
     >
       <Popup
@@ -310,24 +312,29 @@ const VotingPage = () => {
         isBlankVote={isBlankVote}
       />
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <ArrowRight className="mx-auto h-12 w-12 text-blue-500" />
-          <h1 className="mt-4 text-3xl font-bold text-gray-900">
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ArrowRight className="mx-auto h-12 w-12 text-white" />
+          <h1 className="mt-4 text-3xl font-bold text-black">
             {listtype === "local" ? "القوائم المحلية" : "قوائم الأحزاب"}
           </h1>
-          <p className="mt-2 text-lg text-gray-600">
+          <p className="mt-2 text-lg text-black">
             يرجى اختيار القائمة التي ترغب في التصويت لها
           </p>
           {((listtype === "local" && isLocalVoted) ||
             (listtype === "party" && isPartyVoted)) && (
-            <p className="mt-2 text-lg text-red-600 font-bold">
+            <p className="mt-2 text-lg text-yellow-600 font-bold">
               لقد قمت بالتصويت بالفعل لهذه القائمة. لا يمكنك التصويت مرة أخرى.
             </p>
           )}
-        </div>
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {selectedLists &&
-            selectedLists.map(list => {
+            selectedLists.map((list, index) => {
               const isSelected = selectedList && selectedList.id === list.id;
               const isDisabled =
                 (selectedList && selectedList.id !== list.id) ||
@@ -335,8 +342,17 @@ const VotingPage = () => {
                 (listtype === "party" && isPartyVoted);
 
               return (
-                <div
+                <motion.div
                   key={list.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: index * 0.2,
+                    duration: 0.5,
+                    ease: "easeOut",
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   className={`bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 ${
                     isDisabled
                       ? "opacity-50 scale-95"
@@ -344,26 +360,30 @@ const VotingPage = () => {
                   }`}
                 >
                   <div
-                    className="p-5 bg-gray-50 border-b cursor-pointer"
+                    className={`p-5 bg-gradient-to-r ${
+                      listtype === "local"
+                        ? "from-green-600 to-green-400"
+                        : "from-red-600 to-red-400"
+                    } border-b cursor-pointer`}
                     onClick={() => handleListClick(list)}
                   >
-                    <h3 className="text-lg font-semibold text-gray-900 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold text-white flex items-center justify-between">
                       <span className="flex items-center">
                         {listtype === "local" ? (
-                          <UserCircle className="ml-2 h-6 w-6 text-blue-500" />
+                          <UserCircle className="ml-2 h-6 w-6 text-white" />
                         ) : (
                           <div className="ml-2 text-2xl">{list.logo}</div>
                         )}
                         {list.name}
                       </span>
                       {isSelected && (
-                        <CheckCircle className="h-6 w-6 text-green-500" />
+                        <CheckCircle className="h-6 w-6 text-yellow-400" />
                       )}
                     </h3>
                   </div>
                   <div className="px-5 py-3">
                     {listtype === "local" && (
-                      <ul className="text-gray-600 list-none">
+                      <ul className="text-gray-800 list-none">
                         {list.candidates.map((candidate, index) => (
                           <li
                             key={index}
@@ -374,13 +394,13 @@ const VotingPage = () => {
                               className={`form-checkbox h-5 w-5 transition duration-150 ease-in-out ${
                                 isDisabled
                                   ? "text-gray-400 cursor-not-allowed"
-                                  : "text-blue-600"
+                                  : "text-green-600"
                               }`}
                               checked={
                                 selectedCandidates[list.id]?.[candidate] ||
                                 false
                               }
-                              onChange={e =>
+                              onChange={(e) =>
                                 handleCandidateClick(e, list.id, candidate)
                               }
                               disabled={isDisabled}
@@ -393,20 +413,25 @@ const VotingPage = () => {
                       </ul>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })}
         </div>
-        <div className="mt-8 text-center">
+        <motion.div
+          className="mt-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <button
-            className={`px-6 py-3 text-white rounded-md transition-all duration-300 ${
+            className={`px-6 py-3 text-white text-lg font-semibold rounded-full transition-all duration-300 ${
               !(
                 (listtype === "local" && isLocalVoted) ||
                 (listtype === "party" && isPartyVoted)
               )
-                ? "bg-blue-500 hover:bg-blue-600 transform hover:-translate-y-1"
+                ? "bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-4 focus:ring-green-300 transform hover:scale-105 hover:shadow-lg"
                 : "bg-gray-400 cursor-not-allowed"
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50`}
+            }`}
             onClick={handleVote}
             disabled={
               (listtype === "local" && isLocalVoted) ||
@@ -415,7 +440,7 @@ const VotingPage = () => {
           >
             {selectedList ? "التصويت للقائمة المختارة" : "التصويت"}
           </button>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
