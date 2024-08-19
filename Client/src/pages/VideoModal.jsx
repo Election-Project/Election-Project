@@ -44,7 +44,7 @@ const VideoModal = () => {
           className="w-[80px] h-[80px] p-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-500 transition duration-300 flex items-center justify-center overflow-hidden"
         >
           <video
-            src="https://cdn.pixabay.com/video/2024/07/14/221180_tiny.mp4"
+            src="./src/assets/img/vedu.mp4"
             type="video/mp4"
             className="w-full h-full object-cover rounded-full"
             autoPlay
@@ -80,10 +80,7 @@ const VideoModal = () => {
               </svg>
             </button>
             <video controls className="rounded w-full modal-video">
-              <source
-                src="https://cdn.pixabay.com/video/2024/07/14/221180_tiny.mp4"
-                type="video/mp4"
-              />
+              <source src="./src/assets/img/vedu.mp4" type="video/mp4" />
               متصفحك لا يدعم علامة الفيديو.
             </video>
           </div>
