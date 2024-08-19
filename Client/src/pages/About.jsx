@@ -10,7 +10,17 @@ const Section = ({ title, children, id }) => (
     <h2 className="text-2xl font-bold mb-6 text-green-900 border-b-2 border-red-700 pb-2 inline-block mr-4">
       {title}
     </h2>
-    <div className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
+    <div className="bg-white rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg relative">
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          background: "rgba(255, 255, 255, 0.001)",
+        }}
+      ></div>
       {children}
     </div>
   </section>
@@ -60,6 +70,7 @@ const StatCard = ({ icon, title, value }) => (
 
 const About = () => {
   const [activeSection, setActiveSection] = useState(null);
+  const [isBlurred, setIsBlurred] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,6 +96,38 @@ const About = () => {
     section.scrollIntoView({ behavior: "smooth" });
   };
 
+  useEffect(() => {
+    const handleRightClick = (e) => {
+      e.preventDefault();
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey && (e.key === "u" || e.key === "c")) {
+        e.preventDefault();
+        setIsBlurred(true);
+        setTimeout(() => setIsBlurred(false), 2000);
+      }
+      if (e.key === "PrintScreen") {
+        e.preventDefault();
+        setIsBlurred(true);
+        setTimeout(() => setIsBlurred(false), 2000);
+        alert("لا يمكنك أخذ لقطة شاشة لهذه الصفحة.");
+      }
+    };
+
+    const handleClick = () => {};
+
+    document.addEventListener("contextmenu", handleRightClick);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("click", handleClick);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleRightClick);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   const navItems = [
     { id: "overview", label: "نظرة عامة" },
     { id: "statistics", label: "إحصائيات" },
@@ -96,7 +139,11 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50 text-gray-800">
+    <div
+      className={`min-h-screen bg-gradient-to-br from-gray-50 to-green-50 text-gray-800 ${
+        isBlurred ? "blur-sm" : ""
+      }`}
+    >
       <header className="bg-gradient-to-r from-red-900 to-green-800 text-white py-6 fixed w-full z-10 shadow-lg">
         <div className="container mx-auto px-4">
           <nav className="flex justify-center space-x-1 rtl:space-x-reverse overflow-x-auto">
@@ -174,14 +221,14 @@ const About = () => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 p-4">
               <p className="text-sm leading-relaxed text-gray-700">
-                ينقسم الأردن إلى 23 دائرة انتخابية، موزعة على 12 محافظة. تختلف
-                كل دائرة في عدد المقاعد المخصصة لها بناءً على الكثافة السكانية
-                والتمثيل الجغرافي.
+                يتم تقسيم الأردن إلى دوائر انتخابية متعددة، لكل منها عدد محدد من
+                المقاعد البرلمانية. تتيح هذه الدوائر تمثيلاً جغرافياً متوازناً
+                لمختلف مناطق المملكة.
               </p>
             </div>
             <div className="md:w-1/2 h-48 relative overflow-hidden rounded-lg shadow-md">
               <img
-                src={voter2}
+                src={voter4}
                 alt="الدوائر الانتخابية في الأردن"
                 className="w-full h-full object-contain"
               />
@@ -190,61 +237,64 @@ const About = () => {
         </Section>
 
         <Section title="مراحل العملية الانتخابية" id="process">
-          <ol className="space-y-3 text-sm">
-            {[
-              "تسجيل الناخبين وتحديث سجلات الناخبين",
-              "إعلان موعد الانتخابات وفتح باب الترشح",
-              "فترة الحملات الانتخابية",
-              "يوم الاقتراع",
-              "فرز الأصوات وإعلان النتائج",
-            ].map((step, index) => (
-              <li
-                key={index}
-                className="bg-gradient-to-r from-white to-green-50 p-4 rounded-lg shadow-sm flex items-center transition-all duration-300 hover:shadow-md hover:translate-x-1"
-              >
-                <span className="text-lg font-bold text-red-700 mr-4 bg-white w-8 h-8 rounded-full flex items-center justify-center shadow-sm">
-                  {index + 1}
-                </span>
-                {step}
-              </li>
-            ))}
-          </ol>
-        </Section>
-
-        <Section title="أسئلة شائعة" id="faq">
-          <AccordionItem
-            question="ما هي شروط الترشح للانتخابات البرلمانية؟"
-            answer="يجب أن يكون المرشح أردني الجنسية، أتم 30 عامًا، غير محكوم بجناية أو جنحة مخلة بالشرف، وأن يكون مسجلاً في أحد جداول الانتخاب."
-          />
-          <AccordionItem
-            question="كيف يتم توزيع المقاعد في البرلمان؟"
-            answer="يتم توزيع المقاعد بناءً على نسبة الأصوات التي تحصل عليها كل قائمة، مع مراعاة الكوتا المخصصة للنساء والأقليات."
-          />
-          <AccordionItem
-            question="ما هو دور الهيئة المستقلة للانتخاب؟"
-            answer="الهيئة المستقلة للانتخاب هي الجهة المسؤولة عن إدارة العملية الانتخابية وضمان نزاهتها، بدءًا من تسجيل الناخبين وحتى إعلان النتائج النهائية."
-          />
-        </Section>
-
-        <Section title="المشاركة في الانتخابات" id="participation">
           <div className="flex flex-col md:flex-row-reverse items-center">
             <div className="md:w-1/2 p-4">
               <p className="text-sm leading-relaxed text-gray-700">
-                المشاركة في الانتخابات حق وواجب وطني. تساهم مشاركتك في تشكيل
-                مستقبل الأردن وتعزيز الديمقراطية. تأكد من تسجيلك كناخب والإدلاء
-                بصوتك في يوم الانتخابات.
+                تبدأ العملية الانتخابية في الأردن بالتسجيل الانتخابي، يليها
+                تقديم الترشيحات، ثم الحملة الانتخابية والتصويت، وأخيراً فرز
+                الأصوات وإعلان النتائج.
               </p>
             </div>
             <div className="md:w-1/2 h-48 relative overflow-hidden rounded-lg shadow-md">
               <img
-                src={voter4}
-                alt="المشاركة في الانتخابات في الأردن"
+                src={voter2}
+                alt="مراحل العملية الانتخابية في الأردن"
                 className="w-full h-full object-contain"
               />
             </div>
           </div>
         </Section>
+
+        <Section title="أسئلة شائعة" id="faq">
+          <AccordionItem
+            question="ما هو النظام الانتخابي المتبع في الأردن؟"
+            answer="النظام المتبع هو نظام القائمة النسبية المفتوحة، حيث يمكن للناخبين اختيار قائمة حزبية والتصويت لمرشحين محددين ضمن تلك القائمة."
+          />
+          <AccordionItem
+            question="كيف يتم تقسيم الدوائر الانتخابية؟"
+            answer="يتم تقسيم الأردن إلى دوائر انتخابية متعددة، لكل منها عدد محدد من المقاعد البرلمانية."
+          />
+          <AccordionItem
+            question="ما هي نسبة المشاركة في الانتخابات الأخيرة؟"
+            answer="نسبة المشاركة في الانتخابات الأخيرة كانت 29.9%."
+          />
+          <AccordionItem
+            question="كم عدد المقاعد البرلمانية في الأردن؟"
+            answer="يبلغ عدد المقاعد البرلمانية في الأردن 130 مقعداً."
+          />
+        </Section>
+
+        <Section title="المشاركة في الانتخابات" id="participation">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-sm leading-relaxed text-gray-700 mb-4">
+              المشاركة في الانتخابات تتيح للأفراد الفرصة للمساهمة في تشكيل
+              مستقبل بلدهم. تعتبر الانتخابات فرصة مهمة للتعبير عن الرأي
+              والمشاركة في اتخاذ القرار.
+            </p>
+            <button className="bg-red-700 text-white py-2 px-4 rounded-full transition-all duration-300 hover:bg-green-800">
+              انضم الآن
+            </button>
+          </div>
+        </Section>
       </main>
+
+      {/* Overlay Div */}
+      {isBlurred && (
+        <div
+          className="absolute inset-0 bg-white opacity-50"
+          style={{ zIndex: 9999 }}
+        ></div>
+      )}
     </div>
   );
 };
