@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   BarChart,
   Bar,
@@ -13,8 +14,32 @@ import {
   Cell,
 } from "recharts";
 
-import axios from "axios";
-import { useEffect } from "react";
+const CustomAlert = ({ isOpen, onClose, onConfirm, message }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold mb-4">{message}</h2>
+        <div className="flex justify-end space-x-4">
+          <button
+            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+            onClick={onClose}
+          >
+            إلغاء
+          </button>
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            onClick={onConfirm}
+          >
+            نعم، موافق
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const DashboardCard = ({ title, value, description }) => (
   <div className="bg-white rounded-lg shadow-md p-6 border-r-4 border-blue-500">
     <div className="flex flex-row items-center justify-between pb-2">
@@ -75,10 +100,7 @@ const DistrictTable = ({ districts }) => (
             اسم الدائرة
           </th>
           <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            الناخبون المسجلون
-          </th>
-          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            نسبة الإقبال
+            عدد المقاعد
           </th>
         </tr>
       </thead>
@@ -91,155 +113,227 @@ const DistrictTable = ({ districts }) => (
             <td className="px-6 py-4 whitespace-nowrap text-right">
               {district.registeredVoters.toLocaleString()}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-right">
-              <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                {district.voterTurnout}%
-              </span>
-            </td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
 );
-const approveAd = async id => {
-  try {
-    await axios.put(`http://localhost:4000/api/advertisements/${id}/activate`);
-  } catch (error) {
-    console.error("Error approving ad:", error);
-  }
-};
-const AdsList = ({ ads }) => (
-  <div className="space-y-4">
-    {ads.map((ad, index) => (
-      <div
-        key={index}
-        className="bg-white shadow-md rounded-lg p-6 border-r-4 border-yellow-500"
-      >
-        <h3 className="text-xl font-semibold mb-2 text-gray-800">{ad.title}</h3>
-        <p className="mb-4 text-gray-600">{ad.description}</p>
-        <button
-          className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300"
-          onClick={() => approveAd(ad.id)}
-        >
-          موافقة
-        </button>
-      </div>
-    ))}
-  </div>
-);
 
-const ListsTable = ({ lists, type }) => (
-  <div className="overflow-x-auto">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
-        <tr>
-          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            اسم القائمة
-          </th>
-          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            النوع
-          </th>
-          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            الحالة
-          </th>
-          <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-            الإجراء
-          </th>
-        </tr>
-      </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
-        {lists
-          .filter(list => list.type === type)
-          .map((list, index) => (
-            <tr key={index}>
-              <td className="px-6 py-4 whitespace-nowrap text-right">
-                {list.name}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right">
-                {list.type === "local" ? "محلية" : "حزبية"}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right">
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                  {list.status === "Pending" ? "قيد الانتظار" : list.status}
-                </span>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-right">
-                <button className="text-green-600 hover:text-green-900">
-                  موافقة
-                </button>
-              </td>
-            </tr>
-          ))}
-      </tbody>
-    </table>
-  </div>
-);
+const AdsList = ({ ads, onAdApproved }) => {
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [currentAd, setCurrentAd] = useState(null);
+
+  const handleApproveClick = ad => {
+    setCurrentAd(ad);
+    setAlertOpen(true);
+  };
+
+  const handleConfirm = async () => {
+    if (currentAd) {
+      try {
+        await axios.put(
+          `http://localhost:4000/api/advertisements/${currentAd.id}/activate`
+        );
+        onAdApproved(currentAd.id);
+      } catch (error) {
+        console.error("Error approving ad:", error);
+      }
+    }
+    setAlertOpen(false);
+  };
+
+  return (
+    <div className="space-y-4">
+      {ads.map((ad, index) => (
+        <div
+          key={index}
+          className="bg-white shadow-md rounded-lg p-6 border-r-4 border-yellow-500"
+        >
+          <h3 className="text-xl font-semibold mb-2 text-gray-800">
+            {ad.title}
+          </h3>
+          <p className="mb-4 text-gray-600">{ad.description}</p>
+          <button
+            className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300"
+            onClick={() => handleApproveClick(ad)}
+          >
+            موافقة
+          </button>
+        </div>
+      ))}
+      <CustomAlert
+        isOpen={alertOpen}
+        onClose={() => setAlertOpen(false)}
+        onConfirm={handleConfirm}
+        message="هل أنت متأكد من الموافقة على هذا الإعلان؟"
+      />
+    </div>
+  );
+};
+
+const ListsTable = ({ lists, type }) => {
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [currentList, setCurrentList] = useState(null);
+  const [currentListType, setCurrentListType] = useState(null);
+  const handleApproveClick = (id, type) => {
+    setCurrentList(id);
+    setAlertOpen(true);
+    setCurrentListType(type);
+  };
+  const handleConfirm = async () => {
+    if (currentList) {
+      try {
+        await axios.put(
+          `http://localhost:4000/api/${currentListType}-list/${currentList}/approve`
+        );
+        setCurrentList(null);
+      } catch (error) {
+        console.error("Error approving list:", error);
+      }
+    }
+    setAlertOpen(false);
+  };
+  return (
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              اسم القائمة
+            </th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              النوع
+            </th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              الحالة
+            </th>
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              الإجراء
+            </th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {lists
+            .filter(list => list.type === type)
+            .map((list, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  {list.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  {list.type === "local" ? "محلية" : "حزبية"}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    {list.status === "Pending" ? "قيد الانتظار" : list.status}
+                  </span>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-right">
+                  <button
+                    className="text-green-600 hover:text-green-900"
+                    onClick={() => handleApproveClick(list.id, list.type)}
+                  >
+                    موافقة
+                  </button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
+      <CustomAlert
+        isOpen={alertOpen}
+        onClose={() => setAlertOpen(false)}
+        onConfirm={handleConfirm}
+        message="هل أنت متأكد من الموافقة على هذه القائمة؟"
+      />
+    </div>
+  );
+};
 
 const Dashboard = () => {
+  const [activeTab, setActiveTab] = useState("overview");
+  const [activeListTab, setActiveListTab] = useState("local");
   const [voterCount, setVoterCount] = useState(null);
   const [districtCount, setDistrictCount] = useState(null);
   const [votedLocalPercentage, setVotedLocalPercentage] = useState(null);
-  const [ads1, setAds] = useState([]);
+  const [ads, setAds] = useState([]);
+  const [lists, setLists] = useState([]);
+  const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
-    const getAllAdvertisementsInActive = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:4000/api/advertisements-inactive"
+        const [
+          voterCountResponse,
+          districtCountResponse,
+          voteCountResponse,
+          adsResponse,
+          localListsResponse,
+          partyListsResponse,
+          districtsResponse,
+        ] = await Promise.all([
+          axios.get("http://localhost:4000/api/user-count"),
+          axios.get("http://localhost:4000/api/districts/count"),
+          axios.get("http://localhost:4000/api/voted-local-percentage"),
+          axios.get("http://localhost:4000/api/advertisements-inactive"),
+          axios.get("http://localhost:4000/api/local-list/get-not-approved"),
+          axios.get("http://localhost:4000/api/party-list/get-not-approved"),
+          axios.get("http://localhost:4000/api/districts/all"),
+        ]);
+
+        setVoterCount(voterCountResponse.data.count);
+        setDistrictCount(districtCountResponse.data.count);
+        setVotedLocalPercentage(voteCountResponse.data.percentage);
+        // const districts = [
+        //   { name: "الدائرة أ", registeredVoters: 100000 },
+        //   { name: "الدائرة ب", registeredVoters: 80000 },
+        //   { name: "الدائرة ج", registeredVoters: 120000 },
+        // ];
+        setDistricts(
+          districtsResponse.data.map(district => ({
+            name: district.name,
+            registeredVoters: district.number_of_seats,
+          }))
         );
-        console.log(response.data);
-        setAds(response.data);
-      } catch (error) {
-        console.error("Error fetching inactive advertisements:", error);
-      }
-    };
-    const fetchVoterCount = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/user-count"
+        setLists(
+          localListsResponse.data.localLists.map(list => ({
+            id: list.list_id,
+            name: list.name,
+            type: "local",
+            status: "Pending",
+          }))
         );
-        setVoterCount(response.data.count);
+        setLists(prevLists => [
+          ...prevLists,
+          ...partyListsResponse.data.partyLists.map(list => ({
+            id: list.list_id,
+            name: list.name,
+            type: "party",
+            status: "Pending",
+          })),
+        ]);
+        setAds(
+          adsResponse.data.map(ad => ({
+            id: ad.ad_id,
+            title: ad.name,
+            description: ad.description,
+          }))
+        );
       } catch (error) {
-        console.error("Error fetching voter count:", error);
+        console.error("Error fetching data:", error);
       }
     };
 
-    const fetchDistrictCount = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/districts/count"
-        );
-        setDistrictCount(response.data.count);
-      } catch (error) {
-        console.error("Error fetching district count:", error);
-      }
-    };
-    const fetchVoteCount = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/voted-local-percentage"
-        );
-        console.log(response.data.percentage);
-        setVotedLocalPercentage(response.data.percentage);
-      } catch (error) {
-        console.error("Error fetching district count:", error);
-      }
-    };
+    fetchData();
+  }, [ads]);
 
-    fetchVoterCount();
-    fetchDistrictCount();
-    fetchVoteCount();
-    getAllAdvertisementsInActive();
-  }, []);
-  const [activeTab, setActiveTab] = useState("overview");
-  const [activeListTab, setActiveListTab] = useState("local");
-
-  // Mock data (replace with real data in production)
   const overviewData = {
-    registeredVoters: voterCount && voterCount,
-    districts: districtCount && districtCount,
-    localVoterTurnout: votedLocalPercentage && votedLocalPercentage.toFixed(2),
+    registeredVoters: voterCount,
+    districts: districtCount,
+    localVoterTurnout: votedLocalPercentage
+      ? votedLocalPercentage.toFixed(2)
+      : null,
   };
 
   const chartData = [
@@ -254,25 +348,11 @@ const Dashboard = () => {
     { name: "لم يصوتوا", value: 25 },
   ];
 
-  const districts = [
-    { name: "الدائرة أ", registeredVoters: 100000, voterTurnout: 75 },
-    { name: "الدائرة ب", registeredVoters: 80000, voterTurnout: 70 },
-    { name: "الدائرة ج", registeredVoters: 120000, voterTurnout: 80 },
-  ];
-  // const ads = [
-  //   { title: "إعلان 1", description: "وصف الإعلان 1" },
-  //   { title: "إعلان 2", description: "وصف الإعلان 2" },
+  // const districts = [
+  //   { name: "الدائرة أ", registeredVoters: 100000 },
+  //   { name: "الدائرة ب", registeredVoters: 80000 },
+  //   { name: "الدائرة ج", registeredVoters: 120000 },
   // ];
-  const ads = [];
-  ads1.map(ad => {
-    ads.push({ id: ad.ad_id, title: ad.name, description: ad.description });
-  });
-
-  const lists = [
-    { name: "القائمة المحلية 1", type: "local", status: "Pending" },
-    { name: "القائمة الحزبية 1", type: "party", status: "Pending" },
-    { name: "القائمة المحلية 2", type: "local", status: "Pending" },
-  ];
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen" dir="rtl">
@@ -319,6 +399,16 @@ const Dashboard = () => {
           onClick={() => setActiveTab("lists")}
         >
           القوائم
+        </button>
+        <button
+          className={`px-6 py-2 rounded-full ${
+            activeTab === "results"
+              ? "bg-blue-500 text-white"
+              : "bg-white text-blue-500"
+          }`}
+          onClick={() => setActiveTab("results")}
+        >
+          النتائج
         </button>
       </div>
 
@@ -406,6 +496,15 @@ const Dashboard = () => {
             </h2>
             <ListsTable lists={lists} type={activeListTab} />
           </div>
+        </div>
+      )}
+      {activeTab === "results" && (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <iframe
+            src="http://localhost:5173/Electionresult"
+            style={{ width: "100%", height: "100vh", border: "none" }}
+            title="Election Result"
+          ></iframe>
         </div>
       )}
     </div>

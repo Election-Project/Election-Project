@@ -12,6 +12,16 @@ const getDistrictByName = async (req, res) => {
   }
 };
 
+const allDistricts = async (req, res) => {
+  try {
+    const districts = await ElectoralDistrict.findAll();
+    res.status(200).json(districts);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve districts" });
+  }
+};
+
 module.exports = {
   getDistrictByName,
+  allDistricts,
 };
