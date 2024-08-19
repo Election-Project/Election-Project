@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       national_id: {
         type: DataTypes.STRING,
         primaryKey: true,
-        allowNull: false, // Ensure this is set as NOT NULL
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING,

@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../Rooms/Rooms.css";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 
@@ -13,8 +12,8 @@ function Room() {
   const [callType, setCallType] = useState("");
 
   const myMeeting = (type) => {
-    const appID = 1457610972;
-    const serverSecret = "995c7b15cc26ecc235dd0db2261bb86f";
+    const appID = 267667667;
+    const serverSecret = "bc152682ffa22937ccf0af51b10c3513";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,

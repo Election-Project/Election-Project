@@ -5,7 +5,6 @@ const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const contactRoutes = require("./routes/contact");
 const candidateRoutes = require("./routes/candidateRouter");
-const electionRoutes = require("./routes/electionRouter");
 const partyList = require("./routes/partyListRouter");
 const chatRoutes = require("./routes/chatRoutes");
 const electoralDistrictRoutes = require("./routes/electoralDistrictRoutes");
@@ -14,6 +13,8 @@ const localList = require("./routes/localListRouter");
 const paymentRoutes = require("./routes/paymentRoutes");
 const partyListCandidate = require("./routes/partyListCandidateRoutes");
 const districtRoutes = require("./routes/districtRoutes");
+
+const electionRoutes = require("./routes/electionRouter");
 
 // Configure CORS
 app.use(

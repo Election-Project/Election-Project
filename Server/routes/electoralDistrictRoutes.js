@@ -8,4 +8,6 @@ router.get(
   electoralDistrictController.getElectoralDistrictCount
 );
 
+router.get("/search", electoralDistrictController.searchElectoralDistricts);
+
 module.exports = router;

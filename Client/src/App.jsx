@@ -32,6 +32,9 @@ import PartyListNominationForm from "./pages/PartyListNominationForm";
 import News from "./pages/news";
 import Room from "./components/Rooms/Rooms";
 import LiveStreem from "./components/LiveStreem/LiveStreem";
+import ViewerPage from "./components/testLive/ViewerPage";
+import DebateRoom from "./components/testLive/DebateRoom";
+import VideoModal from "./pages/VideoModal";
 
 function App() {
   const { login } = useAuth();
@@ -53,14 +56,9 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
-
-            <Route
-              path="/party-list-nomination"
-              element={<PartyListNominationForm />}
-            />
-
-            <Route path="LiveStrem/room/:roomId" element={<Room />} />
-            <Route path="/LiveStrem" element={<LiveStreem />} />
+            <Route path="/LiveStreem" element={<LiveStreem />} />
+            <Route path="/viewer/:roomId" element={<ViewerPage />} />
+            <Route path="/debate/:roomId" element={<DebateRoom />} />
 
             <Route path="/nomination" element={<NominationForm />} />
             <Route path="/contact" element={<ContactForm />} />
@@ -72,7 +70,6 @@ function App() {
               element={<AdvertisementView />}
             />
             <Route path="/BillAds" element={<BillAds />} />
-
             {/* Public Routes for non-authenticated users */}
             <Route
               path="/login-otp"
@@ -99,7 +96,6 @@ function App() {
               path="/reset-password"
               element={<PublicRoute element={<PasswordReset />} />}
             />
-
             {/* Uncomment and use if needed */}
             <Route path="/billboard" element={<BillboardDesignPage />} />
             <Route path="/result" element={<ElectionResults />} />
@@ -108,6 +104,7 @@ function App() {
             <Route path="/About" element={<About />} />
             <Route path="/news" element={<News />} />
           </Routes>
+          <VideoModal />
           <ChatWidget />
           <Foot />
         </div>
