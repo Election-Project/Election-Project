@@ -13,6 +13,8 @@ import {
   Cell,
 } from "recharts";
 
+import axios from "axios";
+import { useEffect } from "react";
 const DashboardCard = ({ title, value, description }) => (
   <div className="bg-white rounded-lg shadow-md p-6 border-r-4 border-blue-500">
     <div className="flex flex-row items-center justify-between pb-2">
@@ -100,7 +102,13 @@ const DistrictTable = ({ districts }) => (
     </table>
   </div>
 );
-
+const approveAd = async id => {
+  try {
+    await axios.put(`http://localhost:4000/api/advertisements/${id}/activate`);
+  } catch (error) {
+    console.error("Error approving ad:", error);
+  }
+};
 const AdsList = ({ ads }) => (
   <div className="space-y-4">
     {ads.map((ad, index) => (
@@ -110,7 +118,10 @@ const AdsList = ({ ads }) => (
       >
         <h3 className="text-xl font-semibold mb-2 text-gray-800">{ad.title}</h3>
         <p className="mb-4 text-gray-600">{ad.description}</p>
-        <button className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300">
+        <button
+          className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-600 transition duration-300"
+          onClick={() => approveAd(ad.id)}
+        >
           موافقة
         </button>
       </div>
@@ -166,14 +177,69 @@ const ListsTable = ({ lists, type }) => (
 );
 
 const Dashboard = () => {
+  const [voterCount, setVoterCount] = useState(null);
+  const [districtCount, setDistrictCount] = useState(null);
+  const [votedLocalPercentage, setVotedLocalPercentage] = useState(null);
+  const [ads1, setAds] = useState([]);
+
+  useEffect(() => {
+    const getAllAdvertisementsInActive = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/advertisements-inactive"
+        );
+        console.log(response.data);
+        setAds(response.data);
+      } catch (error) {
+        console.error("Error fetching inactive advertisements:", error);
+      }
+    };
+    const fetchVoterCount = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/user-count"
+        );
+        setVoterCount(response.data.count);
+      } catch (error) {
+        console.error("Error fetching voter count:", error);
+      }
+    };
+
+    const fetchDistrictCount = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/districts/count"
+        );
+        setDistrictCount(response.data.count);
+      } catch (error) {
+        console.error("Error fetching district count:", error);
+      }
+    };
+    const fetchVoteCount = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/voted-local-percentage"
+        );
+        console.log(response.data.percentage);
+        setVotedLocalPercentage(response.data.percentage);
+      } catch (error) {
+        console.error("Error fetching district count:", error);
+      }
+    };
+
+    fetchVoterCount();
+    fetchDistrictCount();
+    fetchVoteCount();
+    getAllAdvertisementsInActive();
+  }, []);
   const [activeTab, setActiveTab] = useState("overview");
   const [activeListTab, setActiveListTab] = useState("local");
 
   // Mock data (replace with real data in production)
   const overviewData = {
-    registeredVoters: 1000000,
-    districts: 50,
-    localVoterTurnout: 75,
+    registeredVoters: voterCount && voterCount,
+    districts: districtCount && districtCount,
+    localVoterTurnout: votedLocalPercentage && votedLocalPercentage.toFixed(2),
   };
 
   const chartData = [
@@ -193,11 +259,14 @@ const Dashboard = () => {
     { name: "الدائرة ب", registeredVoters: 80000, voterTurnout: 70 },
     { name: "الدائرة ج", registeredVoters: 120000, voterTurnout: 80 },
   ];
-
-  const ads = [
-    { title: "إعلان 1", description: "وصف الإعلان 1" },
-    { title: "إعلان 2", description: "وصف الإعلان 2" },
-  ];
+  // const ads = [
+  //   { title: "إعلان 1", description: "وصف الإعلان 1" },
+  //   { title: "إعلان 2", description: "وصف الإعلان 2" },
+  // ];
+  const ads = [];
+  ads1.map(ad => {
+    ads.push({ id: ad.ad_id, title: ad.name, description: ad.description });
+  });
 
   const lists = [
     { name: "القائمة المحلية 1", type: "local", status: "Pending" },
@@ -258,7 +327,7 @@ const Dashboard = () => {
           <div className="grid gap-6 md:grid-cols-3 mb-8">
             <DashboardCard
               title="الناخبون المسجلون"
-              value={overviewData.registeredVoters.toLocaleString()}
+              value={overviewData.registeredVoters}
               description="إجمالي عدد الناخبين المسجلين"
             />
             <DashboardCard

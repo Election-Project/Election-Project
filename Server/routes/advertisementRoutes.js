@@ -9,6 +9,10 @@ router.get(
   AdvertisementController.getAllAdvertisementsActive
 );
 router.get("/advertisements", AdvertisementController.getAllAdvertisements);
+router.get(
+  "/advertisements-inactive",
+  AdvertisementController.getAllAdvertisementsInActive
+);
 
 // Route to get a specific advertisement by ID
 router.get(
@@ -33,6 +37,11 @@ router.delete(
 router.put(
   "/advertisements/:ad_id/status",
   AdvertisementController.updateAdvertisementStatus
+);
+
+router.put(
+  "/advertisements/:ad_id/activate",
+  AdvertisementController.makeAdvertisementFromInactiveToActive
 );
 
 module.exports = router;
