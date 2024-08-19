@@ -109,8 +109,6 @@ const About = () => {
       }
       if (e.key === "PrintScreen") {
         e.preventDefault();
-        setIsBlurred(true);
-        setTimeout(() => setIsBlurred(false), 2000);
         alert("لا يمكنك أخذ لقطة شاشة لهذه الصفحة.");
       }
     };
@@ -287,14 +285,6 @@ const About = () => {
           </div>
         </Section>
       </main>
-
-      {/* Overlay Div */}
-      {isBlurred && (
-        <div
-          className="absolute inset-0 bg-white opacity-50"
-          style={{ zIndex: 9999 }}
-        ></div>
-      )}
     </div>
   );
 };
