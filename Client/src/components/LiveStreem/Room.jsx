@@ -9,21 +9,38 @@ function Room() {
   const zpRef = useRef(null);
   const videoContainerRef = useRef(null);
   const [joined, setJoined] = useState(false);
-  const [callType, setCallType] = useState("");
+  const [role, setRole] = useState("");
 
-  const myMeeting = (type) => {
-    const appID = 267667667;
-    const serverSecret = "bc152682ffa22937ccf0af51b10c3513";
+  const myMeeting = (role) => {
+    const appID = 1457610972;
+    const serverSecret = "995c7b15cc26ecc235dd0db2261bb86f";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
       appID,
       serverSecret,
       roomId,
       Date.now().toString(),
-      "Islam"
+      role === "host" ? "Host" : "Viewer"
     );
 
     const zp = ZegoUIKitPrebuilt.create(kitToken);
     zpRef.current = zp;
+
+    let scenario;
+    if (role === "host") {
+      scenario = {
+        mode: ZegoUIKitPrebuilt.LiveStreaming,
+        config: {
+          maxUsers: 100,
+        },
+      };
+    } else if (role === "viewer") {
+      scenario = {
+        mode: ZegoUIKitPrebuilt.OneONoneCall,
+        config: {
+          maxUsers: 2,
+        },
+      };
+    }
 
     zp.joinRoom({
       container: videoContainerRef.current,
@@ -35,17 +52,11 @@ function Room() {
             "//" +
             window.location.host +
             window.location.pathname +
-            "?type=" +
-            encodeURIComponent(type),
+            "?role=" +
+            encodeURIComponent(role),
         },
       ],
-      scenario: {
-        mode:
-          type === "one-on-one"
-            ? ZegoUIKitPrebuilt.OneONoneCall
-            : ZegoUIKitPrebuilt.GroupCall,
-      },
-      maxUsers: type === "one-on-one" ? 2 : 10,
+      scenario,
       onJoinRoom: () => {
         setJoined(true);
       },
@@ -55,7 +66,6 @@ function Room() {
     });
   };
 
-  // Handle exit from the room
   const handleExit = () => {
     if (zpRef.current) {
       zpRef.current.destroy();
@@ -63,43 +73,38 @@ function Room() {
     navigate("/");
   };
 
-  // On component mount, extract call type from location and initialize meeting
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const type = query.get("type");
+    const role = query.get("role");
 
-    setCallType(type); // Update state with call type
+    setRole(role);
   }, [location.search]);
 
-  // Initialize meeting after callType state is set
   useEffect(() => {
-    if (callType) {
-      myMeeting(callType);
+    if (role) {
+      myMeeting(role);
     }
 
-    // Cleanup function for component unmount
     return () => {
       if (zpRef.current) {
         zpRef.current.destroy();
       }
     };
-  }, [callType, roomId, navigate]);
+  }, [role, roomId, navigate]);
 
   return (
-    <div className="room-container">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {!joined && (
         <>
-          <header className="room-header">
-            {callType === "one-on-one"
-              ? "One-on-One Video Call"
-              : "Group Video Call"}
+          <header className="text-2xl font-semibold mb-4 text-gray-800">
+            {role === "host" ? "Live Streaming" : "Viewing Stream"}
           </header>
-          <button className="exit-button" onClick={handleExit}>
-            Exit
-          </button>
         </>
       )}
-      <div ref={videoContainerRef} className="video-container" />
+      <div
+        ref={videoContainerRef}
+        className=" rounded-xl border w-full border-gray-300 mt-4"
+      />
     </div>
   );
 }
