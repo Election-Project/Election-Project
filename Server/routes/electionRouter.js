@@ -1,11 +1,10 @@
-const {
-  increaseBlankVote,
-  increasePartyBlankVote,
-} = require("../controllers/electionController");
+// routes/electionRoutes.js
+
 const express = require("express");
-const electionRouter = express.Router();
+const router = express.Router();
+const { getPartyListResults } = require("../controllers/electionController");
 
-electionRouter.post("/district/:id/", increaseBlankVote);
-electionRouter.post("/party/", increasePartyBlankVote);
+// Route to get party list results
+router.get("/district/:districtId/results", getPartyListResults);
 
-module.exports = electionRouter;
+module.exports = router;

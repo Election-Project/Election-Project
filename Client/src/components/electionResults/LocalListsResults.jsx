@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import * as XLSX from "xlsx";
 
 function useFetchLocalListResults(selectedDistrict) {
   const [localListResults, setLocalListResults] = useState([]);
@@ -17,7 +18,6 @@ function useFetchLocalListResults(selectedDistrict) {
       setError(null);
 
       try {
-        // Fetch the district ID based on the selected district name
         const { data: districtData } = await axios.get(
           "http://localhost:4000/api/districts",
           { params: { name: selectedDistrict } }
@@ -25,7 +25,6 @@ function useFetchLocalListResults(selectedDistrict) {
         const districtId = districtData[0]?.district_id;
 
         if (districtId) {
-          // Fetch the local list results based on the district ID
           const { data: resultsData } = await axios.get(
             `http://localhost:4000/api/candidates/details/${districtId}`
           );
@@ -50,6 +49,24 @@ function useFetchLocalListResults(selectedDistrict) {
 function LocalListsResults({ selectedDistrict }) {
   const { localListResults, loading, error } =
     useFetchLocalListResults(selectedDistrict);
+
+  const handleExport = () => {
+    // Prepare the data for export
+    const dataToExport = localListResults.map((candidate) => ({
+      User: candidate.User?.full_name || "اسم غير متوفر",
+      Votes: candidate.votes || "غير متوفر",
+      Religion: candidate.religion || "غير متوفر",
+      Gender: candidate.gender || "غير متوفر",
+    }));
+
+    // Convert the data to a worksheet
+    const ws = XLSX.utils.json_to_sheet(dataToExport, {
+      header: ["User", "Votes", "Religion", "Gender"],
+    });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Local List Results");
+    XLSX.writeFile(wb, "local_list_results.xlsx");
+  };
 
   if (loading) {
     return <div>جاري جلب النتائج...</div>;
@@ -77,6 +94,20 @@ function LocalListsResults({ selectedDistrict }) {
       }}
     >
       <h2 style={{ marginBottom: "8px" }}>نتائج القوائم المحلية</h2>
+      <button
+        onClick={handleExport}
+        style={{
+          marginBottom: "16px",
+          padding: "8px 16px",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+          cursor: "pointer",
+        }}
+      >
+        تصدير إلى Excel
+      </button>
       <table
         style={{ width: "100%", borderCollapse: "collapse" }}
         aria-label="Local List Results"
@@ -100,13 +131,13 @@ function LocalListsResults({ selectedDistrict }) {
                 {candidate.User?.full_name || "اسم غير متوفر"}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {candidate.votes}
+                {candidate.votes || "غير متوفر"}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {candidate.religion}
+                {candidate.religion || "غير متوفر"}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {candidate.gender}
+                {candidate.gender || "غير متوفر"}
               </td>
             </tr>
           ))}

@@ -157,9 +157,7 @@ const ElectionInfoSection = ({ className }) => {
               skip: "تخطي",
             }}
             styles={{
-              options: {
-                zIndex: 10000,
-              },
+              options: {},
               buttonBack: {
                 color: "#00000",
               },
@@ -256,7 +254,7 @@ const ElectionInfoSection = ({ className }) => {
                       </p>
                     </div>
                     <a
-                      href={`/district/${district.id}`}
+                      href=""
                       className={`absolute bottom-6 left-6 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg ${
                         district.isUserDistrict
                           ? "cursor-pointer"
