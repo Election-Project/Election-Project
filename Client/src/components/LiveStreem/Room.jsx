@@ -94,6 +94,14 @@ function Room() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      {joined && (
+        <button
+          onClick={handleExit}
+          className="mb-4 px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700"
+        >
+          Exit
+        </button>
+      )}
       {!joined && (
         <>
           <header className="text-2xl font-semibold mb-4 text-gray-800">
@@ -103,7 +111,7 @@ function Room() {
       )}
       <div
         ref={videoContainerRef}
-        className=" rounded-xl border w-full border-gray-300 mt-4"
+        className="rounded-xl border w-full border-gray-300 mt-4"
       />
     </div>
   );
