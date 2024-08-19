@@ -58,10 +58,11 @@ function Room() {
       ],
       scenario,
       onJoinRoom: () => {
+        console.log("Joined the room successfully");
         setJoined(true);
       },
       onLeaveRoom: () => {
-        navigate("/");
+        handleExit(); // Call handleExit when leaving the room
       },
     });
   };
@@ -70,18 +71,29 @@ function Room() {
     if (zpRef.current) {
       zpRef.current.destroy();
     }
+
+    // Retrieve the stored room IDs from local storage
+    const storedRoomIds = JSON.parse(localStorage.getItem("roomIds")) || [];
+
+    // Remove the current roomId from the stored room IDs
+    const updatedRoomIds = storedRoomIds.filter((id) => id !== roomId);
+
+    // Update the local storage with the remaining room IDs
+    localStorage.setItem("roomIds", JSON.stringify(updatedRoomIds));
+
     navigate("/");
   };
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const role = query.get("role");
-
+    console.log("Role set from query:", role);
     setRole(role);
   }, [location.search]);
 
   useEffect(() => {
     if (role) {
+      console.log("Starting the meeting as:", role);
       myMeeting(role);
     }
 

@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { CardElement, ElementsConsumer } from "@stripe/react-stripe-js";
 import Swal from "sweetalert2";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // Load Stripe outside of a component’s render to avoid recreating the `loadStripe` instance on every render.
 const stripePromise = loadStripe(
@@ -170,6 +172,36 @@ const BillAds = () => {
     }
   };
 
+  const cardRef = useRef(null);
+
+  const downloadPdf = () => {
+    html2canvas(cardRef.current, {
+      scale: 2, // Improves the quality of the image
+      useCORS: true, // Enables cross-origin resource sharing
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgWidth = 210; // A4 size width in mm
+      const pageHeight = 297; // A4 size height in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+
+      let position = 0;
+
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      pdf.save("card.pdf");
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-50 p-6">
       <h1 className="text-4xl font-extrabold mb-12 text-[#007a3d]">
@@ -308,7 +340,10 @@ const BillAds = () => {
         </div>
 
         {/* Preview Section */}
-        <div className="w-full bg-white p-10 shadow-lg rounded-lg flex items-center justify-center hover:shadow-2xl">
+        <div
+          className="w-full bg-white p-10 shadow-lg rounded-lg flex items-center justify-center hover:shadow-2xl"
+          ref={cardRef}
+        >
           <div
             className={`p-8 text-center w-full ${
               cardShape === "circle"
@@ -338,7 +373,12 @@ const BillAds = () => {
           </div>
         </div>
       </div>
-
+      <button
+        onClick={downloadPdf}
+        className="mt-5 bg-blue-500 text-white p-3 rounded"
+      >
+        Download as PDF
+      </button>
       {showPayPal && showStripe && (
         <div className="w-full max-w-6xl mt-12 bg-[#f9f9f9] p-8 rounded-lg shadow-lg">
           <h2 className="text-4xl font-bold mb-6 text-center text-[#007a3d]">
