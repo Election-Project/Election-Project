@@ -12,6 +12,17 @@ const getLocalLists = async (req, res) => {
   }
 };
 
+const getLocalListsNotApproved = async (req, res) => {
+  try {
+    const localLists = await db.LocalList.findAll({
+      where: { is_approved: false },
+    });
+    res.json({ localLists });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const increaseVoteCounter = async (req, res) => {
   try {
     const localList = await db.LocalList.findOne({
@@ -44,4 +55,31 @@ const createLocalList = async (req, res) => {
   }
 };
 
-module.exports = { getLocalLists, increaseVoteCounter, createLocalList };
+const localListApprove = async (req, res) => {
+  try {
+    const localList = await db.LocalList.findOne({
+      where: { list_id: req.params.id },
+    });
+
+    if (!localList) {
+      return res.status(404).json({ message: "localList not found" });
+    }
+    localList.is_approved = true;
+    await localList.save();
+
+    res.json({
+      message: "localList approved",
+    });
+  } catch (error) {
+    console.error("Error approving localList:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+module.exports = {
+  getLocalLists,
+  increaseVoteCounter,
+  createLocalList,
+  getLocalListsNotApproved,
+  localListApprove,
+};
