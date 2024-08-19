@@ -88,6 +88,11 @@ function VoiceSearch({ onSearch }) {
           );
           setModalOpen(true);
         }
+
+        // Reset the transcript and stop listening after each search
+        setTranscript("");
+        setIsListening(false);
+        recognition.stop(); // Ensure recognition stops
       };
 
       recognition.onerror = (event) => {
