@@ -16,6 +16,19 @@ class AdvertisementController {
     }
   }
 
+  static async getAllAdvertisementsInActive(req, res) {
+    try {
+      const advertisements = await Advertisement.findAll({
+        where: {
+          status: "inactive",
+        },
+      });
+      return res.status(200).json(advertisements);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
   static async getAllAdvertisements(req, res) {
     try {
       const advertisements = await Advertisement.findAll();
@@ -144,6 +157,30 @@ class AdvertisementController {
       return res.status(200).json(advertisement);
     } catch (error) {
       console.error("Error updating advertisement status:", error); // Log the error for debugging
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async makeAdvertisementFromInactiveToActive(req, res) {
+    try {
+      const { ad_id } = req.params;
+      const advertisement = await Advertisement.findByPk(ad_id);
+
+      if (!advertisement) {
+        return res.status(404).json({ error: "Advertisement not found" });
+      }
+
+      if (advertisement.status === "active") {
+        return res
+          .status(400)
+          .json({ error: "Advertisement is already active" });
+      }
+
+      advertisement.status = "active";
+      await advertisement.save();
+
+      return res.status(200).json(advertisement);
+    } catch (error) {
       return res.status(500).json({ error: error.message });
     }
   }
