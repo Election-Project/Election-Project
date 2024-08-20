@@ -292,7 +292,7 @@ const BillAds = () => {
             />
             <button
               onClick={handleGenerateImage}
-              className="w-full bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+              className="w-full bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-whit focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
             >
               توليد الصورة
             </button>
