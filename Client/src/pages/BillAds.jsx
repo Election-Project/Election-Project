@@ -92,6 +92,11 @@ const BillAds = () => {
   const [advertisementId, setAdvertisementId] = useState(null);
   const [showPayPal, setShowPayPal] = useState(false);
   const [showStripe, setShowStripe] = useState(false);
+  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+
+  const [description, setDescription] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
   const totalAmount = 100;
 
   useEffect(() => {
@@ -100,6 +105,27 @@ const BillAds = () => {
       setShowStripe(true);
     }
   }, [advertisementId]);
+
+  const handleGenerateImage = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.deepai.org/api/text2img",
+        {
+          text: description,
+        },
+        {
+          headers: {
+            "Api-Key": "350e2690-8a28-4a50-adc1-bb1c0269f146",
+          },
+        }
+      );
+
+      setImageUrl(response.data.output_url);
+      setCandidatePhoto(response.data.output_url);
+    } catch (error) {
+      console.error("Error generating image:", error);
+    }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -157,6 +183,9 @@ const BillAds = () => {
         color: "#ffffff",
       });
       console.log("Advertisement updated with payment details.");
+
+      // Set payment success to true
+      setIsPaymentSuccessful(true);
     } catch (error) {
       Swal.fire({
         title: "خطأ!",
@@ -248,6 +277,25 @@ const BillAds = () => {
               onChange={(e) => setCandidateDescription(e.target.value)}
               className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
             />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-lg font-medium mb-2 text-white">
+              توليد الصورة
+            </label>
+            <input
+              type="text"
+              placeholder="أدخل وصف الصورة"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+            />
+            <button
+              onClick={handleGenerateImage}
+              className="w-full bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+            >
+              توليد الصورة
+            </button>
           </div>
 
           <div className="mb-6">
@@ -373,12 +421,15 @@ const BillAds = () => {
           </div>
         </div>
       </div>
-      <button
-        onClick={downloadPdf}
-        className="mt-5 bg-blue-500 text-white p-3 rounded"
-      >
-        Download as PDF
-      </button>
+      {isPaymentSuccessful && (
+        <button
+          onClick={downloadPdf}
+          className="mt-5 bg-[#007a3d] hover:opacity-90 text-white p-3 rounded-2xl"
+        >
+          تحميل بصيغة PDF
+        </button>
+      )}
+
       {showPayPal && showStripe && (
         <div className="w-full max-w-6xl mt-12 bg-[#f9f9f9] p-8 rounded-lg shadow-lg">
           <h2 className="text-4xl font-bold mb-6 text-center text-[#007a3d]">
