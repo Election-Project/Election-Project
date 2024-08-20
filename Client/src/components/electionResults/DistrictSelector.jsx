@@ -15,7 +15,12 @@ function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
   useEffect(() => {
     const fetchDistricts = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/districts");
+        const response = await axios.get(
+          `http://localhost:4000/api/districts`,
+          {
+            params: { name: selectedDistrict },
+          }
+        );
         setDistricts(response.data);
       } catch (error) {
         console.error("Failed to fetch districts:", error);
@@ -23,7 +28,7 @@ function DistrictSelector({ selectedDistrict, setSelectedDistrict }) {
     };
 
     fetchDistricts();
-  }, []);
+  }, [selectedDistrict]);
 
   useEffect(() => {
     let endTime = localStorage.getItem("endTime");
