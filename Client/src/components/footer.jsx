@@ -3,6 +3,7 @@
 import { Footer } from "flowbite-react";
 import { BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
 import Logo from "../assets/img/Logo.png";
+import { Link } from "react-router-dom";
 
 export function Foot() {
   return (
@@ -20,24 +21,18 @@ export function Foot() {
               className="text-white text-2xl font-bold w-4xl h-20 rounded-none"
             />
             <Footer.LinkGroup className="flex flex-col sm:flex-row sm:space-x-6 mt-4 sm:mt-0 rounded-none">
-              <Footer.Link
-                href="#"
+              <Link
+                to="/PartyListNominationForm"
+                className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none pl-5"
+              >
+                طلب ترشيح قائمة محلية
+              </Link>{" "}
+              <Link
+                to="/nomination"
                 className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none"
               >
-                إعرف أكثر
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none"
-              >
-                الدعم الفني
-              </Footer.Link>
-              <Footer.Link
-                href="#"
-                className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none"
-              >
-                تواصل معنا
-              </Footer.Link>
+                طلب ترشيح قائمة حزبية
+              </Link>
             </Footer.LinkGroup>
           </div>
 

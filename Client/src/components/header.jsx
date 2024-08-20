@@ -1,5 +1,5 @@
 import { Button, Navbar } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Logo from "../assets/img/Logo.png";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -10,7 +10,6 @@ export function Nav() {
   const { isAuthenticated, logout } = useAuth();
   const [runTour, setRunTour] = useState(false);
 
-  // Define Joyride steps
   const steps = [
     {
       target: ".custom-election-link",
@@ -27,7 +26,6 @@ export function Nav() {
   ];
 
   useEffect(() => {
-    // Start the tour after 1 second
     const timer = setTimeout(() => {
       setRunTour(true);
     }, 1000);
@@ -45,13 +43,13 @@ export function Nav() {
         fluid
         className="bg-gradient-to-r from-black via-[#007a3d] to-[#ce1126] text-white shadow-md sticky top-0 z-50"
       >
-        <Link to="/">
+        <NavLink to="/" end>
           <img
             src={Logo}
             alt="انتخاباتي"
             className="w-full h-20 object-cover"
           />
-        </Link>
+        </NavLink>
         <div className="flex md:order-2 space-x-4">
           {isAuthenticated ? (
             <Button
@@ -62,7 +60,7 @@ export function Nav() {
             </Button>
           ) : (
             <Button
-              as={Link}
+              as={NavLink}
               to="/login-with-password"
               className="bg-green-600 hover:bg-green-700 text-white transition-colors duration-300 mr-32"
             >
@@ -73,55 +71,76 @@ export function Nav() {
         </div>
         <Navbar.Collapse>
           <div className="flex flex-col md:flex-row md:space-x-6">
-            <Navbar.Link
-              as={Link}
+            <NavLink
               to="/votinglist"
-              className="text-white hover:text-gray-300 ml-5 transition-colors duration-300 custom-election-link"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 ml-5 transition-colors duration-300 custom-election-link ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               الانتخابات
-            </Navbar.Link>
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/Electionresult"
-              className="text-white hover:text-gray-300 transition-colors duration-300 custom-election-result-link"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-colors duration-300 custom-election-result-link ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               نتائج الانتخابات
-            </Navbar.Link>
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/about"
-              className="text-white hover:text-gray-300 transition-colors duration-300"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-colors duration-300 ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               إعرف أكثر
-            </Navbar.Link>
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/BillAds"
-              className="text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               للاعلانات
-            </Navbar.Link>{" "}
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/LiveStream"
-              className="text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-colors duration-300 ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               للمناظرات
-            </Navbar.Link>
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/contact"
-              className="text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105 ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               تواصل معنا
-            </Navbar.Link>
-            <Navbar.Link
-              as={Link}
+            </NavLink>
+            <NavLink
               to="/news"
-              className="text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105"
+              className={({ isActive }) =>
+                `text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105 ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
             >
               الاخبار
-            </Navbar.Link>
+            </NavLink>
           </div>
         </Navbar.Collapse>
       </Navbar>

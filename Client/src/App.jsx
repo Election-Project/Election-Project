@@ -34,6 +34,7 @@ import ViewerPage from "./components/LiveStreem/ViewerPage";
 import VideoModal from "./pages/VideoModal";
 import LiveStream from "./components/LiveStreem/LiveStream";
 import Room from "./components/LiveStreem/Room";
+import Image from "./pages/Image";
 
 function App() {
   const { login } = useAuth();

@@ -29,13 +29,6 @@ const VoterListSelection = () => {
     }),
   };
 
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "visible";
-    };
-  }, []);
-
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-green-500 via-white to-red-500 flex items-center justify-center p-4 overflow-hidden"

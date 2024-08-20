@@ -5,7 +5,6 @@ function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
 
   const handleOverlayClick = (event) => {
-    // Check if the click happened outside the modal content
     if (event.target.classList.contains("modal-overlay")) {
       onClose();
     }
