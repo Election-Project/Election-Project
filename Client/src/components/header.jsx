@@ -10,7 +10,6 @@ export function Nav() {
   const { isAuthenticated, logout } = useAuth();
   const [runTour, setRunTour] = useState(false);
 
-  // Define Joyride steps
   const steps = [
     {
       target: ".custom-election-link",
@@ -27,7 +26,6 @@ export function Nav() {
   ];
 
   useEffect(() => {
-    // Start the tour after 1 second
     const timer = setTimeout(() => {
       setRunTour(true);
     }, 1000);
