@@ -13,6 +13,7 @@ const localList = require("./routes/localListRouter");
 const paymentRoutes = require("./routes/paymentRoutes");
 const partyListCandidate = require("./routes/partyListCandidateRoutes");
 const districtRoutes = require("./routes/districtRoutes");
+const adminRouter = require("./routes/adminRouter");
 
 const electionRoutes = require("./routes/electionRouter");
 
@@ -76,6 +77,7 @@ app.get("/api/election-results", async (req, res) => {
 app.use("/api", electoralDistrictRoutes);
 
 app.use("/api", advertisementRoutes);
+app.use("/api", adminRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
