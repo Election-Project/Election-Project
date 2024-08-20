@@ -14,7 +14,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الثانية عمان",
+        name: "الدائره الانتخابيه الثانيه عمان",
         city: "عمان",
         number_of_seats: 8,
         Female_seat: true,
@@ -24,7 +24,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الثالثة عمان",
+        name: "الدائره الانتخابيه الثالثه عمان",
         city: "عمان",
         number_of_seats: 6,
         Female_seat: true,
@@ -34,7 +34,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الاولى اربد",
+        name: "الدائره الانتخابيه الاولى اربد",
         city: "اربد",
         number_of_seats: 8,
         Female_seat: true,
@@ -44,7 +44,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الثانية اربد",
+        name: "الدائره الانتخابيه الثانيه اربد",
         city: "اربد",
         number_of_seats: 7,
         Female_seat: true,
@@ -54,7 +54,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى الزرقاء",
+        name: "الدائره الانتخابيه الأولى الزرقاء",
         city: "الزرقاء",
         number_of_seats: 10,
         Female_seat: true,
@@ -64,7 +64,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى البلقاء",
+        name: "الدائره الانتخابيه الأولى البلقاء",
         city: "البلقاء",
         number_of_seats: 8,
         Female_seat: true,
@@ -84,7 +84,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى عجلون",
+        name: "الدائره الانتخابيه الأولى عجلون",
         city: "عجلون",
         number_of_seats: 4,
         Female_seat: true,
@@ -94,7 +94,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى مادبا",
+        name: "الدائره الانتخابيه الأولى مادبا",
         city: "مادبا",
         number_of_seats: 4,
         Female_seat: true,
@@ -104,7 +104,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى معان",
+        name: "الدائره الانتخابيه الأولى معان",
         city: "معان",
         number_of_seats: 4,
         Female_seat: true,
@@ -114,7 +114,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى جرش",
+        name: "الدائره الانتخابيه الأولى جرش",
         city: "جرش",
         number_of_seats: 4,
         Female_seat: true,
@@ -124,7 +124,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى المفرق",
+        name: "الدائره الانتخابيه الأولى المفرق",
         city: "المفرق",
         number_of_seats: 4,
         Female_seat: true,
@@ -134,7 +134,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى الطفيلة",
+        name: "الدائره الانتخابيه الأولى الطفيلة",
         city: "الطفيلة",
         number_of_seats: 4,
         Female_seat: true,
@@ -144,7 +144,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى العقبة",
+        name: "الدائره الانتخابيه الأولى العقبة",
         city: "العقبة",
         number_of_seats: 3,
         Female_seat: true,
@@ -154,7 +154,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى بدو الشمال",
+        name: "الدائره الانتخابيه الأولى بدو الشمال",
         city: "بدو الشمال",
         number_of_seats: 3,
         Female_seat: true,
@@ -164,7 +164,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى بدو الوسط",
+        name: "الدائره الانتخابيه الأولى بدو الوسط",
         city: "بدو الوسط",
         number_of_seats: 3,
         Female_seat: true,
@@ -174,7 +174,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "الدائرة الانتخابية الأولى بدو الجنوب",
+        name: "الدائره الانتخابيه الأولى بدو الجنوب",
         city: "بدو الجنوب",
         number_of_seats: 3,
         Female_seat: true,
