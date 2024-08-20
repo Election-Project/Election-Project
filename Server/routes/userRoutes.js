@@ -39,4 +39,7 @@ router.get("/vote-users", getAllVoteUsers);
 //result Page
 router.get("/candidates/details/:district_id", getAllWinnersForDistrict);
 
+//result Page
+router.get("/candidates/details/:district_id", getAllWinnersForDistrict);
+
 module.exports = router;

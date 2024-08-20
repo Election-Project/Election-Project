@@ -281,7 +281,7 @@ const BillAds = () => {
 
           <div className="mb-6">
             <label className="block text-lg font-medium mb-2 text-white">
-              توليد الصورة
+              انشاء الصورة
             </label>
             <input
               type="text"
@@ -292,7 +292,7 @@ const BillAds = () => {
             />
             <button
               onClick={handleGenerateImage}
-              className="w-full bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-whit focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+              className="w-full bg-gradient-to-r from-[#ce1126] h-[3rem] rounded-xl via-[#007a3d] to-black text-whit focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
             >
               توليد الصورة
             </button>
