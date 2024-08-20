@@ -230,27 +230,43 @@ const responses = {
     "وسائل التواصل الاجتماعي تؤثر على الانتخابات من خلال توفير منصة للتواصل المباشر مع الناخبين، نشر المعلومات، وتنظيم الحملات.",
 };
 
+// Function to get a bot response based on the user's message
 const getResponse = (message) => {
+  // Convert the user's message to lowercase for case-insensitive comparison
   const lowerMessage = message.toLowerCase();
-  // Find a matching response
+
+  // Iterate over the predefined responses to find a matching one
   for (const [question, response] of Object.entries(responses)) {
+    // Check if the lowercase message contains the question text (also in lowercase)
     if (lowerMessage.includes(question.toLowerCase())) {
+      // If a match is found, return the corresponding response
       return response;
     }
   }
+
+  // If no match is found, return a default response in Arabic
   return "عذرًا، لم أفهم ذلك. هل يمكنك إعادة صياغة السؤال؟";
 };
 
+// Express route handler to process a chat request
 exports.createChat = async (req, res) => {
+  // Extract the message from the request body
   const { message } = req.body;
+
+  // Get the bot's response based on the user's message
   const response = getResponse(message);
+
   try {
+    // Save the chat interaction to the database
     const chat = await Chat.create({
-      userMessage: message,
-      botResponse: response,
+      userMessage: message, // Store the user's original message
+      botResponse: response, // Store the bot's generated response
     });
+
+    // Send the bot's response back to the client as JSON
     res.json({ response });
   } catch (error) {
+    // Handle any errors that occur during database interaction
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

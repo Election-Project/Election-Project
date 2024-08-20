@@ -62,7 +62,10 @@ function App() {
             <Route path="LiveStream/viewer/:roomId" element={<ViewerPage />} />
             //////////////////////
             <Route path="/nomination" element={<NominationForm />} />
-            {/* <Route path="/Image" element={<Image />} /> */}
+            <Route
+              path="/PartyListNominationForm"
+              element={<PartyListNominationForm />}
+            />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />

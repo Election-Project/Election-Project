@@ -13,12 +13,19 @@ const LoginComponent = () => {
     })();
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log(adminData);
-    console.log("Login attempted with:", { email, password });
-    if (adminData.email === email && adminData.password === password) {
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    console.log("Login attempted with:", {
+      email: trimmedEmail,
+      password: trimmedPassword,
+    });
+    if (
+      adminData.email.trim() === trimmedEmail &&
+      adminData.password.trim() === trimmedPassword
+    ) {
       console.log("Login successful");
       navigate("/admin");
     } else {
@@ -47,7 +54,7 @@ const LoginComponent = () => {
                   type="email"
                   placeholder="Enter your email"
                   value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
                   required
                 />
@@ -76,7 +83,7 @@ const LoginComponent = () => {
                   type="password"
                   placeholder="Enter your password"
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
                   required
                 />
