@@ -34,7 +34,8 @@ import ViewerPage from "./components/LiveStreem/ViewerPage";
 import VideoModal from "./pages/VideoModal";
 import LiveStream from "./components/LiveStreem/LiveStream";
 import Room from "./components/LiveStreem/Room";
-import Image from "./pages/Image";
+
+import Chat from "./components/Chat";
 
 function App() {
   const { login } = useAuth();
@@ -56,6 +57,7 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+            <Route path="/Chat" element={<Chat />} />
             //////////////////////////
             <Route path="/LiveStream" element={<LiveStream />} />
             <Route path="LiveStream/room/:roomId" element={<Room />} />
