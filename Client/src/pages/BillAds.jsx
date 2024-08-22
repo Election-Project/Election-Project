@@ -106,6 +106,7 @@ const BillAds = () => {
     }
   }, [advertisementId]);
 
+  //اني اعمل صورة
   const handleGenerateImage = async () => {
     try {
       const response = await axios.post(
@@ -410,7 +411,7 @@ const BillAds = () => {
               <img
                 src={candidatePhoto}
                 alt="المرشح"
-                className={`w-full h-60 object-cover mb-5 mx-auto ${
+                className={`w-full h-72 object-cover mb-5 mx-auto ${
                   cardShape === "circle" ? "rounded-full" : "rounded-lg"
                 } shadow-md`}
               />

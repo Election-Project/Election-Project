@@ -3,7 +3,7 @@ const { User, ElectoralDistrict, Candidate, LocalList } = require("../models");
 const { Op } = require("sequelize");
 
 const THRESHOLD_PERCENTAGE = 0.05;
-
+//اجيب اليوزر لاي دائرة تابع (هوم و داش)
 getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
