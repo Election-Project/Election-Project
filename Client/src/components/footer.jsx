@@ -25,13 +25,13 @@ export function Foot() {
                 to="/PartyListNominationForm"
                 className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none pl-5"
               >
-                طلب ترشيح قائمة محلية
+                طلب ترشيح قائمة حزبية
               </Link>{" "}
               <Link
                 to="/nomination"
                 className="text-white hover:text-gray-300 transition-colors duration-300 rounded-none"
               >
-                طلب ترشيح قائمة حزبية
+                طلب ترشيح قائمة محلية
               </Link>
             </Footer.LinkGroup>
           </div>

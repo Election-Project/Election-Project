@@ -56,7 +56,7 @@ const PartyListNominationForm = () => {
       );
       setVotesUsers(votesUsers.data.users);
       console.log("votesUsers", votesUsers.data.users);
-      votesUsers.data.users.forEach(user => {
+      votesUsers.data.users.forEach((user) => {
         candidates1.push({
           id: user.national_id,
           name: user.full_name,
@@ -67,19 +67,19 @@ const PartyListNominationForm = () => {
       console.log("candidates", candidates1);
     })();
   }, []);
-  const handleCandidateSelection = event => {
+  const handleCandidateSelection = (event) => {
     const candidateId = parseInt(event.target.value);
-    const candidate = candidates.find(c => c.id == candidateId);
-    if (candidate && !selectedCandidates.some(c => c.id == candidate.id)) {
-      setSelectedCandidates(prev => [...prev, candidate]);
+    const candidate = candidates.find((c) => c.id == candidateId);
+    if (candidate && !selectedCandidates.some((c) => c.id == candidate.id)) {
+      setSelectedCandidates((prev) => [...prev, candidate]);
     }
   };
 
-  const removeCandidateFromSelection = candidateId => {
-    setSelectedCandidates(prev => prev.filter(c => c.id !== candidateId));
+  const removeCandidateFromSelection = (candidateId) => {
+    setSelectedCandidates((prev) => prev.filter((c) => c.id !== candidateId));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     (async () => {
       if (selectedCandidates.length > 0 && partyName) {
@@ -117,92 +117,96 @@ const PartyListNominationForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-      <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-        نموذج طلب ترشيح للقائمة الحزبية
-      </h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label
-            htmlFor="partyName"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            اسم الحزب
-          </label>
-          <input
-            id="partyName"
-            type="text"
-            value={partyName}
-            onChange={e => setPartyName(e.target.value)}
-            placeholder="أدخل اسم الحزب"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            اختر المرشحين
-          </label>
-          <select
-            onChange={handleCandidateSelection}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">اختر مرشحًا</option>
-            {candidates.map(candidate => (
-              <option key={candidate.id} value={candidate.id}>
-                {candidate.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        {selectedCandidates.length > 0 && (
-          <div className="mt-4">
-            <h3 className="font-semibold mb-2">المرشحون المختارون:</h3>
-            <ul className="space-y-2">
-              {selectedCandidates.map(candidate => (
-                <li
-                  key={candidate.id}
-                  className="flex justify-between items-center bg-gray-100 p-2 rounded"
-                >
-                  <span>{candidate.name}</span>
-                  <button
-                    type="button"
-                    onClick={() => removeCandidateFromSelection(candidate.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    حذف
-                  </button>
-                </li>
+    <div className="min-h-screen bg-gradient-to-br from-green-500 via-white to-red-500 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+        <h1 className="text-3xl font-bold mb-6 text-center text-black">
+          نموذج طلب ترشيح للقائمة الحزبية
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label
+              htmlFor="partyName"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              اسم الحزب
+            </label>
+            <input
+              id="partyName"
+              type="text"
+              value={partyName}
+              onChange={(e) => setPartyName(e.target.value)}
+              placeholder="أدخل اسم الحزب"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              اختر المرشحين
+            </label>
+            <select
+              onChange={handleCandidateSelection}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="">اختر مرشحًا</option>
+              {candidates.map((candidate) => (
+                <option key={candidate.id} value={candidate.id}>
+                  {candidate.name}
+                </option>
               ))}
-            </ul>
+            </select>
+          </div>
+          {selectedCandidates.length > 0 && (
+            <div className="mt-4">
+              <h3 className="font-semibold mb-2">المرشحون المختارون:</h3>
+              <ul className="space-y-2">
+                {selectedCandidates.map((candidate) => (
+                  <li
+                    key={candidate.id}
+                    className="flex justify-between items-center bg-gray-100 p-2 rounded"
+                  >
+                    <span>{candidate.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeCandidateFromSelection(candidate.id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      حذف
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <CustomAlert
+            title="ملاحظة:"
+            description="يمكنك إضافة المرشحين الذين تريد ضمهم إلى القائمة الحزبية."
+          />
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            disabled={selectedCandidates.length === 0 || !partyName}
+          >
+            تقديم طلب الترشيح
+          </button>
+        </form>
+
+        {showSuccessDialog && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-xl">
+              <h2 className="text-xl font-bold mb-4">تم تقديم الطلب بنجاح</h2>
+              <p className="mb-4">
+                شكرًا لك على المشاركة في العملية الانتخابية.
+              </p>
+              <button
+                onClick={() => setShowSuccessDialog(false)}
+                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300"
+              >
+                حسنًا
+              </button>
+            </div>
           </div>
         )}
-        <CustomAlert
-          title="ملاحظة:"
-          description="يمكنك إضافة المرشحين الذين تريد ضمهم إلى القائمة الحزبية."
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          disabled={selectedCandidates.length === 0 || !partyName}
-        >
-          تقديم طلب الترشيح
-        </button>
-      </form>
-
-      {showSuccessDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg shadow-xl">
-            <h2 className="text-xl font-bold mb-4">تم تقديم الطلب بنجاح</h2>
-            <p className="mb-4">شكرًا لك على المشاركة في العملية الانتخابية.</p>
-            <button
-              onClick={() => setShowSuccessDialog(false)}
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
-            >
-              حسنًا
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };
