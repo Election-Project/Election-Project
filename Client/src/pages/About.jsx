@@ -185,7 +185,7 @@ const About = () => {
 
         <Section title="إحصائيات الانتخابات" id="statistics">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatCard icon="📅" title="تاريخ آخر انتخابات" value="2020" />
+            <StatCard icon="📅" title="تاريخ آخر انتخابات" value="2024" />
             <StatCard
               icon="👥"
               title="عدد الناخبين المسجلين"

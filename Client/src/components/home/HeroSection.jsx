@@ -243,7 +243,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                 </motion.div>
                 <Link to="/votinglist">
                   <motion.button
-                    className="bg-gradient-to-l from-red-600 to-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
+                    className="bg-gradient-to-l from-green-600 to-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
                     whileHover={{
                       scale: 1.1,
                       boxShadow: "0px 0px 10px rgba(255, 0, 0, 0.7)",
