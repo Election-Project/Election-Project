@@ -42,7 +42,7 @@ const VotingPage = () => {
       );
       console.log("localListData", localListData.data);
       const filteredLocalLists = Object.values(localListData.data)[0].filter(
-        (list) => {
+        list => {
           return list.district_id === usersData.data.user.district_id;
         }
       );
@@ -111,7 +111,7 @@ const VotingPage = () => {
               candidatesByListWithNames[listId] = {
                 id: listId,
                 candidates: [],
-                name: filteredLocalLists.find((list) => list.list_id === listId)
+                name: filteredLocalLists.find(list => list.list_id === listId)
                   .name,
               };
             }
@@ -154,18 +154,18 @@ const VotingPage = () => {
   console.log(lists);
   const selectedLists = lists[listtype];
 
-  const handleListClick = (list) => {
+  const handleListClick = list => {
     if (
       (listtype === "local" && isLocalVoted) ||
       (listtype === "party" && isPartyVoted)
     ) {
       return;
     }
-    setSelectedList((prevList) =>
+    setSelectedList(prevList =>
       prevList && prevList.id === list.id ? null : list
     );
     if (list.id !== selectedList?.id) {
-      setSelectedCandidates((prev) => ({
+      setSelectedCandidates(prev => ({
         [list.id]: prev[list.id] || {},
       }));
     }
@@ -181,7 +181,7 @@ const VotingPage = () => {
         (listtype === "party" && isPartyVoted)
       )
     ) {
-      setSelectedCandidates((prev) => ({
+      setSelectedCandidates(prev => ({
         ...prev,
         [listId]: {
           ...prev[listId],
@@ -231,11 +231,11 @@ const VotingPage = () => {
       console.log(`Voted for: ${selectedList.name}`);
       console.log(
         "Selected candidates:",
-        Object.keys(votedCandidates).filter((c) => votedCandidates[c])
+        Object.keys(votedCandidates).filter(c => votedCandidates[c])
       );
       if (listtype === "local") {
         if (
-          Object.keys(votedCandidates).filter((c) => votedCandidates[c])
+          Object.keys(votedCandidates).filter(c => votedCandidates[c])
             .length === 0
         ) {
           axios.post(
@@ -246,7 +246,7 @@ const VotingPage = () => {
           );
         } else {
           console.log(
-            Object.keys(votedCandidates).filter((c) => votedCandidates[c])
+            Object.keys(votedCandidates).filter(c => votedCandidates[c])
           );
           axios.post(
             `http://localhost:4000/api/is-vote-local/${users.user.national_id}`
@@ -257,22 +257,21 @@ const VotingPage = () => {
           for (
             let i = 0;
             i <
-            Object.keys(votedCandidates).filter((c) => votedCandidates[c])
-              .length;
+            Object.keys(votedCandidates).filter(c => votedCandidates[c]).length;
             i++
           ) {
             axios
               .get(
                 `http://localhost:4000/api/user-id/${
-                  Object.keys(votedCandidates).filter(
-                    (c) => votedCandidates[c]
-                  )[i]
+                  Object.keys(votedCandidates).filter(c => votedCandidates[c])[
+                    i
+                  ]
                 }`
               )
-              .then((res) => {
+              .then(res => {
                 return res.data.national_id;
               })
-              .then((national_id) => {
+              .then(national_id => {
                 axios.post(
                   `http://localhost:4000/api/candidate/vote/${national_id}`
                 );
@@ -327,7 +326,7 @@ const VotingPage = () => {
           </p>
           {((listtype === "local" && isLocalVoted) ||
             (listtype === "party" && isPartyVoted)) && (
-            <p className="mt-2 text-lg text-yellow-600 font-bold">
+            <p className="mt-2 text-3xl text-red-600 font-extrabold">
               لقد قمت بالتصويت بالفعل لهذه القائمة. لا يمكنك التصويت مرة أخرى.
             </p>
           )}
@@ -400,7 +399,7 @@ const VotingPage = () => {
                                 selectedCandidates[list.id]?.[candidate] ||
                                 false
                               }
-                              onChange={(e) =>
+                              onChange={e =>
                                 handleCandidateClick(e, list.id, candidate)
                               }
                               disabled={isDisabled}
