@@ -18,10 +18,11 @@ const HeroSection = ({ voterName, district, electionDate }) => {
   const [votedLocalPercentage, setVotedLocalPercentage] = useState(null);
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [candidatesCount, setCandidatesCount] = useState(null);
 
   useEffect(() => {
     setIsVisible(true);
-    controls.start((i) => ({
+    controls.start(i => ({
       opacity: 1,
       y: 0,
       transition: { delay: i * 0.1 },
@@ -30,7 +31,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    const handleMouseMove = (e) =>
+    const handleMouseMove = e =>
       setMousePosition({ x: e.clientX, y: e.clientY });
 
     window.addEventListener("scroll", handleScroll);
@@ -144,10 +145,21 @@ const HeroSection = ({ voterName, district, electionDate }) => {
         console.error("Error fetching district count:", error);
       }
     };
-
+    const allCandidates = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:4000/api/candidates/details"
+        );
+        console.log(response.data.users.length);
+        setCandidatesCount(response.data.users.length);
+      } catch (error) {
+        console.error("Error fetching district count:", error);
+      }
+    };
     fetchVoterCount();
     fetchDistrictCount();
     fetchVoteCount();
+    allCandidates();
   }, []);
 
   return (
@@ -286,7 +298,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                 الدائرة الانتخابية: {district}
               </motion.p>
               <motion.div
-                className="flex justify-center space-x-4"
+                className="flex flex-wrap items-center gap-5"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
@@ -295,12 +307,12 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   <motion.button
                     whileHover={{
                       scale: 1.1,
-                      boxShadow: "0 0 20px rgba(206, 17, 38, 0.7)", // Red shadow
-                      border: "2px solid rgba(206, 17, 38, 0.7)", // Red border
-                      backgroundColor: "rgba(206, 17, 38, 0.7)", // Enhance background
+                      boxShadow: "0 0 20px rgba(206, 17, 38, 0.7)",
+                      border: "2px solid rgba(206, 17, 38, 0.7)",
+                      backgroundColor: "rgba(206, 17, 38, 0.7)",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white px-8 py-3 rounded-full transition-all duration-300 ml-10"
+                    className="bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white px-8 py-3 rounded-full transition-all duration-300"
                   >
                     سجل للمشاركة
                   </motion.button>
@@ -309,13 +321,39 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   <motion.button
                     whileHover={{
                       scale: 1.1,
-                      backgroundColor: "#007a3d", // Green background on hover
+                      backgroundColor: "#007a3d",
                       color: "#ffffff",
                     }}
                     whileTap={{ scale: 0.95 }}
                     className="border-2 border-[#007a3d] text-[#007a3d] px-8 py-3 rounded-full transition-all duration-300"
                   >
                     المزيد من التفاصيل
+                  </motion.button>
+                </Link>
+                <Link to="/nomination">
+                  <motion.button
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "#000000",
+                      color: "#ffffff",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border-2 border-black text-black px-8 py-3 rounded-full transition-all duration-300"
+                  >
+                    طلب ترشيح قائمة محلية
+                  </motion.button>
+                </Link>
+                <Link to="/PartyListNominationForm">
+                  <motion.button
+                    whileHover={{
+                      scale: 1.1,
+                      backgroundColor: "#ce1126",
+                      color: "#ffffff",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    className="border-2 border-[#ce1126] text-[#ce1126] px-8 py-3 rounded-full transition-all duration-300"
+                  >
+                    طلب ترشيح القائمة الحزبية
                   </motion.button>
                 </Link>
               </motion.div>
@@ -325,7 +363,11 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                     value: `${voterCount !== null ? voterCount : "Loading..."}`,
                     label: "عدد الناخبين المسجلين",
                   },
-                  { value: "300+", label: "المرشحين" },
+                  {
+                    value:
+                      candidatesCount !== null ? candidatesCount : "Loading...",
+                    label: "المرشحين",
+                  },
                   {
                     value: `${
                       districtCount !== null ? districtCount : "Loading..."
