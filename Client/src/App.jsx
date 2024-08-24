@@ -16,6 +16,8 @@ import LoginWithPass from "./pages/LoginWithPass";
 import ChatWidget from "./pages/ChatWidget";
 import BillAds from "./pages/BillAds";
 
+import Chat from "./components/Chat";
+
 import PasswordResetRequest from "./pages/PasswordResetRequest";
 import PasswordReset from "./pages/PasswordReset";
 import BillboardDesignPage from "./pages/BillboardDesignPage";
@@ -56,6 +58,7 @@ function App() {
         <div className="App">
           <Nav />
           <Routes>
+            <Route path="/Chat" element={<Chat />} />
             //////////////////////////
             <Route path="/LiveStream" element={<LiveStream />} />
             <Route path="LiveStream/room/:roomId" element={<Room />} />

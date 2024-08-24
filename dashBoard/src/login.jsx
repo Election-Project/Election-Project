@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const LoginComponent = () => {
-  const [email, setEmail] = useState("");
+  const [nationalId, setNationalId] = useState("");
   const [password, setPassword] = useState("");
-  const [adminData, setAdminData] = useState(null);
   const navigate = useNavigate();
-  useEffect(() => {
-    (async () => {
-      const adminData = await axios.get("http://localhost:4000/api/admin");
-      setAdminData(adminData.data);
-    })();
-  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
 
-    console.log("Login attempted with:", {
-      email: trimmedEmail,
-      password: trimmedPassword,
-    });
-    if (
-      adminData.email.trim() === trimmedEmail &&
-      adminData.password.trim() === trimmedPassword
-    ) {
-      console.log("Login successful");
+    try {
+      // Send login request with national_id and password
+      const response = await axios.post(
+        "http://localhost:4000/auth/login-with-password",
+        {
+          national_id: nationalId,
+          password: password,
+        }
+      );
+
+      // Extract access token from the response
+      const { accessToken } = response.data;
+
+      // Store the access token in local storage
+      localStorage.setItem("accessToken", accessToken);
+
+      // Navigate to the admin dashboard or wherever appropriate
       navigate("/admin");
-    } else {
-      console.log("Login failed");
+    } catch (error) {
+      console.error("Login error:", error);
     }
   };
 
@@ -43,18 +43,18 @@ const LoginComponent = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
-                htmlFor="email"
+                htmlFor="nationalId"
                 className="block text-sm font-medium text-gray-700 mb-2"
               >
-                Email
+                National ID
               </label>
               <div className="relative">
                 <input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="nationalId"
+                  type="text"
+                  placeholder="Enter your national ID"
+                  value={nationalId}
+                  onChange={(e) => setNationalId(e.target.value)}
                   className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
                   required
                 />

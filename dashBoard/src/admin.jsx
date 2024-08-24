@@ -14,6 +14,8 @@ import {
   Cell,
 } from "recharts";
 
+import Chat from "./Chat";
+
 const CustomAlert = ({ isOpen, onClose, onConfirm, message }) => {
   if (!isOpen) return null;
 
@@ -124,7 +126,7 @@ const AdsList = ({ ads, onAdApproved }) => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [currentAd, setCurrentAd] = useState(null);
 
-  const handleApproveClick = ad => {
+  const handleApproveClick = (ad) => {
     setCurrentAd(ad);
     setAlertOpen(true);
   };
@@ -215,7 +217,7 @@ const ListsTable = ({ lists, type }) => {
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
           {lists
-            .filter(list => list.type === type)
+            .filter((list) => list.type === type)
             .map((list, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -285,28 +287,23 @@ const Dashboard = () => {
         setVoterCount(voterCountResponse.data.count);
         setDistrictCount(districtCountResponse.data.count);
         setVotedLocalPercentage(voteCountResponse.data.percentage);
-        // const districts = [
-        //   { name: "الدائرة أ", registeredVoters: 100000 },
-        //   { name: "الدائرة ب", registeredVoters: 80000 },
-        //   { name: "الدائرة ج", registeredVoters: 120000 },
-        // ];
         setDistricts(
-          districtsResponse.data.map(district => ({
+          districtsResponse.data.map((district) => ({
             name: district.name,
             registeredVoters: district.number_of_seats,
           }))
         );
         setLists(
-          localListsResponse.data.localLists.map(list => ({
+          localListsResponse.data.localLists.map((list) => ({
             id: list.list_id,
             name: list.name,
             type: "local",
             status: "Pending",
           }))
         );
-        setLists(prevLists => [
+        setLists((prevLists) => [
           ...prevLists,
-          ...partyListsResponse.data.partyLists.map(list => ({
+          ...partyListsResponse.data.partyLists.map((list) => ({
             id: list.list_id,
             name: list.name,
             type: "party",
@@ -314,7 +311,7 @@ const Dashboard = () => {
           })),
         ]);
         setAds(
-          adsResponse.data.map(ad => ({
+          adsResponse.data.map((ad) => ({
             id: ad.ad_id,
             title: ad.name,
             description: ad.description,
@@ -326,7 +323,7 @@ const Dashboard = () => {
     };
 
     fetchData();
-  }, [ads]);
+  }, []);
 
   const overviewData = {
     registeredVoters: voterCount,
@@ -347,12 +344,6 @@ const Dashboard = () => {
     { name: "صوتوا", value: 75 },
     { name: "لم يصوتوا", value: 25 },
   ];
-
-  // const districts = [
-  //   { name: "الدائرة أ", registeredVoters: 100000 },
-  //   { name: "الدائرة ب", registeredVoters: 80000 },
-  //   { name: "الدائرة ج", registeredVoters: 120000 },
-  // ];
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 min-h-screen" dir="rtl">
@@ -409,6 +400,16 @@ const Dashboard = () => {
           onClick={() => setActiveTab("results")}
         >
           النتائج
+        </button>
+        <button
+          className={`px-6 py-2 rounded-full ${
+            activeTab === "chat"
+              ? "bg-blue-500 text-white"
+              : "bg-white text-blue-500"
+          }`}
+          onClick={() => setActiveTab("chat")}
+        >
+          الدردشة
         </button>
       </div>
 
@@ -498,6 +499,7 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
       {activeTab === "results" && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <iframe
@@ -505,6 +507,12 @@ const Dashboard = () => {
             style={{ width: "100%", height: "100vh", border: "none" }}
             title="Election Result"
           ></iframe>
+        </div>
+      )}
+
+      {activeTab === "chat" && (
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <Chat />
         </div>
       )}
     </div>
