@@ -3,7 +3,7 @@ const { User, ElectoralDistrict, Candidate, LocalList } = require("../models");
 const { Op } = require("sequelize");
 
 const THRESHOLD_PERCENTAGE = 0.05;
-
+//اجيب اليوزر لاي دائرة تابع (هوم و داش)
 getUserDistrictInfo = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -126,7 +126,7 @@ getAllDistricts = async (req, res) => {
 
     const districts = await ElectoralDistrict.findAll();
 
-    const districtData = districts.map(district => ({
+    const districtData = districts.map((district) => ({
       id: district.district_id,
       name: district.name,
       city: district.city,
@@ -303,7 +303,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     const localThreshold = totalVoters * 0.07;
 
     // Filter local lists that surpassed the threshold
-    const qualifiedLocalLists = localLists.filter(list => {
+    const qualifiedLocalLists = localLists.filter((list) => {
       const totalVotesForList = list.Candidates.reduce(
         (sum, candidate) => sum + candidate.votes,
         0
@@ -332,15 +332,15 @@ const getAllWinnersForDistrict = async (req, res) => {
     // Helper function to get the top candidate for a specific category
     const getTopCandidate = (candidates, category) => {
       return candidates
-        .filter(c => c.religion === category)
+        .filter((c) => c.religion === category)
         .sort((a, b) => b.votes - a.votes)
-        .find(candidate => !selectedCandidates.has(candidate.national_id));
+        .find((candidate) => !selectedCandidates.has(candidate.national_id));
     };
 
     // Select the top candidate from each category if applicable
     const electedChristian = christianSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "Christian"
         )
       : null;
@@ -351,7 +351,7 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedCircassianOrChechen = circassianOrChechenSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "circassian_chechen"
         )
       : null;
@@ -362,7 +362,7 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedFemaleQuota = femaleQuotaSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "female_quota"
         )
       : null;
@@ -379,7 +379,7 @@ const getAllWinnersForDistrict = async (req, res) => {
       (electedFemaleQuota ? 1 : 0);
 
     // Calculate winning seats for Muslims in each qualified local list
-    const localResults = qualifiedLocalLists.map(list => {
+    const localResults = qualifiedLocalLists.map((list) => {
       const totalVotesForList = list.Candidates.reduce(
         (sum, candidate) => sum + candidate.votes,
         0
@@ -392,11 +392,11 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     // Select Muslim candidates based on the number of seats their list has won
     const electedMuslims = [];
-    localResults.forEach(list => {
+    localResults.forEach((list) => {
       const listCandidates = list.Candidates.filter(
-        c => c.religion === "Muslim"
+        (c) => c.religion === "Muslim"
       ).sort((a, b) => b.votes - a.votes);
-      listCandidates.slice(0, list.seatsWon).forEach(candidate => {
+      listCandidates.slice(0, list.seatsWon).forEach((candidate) => {
         if (!selectedCandidates.has(candidate.national_id)) {
           electedMuslims.push(candidate);
           selectedCandidates.add(candidate.national_id);

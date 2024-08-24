@@ -34,6 +34,7 @@ import ViewerPage from "./components/LiveStreem/ViewerPage";
 import VideoModal from "./pages/VideoModal";
 import LiveStream from "./components/LiveStreem/LiveStream";
 import Room from "./components/LiveStreem/Room";
+import Image from "./pages/Image";
 
 function App() {
   const { login } = useAuth();
@@ -61,6 +62,10 @@ function App() {
             <Route path="LiveStream/viewer/:roomId" element={<ViewerPage />} />
             //////////////////////
             <Route path="/nomination" element={<NominationForm />} />
+            <Route
+              path="/PartyListNominationForm"
+              element={<PartyListNominationForm />}
+            />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/voting/:listtype" element={<Voting />} />
             <Route path="/votinglist" element={<VoterListSelection />} />

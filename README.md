@@ -1,3 +1,5 @@
+# Election-Project
+
 # Jordanian Election Platform
 
 ## Project Overview
@@ -82,4 +84,4 @@ This project involves designing and developing an engaging, secure, and informat
 
 ## Figma Design
 
-[Figma Design](https://www.figma.com/design/6jZgq5IUd5LF7vMEMh0yZg/Election?node-id=0-1&t=AY6A8wIpgVMjGCCW-0)
+For the platform's design, please refer to the [Figma Design](https://www.figma.com/design/6jZgq5IUd5LF7vMEMh0yZg/Election?node-id=0-1&t=OAqh7Ls3YAcXEc28-0) link.

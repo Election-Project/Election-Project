@@ -11,7 +11,6 @@ function LiveStream() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve all stored room IDs
     const storedRoomIds = JSON.parse(localStorage.getItem("roomIds")) || [];
     if (storedRoomIds.length > 0) {
       setNotification(
