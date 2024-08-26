@@ -85,3 +85,4 @@ This project involves designing and developing an engaging, secure, and informat
 ## Figma Design
 
 For the platform's design, please refer to the [Figma Design](https://www.figma.com/design/6jZgq5IUd5LF7vMEMh0yZg/Election?node-id=0-1&t=OAqh7Ls3YAcXEc28-0) link.
+[Trello](https://trello.com/invite/b/66ba314aa1d4075623da9ef3/ATTI2e1fd01f034b57687eb94f0163f190013534068E/election-project) link.
