@@ -22,7 +22,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
 
   useEffect(() => {
     setIsVisible(true);
-    controls.start(i => ({
+    controls.start((i) => ({
       opacity: 1,
       y: 0,
       transition: { delay: i * 0.1 },
@@ -31,7 +31,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    const handleMouseMove = e =>
+    const handleMouseMove = (e) =>
       setMousePosition({ x: e.clientX, y: e.clientY });
 
     window.addEventListener("scroll", handleScroll);
