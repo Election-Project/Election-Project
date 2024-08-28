@@ -117,7 +117,7 @@ const PartyListNominationForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-500 via-white to-red-500 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
         <h1 className="text-3xl font-bold mb-6 text-center text-black">
           نموذج طلب ترشيح للقائمة الحزبية

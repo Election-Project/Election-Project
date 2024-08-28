@@ -122,8 +122,15 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-600 via-white to-red-600 p-4">
-      <div className="w-full max-w-md relative">
+    <div
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-300 p-4"
+      style={{
+        backgroundImage: `url('https://meritmarketing.ae/images/calls/verificallsmain.gif')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="w-full max-w-md relative backdrop-filter backdrop-blur-lg">
         {/* Floating shapes using Jordan flag colors */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-black opacity-10 rounded-full mix-blend-overlay filter blur-xl animate-blob"></div>
         <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 opacity-10 rounded-full mix-blend-overlay filter blur-xl animate-blob animation-delay-2000"></div>
@@ -176,7 +183,7 @@ const VerifyOTP = () => {
 
               <button
                 type="submit"
-                className="w-full py-3 px-4 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg shadow-md hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:scale-105"
+                className="w-full py-3 px-4 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold rounded-lg shadow-md hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-300 transform hover:scale-105"
               >
                 تحقق من OTP
               </button>

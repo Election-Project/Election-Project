@@ -121,7 +121,7 @@ const ChatWidget = () => {
         }`}
         onClick={toggleChat}
       >
-        <button className="p-4 w-[80px] h-[80px] bg-gradient-to-r from-green-500 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-500 transition duration-300 flex items-center justify-center">
+        <button className="p-4 w-[80px] h-[80px] bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-full shadow-lg hover:from-gray-700 hover:to-gray-500 transition duration-300 flex items-center justify-center">
           <svg
             width="36px"
             height="36px"
@@ -148,11 +148,11 @@ const ChatWidget = () => {
           >
             <div className="flex flex-col h-[30rem]">
               {/* Common Questions */}
-              <div className="p-4 border-b h-40 border-gray-400 overflow-y-auto  text-white">
+              <div className="p-4 border-b h-40 border-gray-400 overflow-y-auto bg-gray-500 text-white">
                 <h3 className="font-semibold text-gray-50 mb-2">
                   الأسئلة الشائعة
                 </h3>
-                <div className="flex flex-col mt-2 ">
+                <div className="flex flex-col mt-2">
                   {commonQuestions.map((question, index) => (
                     <button
                       key={index}
@@ -169,36 +169,36 @@ const ChatWidget = () => {
               <div className="flex-1 overflow-y-auto p-4 border-t border-gray-200 bg-gray-50">
                 {responses.map((chat, index) => (
                   <div key={index} className="mb-4">
-                    <div className="font-semibold text-red-700">
+                    <div className="font-semibold text-gray-700">
                       {voterInfo.voterName
                         ? `${voterInfo.voterName}:`
                         : "Loading..."}
                     </div>
-                    <div className="bg-red-200 p-2 rounded shadow-sm">
+                    <div className="bg-gray-200 p-2 rounded shadow-sm">
                       {chat.message}
                     </div>
                     <div className="font-semibold text-gray-800 mt-2">
                       الروبوت:
                     </div>
-                    <div className="bg-green-200 p-2 rounded shadow-sm">
+                    <div className="bg-gray-200 p-2 rounded shadow-sm">
                       {chat.response ? (
                         chat.response
                       ) : (
                         <div className="flex">
                           <motion.div
-                            className="h-2 w-2 bg-green-400 rounded-full"
+                            className="h-2 w-2 bg-gray-400 rounded-full"
                             variants={loadingVariants}
                             animate="animate"
                             style={{ marginRight: "8px" }} // Adjust as needed
                           />
                           <motion.div
-                            className="h-2 w-2 bg-green-400 rounded-full"
+                            className="h-2 w-2 bg-gray-400 rounded-full"
                             variants={loadingVariants}
                             animate="animate"
                             style={{ marginRight: "8px" }} // Adjust as needed
                           />
                           <motion.div
-                            className="h-2 w-2 bg-green-400 rounded-full"
+                            className="h-2 w-2 bg-gray-400 rounded-full"
                             variants={loadingVariants}
                             animate="animate"
                             style={{ marginRight: "8px" }} // Adjust as needed
@@ -212,19 +212,19 @@ const ChatWidget = () => {
                   <div className="flex justify-center items-center mt-2">
                     <div className="flex">
                       <motion.div
-                        className="h-2 w-2 bg-green-400 rounded-full"
+                        className="h-2 w-2 bg-gray-400 rounded-full"
                         variants={loadingVariants}
                         animate="animate"
                         style={{ marginRight: "8px" }} // Adjust as needed
                       />
                       <motion.div
-                        className="h-2 w-2 bg-green-400 rounded-full"
+                        className="h-2 w-2 bg-gray-400 rounded-full"
                         variants={loadingVariants}
                         animate="animate"
                         style={{ marginRight: "8px" }} // Adjust as needed
                       />
                       <motion.div
-                        className="h-2 w-2 bg-green-400 rounded-full"
+                        className="h-2 w-2 bg-gray-400 rounded-full"
                         variants={loadingVariants}
                         animate="animate"
                         style={{ marginRight: "8px" }} // Adjust as needed
@@ -246,7 +246,7 @@ const ChatWidget = () => {
                 />
                 <button
                   onClick={() => sendMessage(message)}
-                  className="w-full mt-2 bg-green-700 text-white py-2 rounded-lg"
+                  className="w-full mt-2 bg-gray-700 text-white py-2 rounded-lg"
                 >
                   إرسال
                 </button>

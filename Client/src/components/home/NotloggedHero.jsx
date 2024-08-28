@@ -29,7 +29,7 @@ const NotloggedHero = () => {
         }}
       >
         {/* Overlay with opacity */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-green-700 to-green-500 opacity-75"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-700 to-gray-500 opacity-75"></div>
 
         {/* Content */}
         <div className="relative z-10 text-white max-w-6xl w-full mx-auto text-right">
@@ -57,7 +57,7 @@ const NotloggedHero = () => {
 
           <button
             onClick={handleButtonClick}
-            className="bg-white text-green-800 px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 shadow-lg"
+            className="bg-white text-gray-800 px-8 py-3 rounded-full text-lg font-semibold hover:bg-opacity-90 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 shadow-lg"
           >
             استكشاف الدوائر الانتخابية
           </button>

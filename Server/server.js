@@ -28,7 +28,7 @@ const server = http.createServer(app);
 // Configure CORS
 const corsOptions = {
   origin: ["http://localhost:5173", "http://localhost:5174"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
@@ -76,7 +76,7 @@ io.on("connection", (socket) => {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     national_id = decoded.national_id;
     socket.userId = national_id;
-    console.log("User ID:", socket.userId);
+    console.log("User ID (national_id):", socket.userId);
   } catch (error) {
     console.error("Error verifying token:", error);
     socket.disconnect();
@@ -91,7 +91,7 @@ io.on("connection", (socket) => {
     console.log("Received chat message:", data);
 
     try {
-      const { message, is_admin } = data;
+      const { message } = data;
 
       // Fetch user details
       const user = await sequelize.models.User.findOne({
@@ -106,17 +106,15 @@ io.on("connection", (socket) => {
 
       // Create chat message
       const chatMessage = await sequelize.models.ChatMessage.create({
-        user_id: is_admin ? null : socket.userId,
-        admin_id: is_admin ? socket.userId : null,
+        user_id: socket.userId, // Use national_id as user_id
         message,
-        is_admin,
       });
 
       // Emit the chat message including user details
       io.emit("chatMessage", {
+        user_id: socket.userId, // Send the national_id
         message: chatMessage.message,
-        user_name: user.full_name, // Use user's full name
-        is_admin: chatMessage.is_admin,
+        user_name: user.full_name, // Send the user's full name
         createdAt: chatMessage.createdAt, // Send timestamp
       });
     } catch (error) {

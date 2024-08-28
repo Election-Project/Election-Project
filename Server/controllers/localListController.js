@@ -15,7 +15,20 @@ const getLocalLists = async (req, res) => {
 const getLocalListsNotApproved = async (req, res) => {
   try {
     const localLists = await db.LocalList.findAll({
-      where: { is_approved: false },
+      // where: { is_approved: false },
+      include: [
+        {
+          model: db.Candidate,
+          as: "Candidates", // Ensure this matches the alias defined in your association
+          include: [
+            {
+              model: db.User, // Include the User model
+              as: "User", // This alias should match the alias used in the Candidate model association
+              attributes: ["full_name"], // Retrieve only the full_name attribute
+            },
+          ],
+        },
+      ],
     });
     res.json({ localLists });
   } catch (error) {

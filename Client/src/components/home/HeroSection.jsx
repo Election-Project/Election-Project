@@ -223,7 +223,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   شارك في مستقبل الأردن
                 </motion.h2>
                 <h1 className="text-5xl sm:text-7xl font-extrabold mt-2 mb-6 tracking-tight leading-none">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-l from-red-600 to-white">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-l from-red-400 to-white">
                     مرحبا, {voterName}
                   </span>
                 </h1>
@@ -232,18 +232,18 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   أردناً أقوى وأكثر ازدهاراً.
                 </p>
                 <motion.div
-                  className="flex justify-center items-center mb-8 p-4 rounded-lg shadow-md"
+                  className="flex justify-center items-center mb-8 p-4 rounded-lg shadow-md  "
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
                 >
-                  <div className="text-red-600 text-5xl font-extrabold tracking-wider animate-pulse">
+                  <div className="text-white text-5xl font-extrabold tracking-wider animate-pulse">
                     {timeLeft}
                   </div>
                 </motion.div>
                 <Link to="/votinglist">
                   <motion.button
-                    className="bg-gradient-to-l from-green-600 to-red-700 text-white px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
+                    className="bg-gradient-to-l from-red-400 to-white text-black px-10 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all mb-16 "
                     whileHover={{
                       scale: 1.1,
                       boxShadow: "0px 0px 10px rgba(255, 0, 0, 0.7)",
@@ -271,8 +271,8 @@ const HeroSection = ({ voterName, district, electionDate }) => {
               </div>
             </motion.div>
           </div>
-          <div className="relative flex flex-col md:flex-row justify-center items-center p-8 bg-gradient-to-r -mt-16 rounded-1xl shadow-2xl overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white via-green-700 to-green-200 -z-10 opacity-75"></div>
+          <div className="relative flex flex-col md:flex-row justify-center items-center p-8 bg-gradient-to-r -mt-16 rounded-xl shadow-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-200 to-white -z-10 opacity-75"></div>
 
             <motion.div
               className="md:w-1/2 mb-8 md:mb-0 flex flex-col items-center text-center"
@@ -281,7 +281,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
               transition={{ duration: 0.7, delay: 0.2, ease: "easeInOut" }}
             >
               <motion.h1
-                className="text-5xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-700 to-black"
+                className="text-5xl font-extrabold mb-6 leading-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-700 to-red-600"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
@@ -297,8 +297,10 @@ const HeroSection = ({ voterName, district, electionDate }) => {
               >
                 الدائرة الانتخابية: {district}
               </motion.p>
+
+              {/* Button Container */}
               <motion.div
-                className="flex flex-wrap items-center gap-5"
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.6, ease: "easeOut" }}
@@ -308,11 +310,11 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                     whileHover={{
                       scale: 1.1,
                       boxShadow: "0 0 20px rgba(206, 17, 38, 0.7)",
-                      border: "2px solid rgba(206, 17, 38, 0.7)",
-                      backgroundColor: "rgba(206, 17, 38, 0.7)",
+                      backgroundColor: "#ce1126",
+                      borderColor: "#ce1126",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-[#ce1126] via-[#007a3d] to-black text-white px-8 py-3 rounded-full transition-all duration-300"
+                    className="bg-gradient-to-r from-[#000000] via-[#000000] to-black text-white px-8 py-3 w-full rounded-full transition-all duration-300"
                   >
                     سجل للمشاركة
                   </motion.button>
@@ -323,9 +325,10 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                       scale: 1.1,
                       backgroundColor: "#007a3d",
                       color: "#ffffff",
+                      borderColor: "#007a3d",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="border-2 border-[#007a3d] text-[#007a3d] px-8 py-3 rounded-full transition-all duration-300"
+                    className="border-2 border-[#007a3d] text-[#007a3d] px-8 py-3 w-full rounded-full transition-all duration-300"
                   >
                     المزيد من التفاصيل
                   </motion.button>
@@ -336,9 +339,10 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                       scale: 1.1,
                       backgroundColor: "#000000",
                       color: "#ffffff",
+                      borderColor: "#000000",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="border-2 border-black text-black px-8 py-3 rounded-full transition-all duration-300"
+                    className="border-2 border-black text-black px-8 py-3 w-full rounded-full transition-all duration-300"
                   >
                     طلب ترشيح قائمة محلية
                   </motion.button>
@@ -349,14 +353,16 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                       scale: 1.1,
                       backgroundColor: "#ce1126",
                       color: "#ffffff",
+                      borderColor: "#ce1126",
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="border-2 border-[#ce1126] text-[#ce1126] px-8 py-3 rounded-full transition-all duration-300"
+                    className="border-2 border-[#ce1126] text-[#ce1126] px-8 py-3 w-full rounded-full transition-all duration-300"
                   >
                     طلب ترشيح القائمة الحزبية
                   </motion.button>
                 </Link>
               </motion.div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-20">
                 {[
                   {
@@ -377,7 +383,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                   {
                     value: `${
                       votedLocalPercentage !== null
-                        ? `${votedLocalPercentage.toFixed(2)}%` // Format to 2 decimal places
+                        ? `${votedLocalPercentage.toFixed(2)}%`
                         : "Loading..."
                     }`,
                     label: "نسبة الناخبين الذين صوتوا محلياً",
@@ -406,6 +412,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                 ))}
               </div>
             </motion.div>
+
             <motion.div
               className="md:w-1/2 relative flex justify-center items-center"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -423,7 +430,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                 ].map((card, index) => (
                   <motion.div
                     key={index}
-                    className={`${card.bg} ${card.mt} ${card.span} rounded-2xl p-6 shadow-lg`}
+                    className={`${card.bg} ${card.mt} ${card.span} rounded-2xl p-4 shadow-lg`}
                     whileHover={{
                       scale: 1.05,
                       rotate: 0,
@@ -436,7 +443,7 @@ const HeroSection = ({ voterName, district, electionDate }) => {
                     <img
                       src={images[index]}
                       alt={`صورة ${index + 1}`}
-                      className="rounded-full w-full h-auto"
+                      className="rounded-xl w-full h-auto"
                     />
                   </motion.div>
                 ))}

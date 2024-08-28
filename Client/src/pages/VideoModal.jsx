@@ -41,7 +41,7 @@ const VideoModal = () => {
       <div className="fixed bottom-48 right-12 z-50 cursor-pointer video-button">
         <button
           onClick={openModal}
-          className="w-[80px] h-[80px] p-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-full shadow-lg hover:from-green-700 hover:to-green-500 transition duration-300 flex items-center justify-center overflow-hidden"
+          className="w-[80px] h-[80px] p-2 bg-gradient-to-r from-gray-500 to-gray-700 text-white rounded-full shadow-lg hover:from-gray-700 hover:to-gray-500 transition duration-300 flex items-center justify-center overflow-hidden"
         >
           <video
             src="./src/assets/img/vedu.mp4"
@@ -59,10 +59,10 @@ const VideoModal = () => {
           className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
           onClick={handleBackgroundClick}
         >
-          <div className="bg-white rounded-lg shadow-lg p-6 relative w-11/12 md:w-2/3 lg:w-[50rem] animate-fadeIn">
+          <div className="bg-gray-900 rounded-lg shadow-lg p-6 relative w-11/12 md:w-2/3 lg:w-[50rem] animate-fadeIn">
             <button
               onClick={closeModal}
-              className="absolute top-1 right-1 text-gray-700 hover:text-gray-900 text-2xl modal-close-button"
+              className="absolute top-1 right-1 text-gray-400 hover:text-gray-200 text-2xl modal-close-button"
             >
               <svg
                 className="w-6 h-6"
@@ -105,19 +105,19 @@ const VideoModal = () => {
         styles={{
           options: {},
           buttonBack: {
-            color: "#00000",
+            color: "#000",
           },
           buttonClose: {
-            color: "#00000",
+            color: "#000",
           },
           buttonLast: {
-            color: "#00000",
+            color: "#000",
           },
           buttonNext: {
-            color: "#00000",
+            color: "#000",
           },
           buttonSkip: {
-            color: "#00000",
+            color: "#000",
           },
         }}
       />

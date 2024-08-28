@@ -60,7 +60,7 @@ const SetNewPassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-600 via-white to-red-600 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-400">
       <div className="w-full max-w-md p-8 bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg shadow-2xl rounded-lg relative">
         {/* Floating shapes using Jordan flag colors */}
         <div className="absolute top-0 left-0 w-32 h-32 bg-black opacity-10 rounded-full mix-blend-overlay filter blur-xl animate-blob"></div>

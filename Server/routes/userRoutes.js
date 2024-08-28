@@ -16,6 +16,8 @@ const {
   getAllVoteUsers,
   getAllWinnersForDistrict,
   getAllcandidateUsersFromAnyDistrict,
+  getAllUsers,
+  updateCommissionerStatusById,
 } = require("../controllers/userController");
 
 router.get("/get/:id", getUser);
@@ -37,8 +39,9 @@ router.get("/users-by-district/:id", getAllUsersByDistrictId);
 router.put("/change-to-candidate/:id", changeFromVoterToCandidate);
 router.get("/vote-users", getAllVoteUsers);
 router.get("/candidates/details", getAllcandidateUsersFromAnyDistrict);
-
-//result Page
 router.get("/candidates/details/:district_id", getAllWinnersForDistrict);
+
+router.get("/all-users", getAllUsers);
+router.patch("/users/:id/commissioner", updateCommissionerStatusById);
 
 module.exports = router;

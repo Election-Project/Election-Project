@@ -55,7 +55,7 @@ const LoginComponent = () => {
                   placeholder="Enter your national ID"
                   value={nationalId}
                   onChange={(e) => setNationalId(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200 outline-none"
                   required
                 />
                 <svg
@@ -84,7 +84,7 @@ const LoginComponent = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 outline-none"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-500 focus:border-transparent transition duration-200 outline-none"
                   required
                 />
                 <svg
@@ -105,7 +105,7 @@ const LoginComponent = () => {
             <div>
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white rounded-lg px-4 py-3 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+                className="w-full bg-gray-600 text-white rounded-lg px-4 py-3 font-semibold hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
               >
                 Log In
               </button>

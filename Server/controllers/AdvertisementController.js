@@ -31,7 +31,16 @@ class AdvertisementController {
 
   static async getAllAdvertisements(req, res) {
     try {
-      const advertisements = await Advertisement.findAll();
+      const advertisements = await Advertisement.findAll({
+        include: [
+          {
+            model: User,
+            as: "user",
+            attributes: ["national_id", "full_name", "email"],
+          },
+        ],
+      });
+
       return res.status(200).json(advertisements);
     } catch (error) {
       return res.status(500).json({ error: error.message });

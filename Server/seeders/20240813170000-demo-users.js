@@ -11,7 +11,7 @@ module.exports = {
 
     const users = [
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003321",
         password: "",
         email: generateUniqueEmail(1),
         full_name: "ابراهيم احمد ابراهيم العيسه",
@@ -23,7 +23,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003322",
         password: "",
         email: generateUniqueEmail(2),
         full_name: "اباء ابراهيم عبد الرحمن الخطيب",
@@ -35,7 +35,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003323",
         password: "",
         email: generateUniqueEmail(3),
         full_name: "ابراهيم احمد محمد جادو",
@@ -71,7 +71,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003324",
         password: "",
         email: generateUniqueEmail(6),
         full_name: "بكر يوسف عبد السلام العويص",
@@ -83,7 +83,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003325",
         password: "",
         email: generateUniqueEmail(7),
         full_name: "بلال احمد جميل السفاريني",
@@ -95,7 +95,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003326",
         password: "",
         email: generateUniqueEmail(8),
         full_name: "بهاء جهاد احمد الصبيحات",
@@ -119,7 +119,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003327",
         password: "",
         email: "rami.ghazzawiabed@gmail.com",
         full_name: "رامي عبد الرحيم صبري غزاوي",
@@ -131,7 +131,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003328",
         password: "",
         email: generateUniqueEmail(9),
         full_name: "ثائر خليل سعيد ابو السعود",
@@ -143,7 +143,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003329",
         password: "",
         email: generateUniqueEmail(10),
         full_name: "تيسير موسى احمد حماد",
@@ -155,7 +155,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003330",
         password: "",
         email: generateUniqueEmail(11),
         full_name: "زيد خالد انيس جنديه",
@@ -167,7 +167,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003333",
         password: "",
         email: generateUniqueEmail(12),
         full_name: "زيد خالد بدر عساف",
@@ -2255,7 +2255,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003331",
         password: "",
         email: generateUniqueEmail(186),
         full_name: "هنا انور خميس الشويكي",
@@ -2267,7 +2267,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003332",
         password: "",
         email: generateUniqueEmail(187),
         full_name: "هنا انور حامد الجوارنه",
@@ -4163,7 +4163,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003334",
         password: "",
         email: generateUniqueEmail(345),
         full_name: "عيسى ابراهيم اسماعيل ابو عواد",
@@ -4175,7 +4175,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003335",
         password: "",
         email: generateUniqueEmail(346),
         full_name: "محمد رائد عبد الحفيظ الحيت",
@@ -4187,7 +4187,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003336",
         password: "",
         email: generateUniqueEmail(347),
         full_name: "محمد رائد عبد الحليم ابو حليمه",
@@ -4199,7 +4199,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003337",
         password: "",
         email: generateUniqueEmail(348),
         full_name: "محمد رائد عبد الحميد ابو عاشور",
@@ -4211,7 +4211,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003338",
         password: "",
         email: generateUniqueEmail(349),
         full_name: "محمد رائد عبد الرحمن ابو شلبايه",
@@ -4223,7 +4223,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003339",
         password: "",
         email: generateUniqueEmail(350),
         full_name: "محمد رائد عبد الرحمن السيوري",
@@ -4235,7 +4235,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003340",
         password: "",
         email: generateUniqueEmail(351),
         full_name: "محمد رائد عبد الرحمن صباح",
@@ -4247,7 +4247,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003341",
         password: "",
         email: generateUniqueEmail(352),
         full_name: "محمد رائد عبد الرزاق حمد الله",
@@ -4259,7 +4259,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003342",
         password: "",
         email: generateUniqueEmail(353),
         full_name: "محمد رائد عبد الغفار حسنين",
@@ -4331,7 +4331,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003343",
         password: "",
         email: generateUniqueEmail(359),
         full_name: "دينا خالد محمود سليم",
@@ -4343,7 +4343,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003370",
         password: "",
         email: generateUniqueEmail(360),
         full_name: "دينا خالد مصطفى علي",
@@ -5147,7 +5147,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003344",
         password: "",
         email: generateUniqueEmail(427),
         full_name: "مخلد احمد موسى الزواهر",
@@ -5159,7 +5159,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003345",
         password: "",
         email: generateUniqueEmail(428),
         full_name: "يوسف عبد الله عبد الرؤوف المهدي",
@@ -5171,7 +5171,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003346",
         password: "",
         email: generateUniqueEmail(429),
         full_name: "مراد محمد علي ابو رحمه",
@@ -5183,7 +5183,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003347",
         password: "",
         email: generateUniqueEmail(430),
         full_name: "منصور سيف الدين مراد سباجه",
@@ -5195,7 +5195,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003348",
         password: "",
         email: generateUniqueEmail(431),
         full_name: "ولاء احمد خالد قطن",
@@ -5231,7 +5231,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003349",
         password: "",
         email: generateUniqueEmail(434),
         full_name: "رعد عجاج مهنا عطا",
@@ -5243,7 +5243,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003350",
         password: "",
         email: generateUniqueEmail(435),
         full_name: "رياض احمد سلمان الشيشكات",
@@ -5255,7 +5255,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003351",
         password: "",
         email: generateUniqueEmail(436),
         full_name: "طارق فياض قوري جرار",
@@ -5267,7 +5267,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003352",
         password: "",
         email: generateUniqueEmail(437),
         full_name: "محمد سليمان محمد ابو جوده",
@@ -5279,7 +5279,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003353",
         password: "",
         email: generateUniqueEmail(438),
         full_name: "ممدوح سعد احمد عياش",
@@ -5291,7 +5291,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003354",
         password: "",
         email: generateUniqueEmail(439),
         full_name: "وليد حامد صالح المصري",
@@ -5303,7 +5303,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003355",
         password: "",
         email: generateUniqueEmail(440),
         full_name: "يوسف حسن محمود ابو هويدي",
@@ -5339,7 +5339,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003356",
         password: "",
         email: generateUniqueEmail(443),
         full_name: "عبد الله خالد عبد الله عبادات",
@@ -5351,7 +5351,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003357",
         password: "",
         email: generateUniqueEmail(444),
         full_name: "فتحي حسني محمود عبد الكريم",
@@ -5363,7 +5363,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003358",
         password: "",
         email: generateUniqueEmail(445),
         full_name: "فهمي منير ابراهيم يوسف",
@@ -5375,7 +5375,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003359",
         password: "",
         email: generateUniqueEmail(446),
         full_name: "مامون محمد طاهر الاحمد",
@@ -5399,7 +5399,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003360",
         password: "",
         email: generateUniqueEmail(448),
         full_name: "نبيل كامل احمد الشيشاني",
@@ -5411,7 +5411,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003361",
         password: "",
         email: generateUniqueEmail(449),
         full_name: "سهير محمد ياسر ابراهيم ناصر الدين",
@@ -5447,7 +5447,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003362",
         password: "",
         email: generateUniqueEmail(452),
         full_name: "سالم عيسى جبر الخوالده",
@@ -5459,7 +5459,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003363",
         password: "",
         email: generateUniqueEmail(453),
         full_name: "محمد عبد الحميد محمد السليمه",
@@ -5471,7 +5471,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003364",
         password: "",
         email: generateUniqueEmail(454),
         full_name: "محمد مصطفى عبد الجليل",
@@ -5483,7 +5483,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003365",
         password: "",
         email: generateUniqueEmail(455),
         full_name: "محمد مصطفى نوفل زيدان",
@@ -5495,7 +5495,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003366",
         password: "",
         email: generateUniqueEmail(456),
         full_name: "محمد منير شاكر الشيشاني",
@@ -5507,7 +5507,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003367",
         password: "",
         email: generateUniqueEmail(457),
         full_name: "ابو الشيخ محمد سلامه ابو رحمه",
@@ -5519,7 +5519,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003368",
         password: "",
         email: generateUniqueEmail(458),
         full_name: "هلال حكمت محمد عواد",
@@ -5531,7 +5531,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        national_id: generateRandom12DigitID(),
+        national_id: "852801003369",
         password: "",
         email: generateUniqueEmail(459),
         full_name: "هيلال محمد رشدا نذال الخلايله",

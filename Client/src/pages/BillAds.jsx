@@ -109,20 +109,44 @@ const BillAds = () => {
   //اني اعمل صورة
   const handleGenerateImage = async () => {
     try {
-      const response = await axios.post(
-        "https://api.deepai.org/api/text2img",
-        {
-          text: description,
-        },
-        {
-          headers: {
-            "Api-Key": "350e2690-8a28-4a50-adc1-bb1c0269f146",
-          },
-        }
-      );
+      const data = {
+        inputs: description,
+      };
 
-      setImageUrl(response.data.output_url);
-      setCandidatePhoto(response.data.output_url);
+      async function query(data) {
+        const response = await fetch(
+          "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image",
+          {
+            headers: {
+              Authorization: "Bearer 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", // Replace with your actual API key
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+            body: JSON.stringify(data),
+          }
+        );
+
+        const result = await response.blob(); // Ensure we get a blob
+        console.log("Response Status:", response.status);
+        console.log("Blob Size:", result.size); // Check blob size
+
+        // Check if response is OK
+        if (!response.ok) {
+          throw new Error(
+            `HTTP error! status: ${
+              response.status
+            }, message: ${await response.text()}`
+          );
+        }
+
+        return result;
+      }
+
+      const imageBlob = await query(data);
+      const imageUrl = URL.createObjectURL(imageBlob);
+
+      setImageUrl(imageUrl);
+      setCandidatePhoto(imageUrl);
     } catch (error) {
       console.error("Error generating image:", error);
     }
@@ -233,55 +257,55 @@ const BillAds = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-50 p-6">
-      <h1 className="text-4xl font-extrabold mb-12 text-[#007a3d]">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-6">
+      <h1 className="text-4xl font-extrabold mb-12 text-gray-700">
         مخصص اللوحة الإعلانية
       </h1>
 
       <div className="w-full max-w-[80rem] flex flex-row gap-8">
-        <div className="w-full max-w-md h-[35rem] bg-gradient-to-r from-green-500 to-green-700 p-8 shadow-2xl rounded-xl overflow-y-auto">
+        <div className="w-full max-w-md h-[35rem] bg-gradient-to-r from-gray-400 to-gray-600 p-8 shadow-2xl rounded-xl overflow-y-auto">
           <h2 className="text-3xl font-semibold mb-6 text-white">
             تخصيص اللوحة الإعلانية الخاصة بك
           </h2>
 
           {/* Form Fields */}
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               اسم المرشح
             </label>
             <input
               type="text"
               value={candidateName}
               onChange={(e) => setCandidateName(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               شعار الانتخابات
             </label>
             <input
               type="text"
               value={electionSlogan}
               onChange={(e) => setElectionSlogan(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               الوصف
             </label>
             <textarea
               value={candidateDescription}
               onChange={(e) => setCandidateDescription(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               انشاء الصورة
             </label>
             <input
@@ -289,18 +313,18 @@ const BillAds = () => {
               placeholder="أدخل وصف الصورة"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
             <button
               onClick={handleGenerateImage}
-              className="w-full bg-gradient-to-r from-[#ce1126] via-[#007a3d] h-[3rem] rounded-xl to-black text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4"
+              className="w-full bg-gradient-to-r from-gray-700 via-gray-500 h-[3rem] rounded-xl to-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mt-4"
             >
               انشاء الصورة
             </button>
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               الصورة
             </label>
             <input
@@ -308,54 +332,54 @@ const BillAds = () => {
               placeholder="رابط الصورة"
               value={candidatePhoto}
               onChange={(e) => setCandidatePhoto(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               لون الخط
             </label>
             <input
               type="color"
               value={fontColor}
               onChange={(e) => setFontColor(e.target.value)}
-              className="w-full p-2 border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               لون البطاقة
             </label>
             <input
               type="color"
               value={cardColor}
               onChange={(e) => setCardColor(e.target.value)}
-              className="w-full p-2 border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               لون الإطار
             </label>
             <input
               type="color"
               value={borderColor}
               onChange={(e) => setBorderColor(e.target.value)}
-              className="w-full p-2 border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-2 border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               نوع الإطار
             </label>
             <select
               value={borderType}
               onChange={(e) => setBorderType(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             >
               <option value="none">بدون</option>
               <option value="solid">خط متصل</option>
@@ -365,13 +389,13 @@ const BillAds = () => {
           </div>
 
           <div className="mb-6">
-            <label className="block text-lg font-medium mb-2 text-white">
+            <label className="block text-lg font-medium mb-2 text-gray-200">
               شكل البطاقة
             </label>
             <select
               value={cardShape}
               onChange={(e) => setCardShape(e.target.value)}
-              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-green-500 focus:border-green-500"
+              className="w-full p-3 bg-white border rounded-lg shadow-sm focus:ring-gray-500 focus:border-gray-500"
             >
               <option value="square">مربع</option>
               <option value="circle">دائرة</option>
@@ -381,7 +405,7 @@ const BillAds = () => {
           {!showPayPal && (
             <button
               onClick={handleSubmit}
-              className="w-full bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              className="w-full bg-gray-700 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
             >
               إرسال الإعلان
             </button>
@@ -390,7 +414,7 @@ const BillAds = () => {
 
         {/* Preview Section */}
         <div
-          className="w-full bg-white p-10 shadow-lg rounded-lg flex items-center justify-center hover:shadow-2xl"
+          className="w-full bg-gray-100 p-10 shadow-lg rounded-lg flex items-center justify-center hover:shadow-2xl"
           ref={cardRef}
         >
           <div
@@ -425,27 +449,27 @@ const BillAds = () => {
       {isPaymentSuccessful && (
         <button
           onClick={downloadPdf}
-          className="mt-5 bg-[#007a3d] hover:opacity-90 text-white p-3 rounded-2xl"
+          className="mt-5 bg-gray-700 hover:opacity-90 text-white p-3 rounded-2xl"
         >
           تحميل بصيغة PDF
         </button>
       )}
 
       {showPayPal && showStripe && (
-        <div className="w-full max-w-6xl mt-12 bg-[#f9f9f9] p-8 rounded-lg shadow-lg">
-          <h2 className="text-4xl font-bold mb-6 text-center text-[#007a3d]">
+        <div className="w-full max-w-6xl mt-12 bg-gray-200 p-8 rounded-lg shadow-lg">
+          <h2 className="text-4xl font-bold mb-6 text-center text-gray-700">
             ادفع الإعلان
           </h2>
-          <p className="text-lg font-medium text-gray-700 text-center mb-6">
+          <p className="text-lg font-medium text-gray-600 text-center mb-6">
             يرجى إكمال الدفع لإتمام عملية تقديم الإعلان.
           </p>
-          <p className="text-lg font-semibold text-gray-800 text-center mb-6">
+          <p className="text-lg font-semibold text-gray-700 text-center mb-6">
             المبلغ الإجمالي:{" "}
-            <span className="text-[#007a3d]">{totalAmount.toFixed(2)} USD</span>
+            <span className="text-gray-700">{totalAmount.toFixed(2)} USD</span>
           </p>
           <div className="flex flex-wrap justify-center gap-8">
-            <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-6 border border-[#007a3d]">
-              <h3 className="text-2xl font-semibold mb-4 text-[#007a3d]">
+            <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-6 border border-gray-700">
+              <h3 className="text-2xl font-semibold mb-4 text-gray-700">
                 الدفع عبر PayPal
               </h3>
               <PayPalScriptProvider
@@ -457,7 +481,7 @@ const BillAds = () => {
                 <PayPalButtons
                   style={{
                     layout: "horizontal",
-                    color: "black", // Stripe colors are limited, so use custom styling for the button
+                    color: "black",
                     shape: "rect",
                     label: "pay",
                   }}
@@ -484,8 +508,8 @@ const BillAds = () => {
                 />
               </PayPalScriptProvider>
             </div>
-            <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-6 border border-[#007a3d]">
-              <h3 className="text-2xl font-semibold mb-4 text-[#007a3d]">
+            <div className="w-full max-w-md bg-white shadow-xl rounded-lg p-6 border border-gray-700">
+              <h3 className="text-2xl font-semibold mb-4 text-gray-700">
                 الدفع عبر Stripe
               </h3>
               <Elements stripe={stripePromise}>

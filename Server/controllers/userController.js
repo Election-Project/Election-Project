@@ -45,6 +45,51 @@ getUserDistrictInfo = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    // Retrieve all users from the User model
+    const users = await User.findAll();
+
+    // Send the list of users as a JSON response
+    res.json({ users });
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const updateCommissionerStatusById = async (req, res) => {
+  try {
+    const { id } = req.params; // ID from route parameter
+    const { is_commissioner } = req.body;
+
+    if (typeof is_commissioner !== "boolean") {
+      return res.status(400).json({
+        message: "Invalid value for is_commissioner. It must be a boolean.",
+      });
+    }
+
+    // Find the user by ID
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update the user's is_commissioner status
+    user.is_commissioner = is_commissioner;
+    await user.save();
+
+    res.json({
+      message: "User's commissioner status updated successfully",
+      user,
+    });
+  } catch (error) {
+    console.error("Error updating commissioner status:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 const getUser = async (req, res) => {
   const id = req.params.id;
   try {
@@ -126,7 +171,7 @@ getAllDistricts = async (req, res) => {
 
     const districts = await ElectoralDistrict.findAll();
 
-    const districtData = districts.map(district => ({
+    const districtData = districts.map((district) => ({
       id: district.district_id,
       name: district.name,
       city: district.city,
@@ -303,7 +348,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     const localThreshold = totalVoters * 0.07;
 
     // Filter local lists that surpassed the threshold
-    const qualifiedLocalLists = localLists.filter(list => {
+    const qualifiedLocalLists = localLists.filter((list) => {
       const totalVotesForList = list.Candidates.reduce(
         (sum, candidate) => sum + candidate.votes,
         0
@@ -332,15 +377,15 @@ const getAllWinnersForDistrict = async (req, res) => {
     // Helper function to get the top candidate for a specific category
     const getTopCandidate = (candidates, category) => {
       return candidates
-        .filter(c => c.religion === category)
+        .filter((c) => c.religion === category)
         .sort((a, b) => b.votes - a.votes)
-        .find(candidate => !selectedCandidates.has(candidate.national_id));
+        .find((candidate) => !selectedCandidates.has(candidate.national_id));
     };
 
     // Select the top candidate from each category if applicable
     const electedChristian = christianSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "Christian"
         )
       : null;
@@ -351,7 +396,7 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedCircassianOrChechen = circassianOrChechenSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "circassian_chechen"
         )
       : null;
@@ -362,7 +407,7 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedFemaleQuota = femaleQuotaSeat
       ? getTopCandidate(
-          localLists.flatMap(list => list.Candidates),
+          localLists.flatMap((list) => list.Candidates),
           "female_quota"
         )
       : null;
@@ -379,7 +424,7 @@ const getAllWinnersForDistrict = async (req, res) => {
       (electedFemaleQuota ? 1 : 0);
 
     // Calculate winning seats for Muslims in each qualified local list
-    const localResults = qualifiedLocalLists.map(list => {
+    const localResults = qualifiedLocalLists.map((list) => {
       const totalVotesForList = list.Candidates.reduce(
         (sum, candidate) => sum + candidate.votes,
         0
@@ -392,11 +437,11 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     // Select Muslim candidates based on the number of seats their list has won
     const electedMuslims = [];
-    localResults.forEach(list => {
+    localResults.forEach((list) => {
       const listCandidates = list.Candidates.filter(
-        c => c.religion === "Muslim"
+        (c) => c.religion === "Muslim"
       ).sort((a, b) => b.votes - a.votes);
-      listCandidates.slice(0, list.seatsWon).forEach(candidate => {
+      listCandidates.slice(0, list.seatsWon).forEach((candidate) => {
         if (!selectedCandidates.has(candidate.national_id)) {
           electedMuslims.push(candidate);
           selectedCandidates.add(candidate.national_id);
@@ -455,4 +500,6 @@ module.exports = {
   getAllVoteUsers,
   getAllWinnersForDistrict,
   getAllcandidateUsersFromAnyDistrict,
+  getAllUsers,
+  updateCommissionerStatusById,
 };

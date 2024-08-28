@@ -6,28 +6,28 @@ module.exports = {
     await queryInterface.bulkInsert("party_lists", [
       {
         name: "حزب الميثاق",
-        votes: 0,
+        votes: 600,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
       },
       {
         name: "حزب الشورى الاردني",
-        votes: 0,
+        votes: 700,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
       },
       {
         name: "حزب الوفاء الوطني",
-        votes: 0,
+        votes: 800,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
       },
       {
         name: "حزب الارض المباركة",
-        votes: 0,
+        votes: 900,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,

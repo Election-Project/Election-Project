@@ -7,7 +7,14 @@ const CheckEmail = () => {
   const nationalId = queryParams.get("national_id");
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-600 via-white to-red-600 p-4">
+    <div
+      className="min-h-screen flex items-center justify-center bg-gray-100 p-4"
+      style={{
+        backgroundImage: `url('https://assets.mongodb-cdn.com/mms/static/dist/images/953862e6f29d77cebef307438ae8c10a.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <div className="w-full max-w-md relative bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg rounded-3xl shadow-2xl p-8">
         <div className="absolute top-0 left-0 w-32 h-32 bg-black opacity-10 rounded-full mix-blend-overlay filter blur-xl animate-blob"></div>
         <div className="absolute top-0 right-0 w-32 h-32 bg-red-500 opacity-10 rounded-full mix-blend-overlay filter blur-xl animate-blob animation-delay-2000"></div>

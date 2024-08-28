@@ -8,7 +8,7 @@ module.exports = {
       {
         name: "عزم",
         district_id: 6,
-        votes: 0,
+        votes: 100,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -17,7 +17,7 @@ module.exports = {
       {
         name: "الوطني الاسلامي",
         district_id: 6,
-        votes: 0,
+        votes: 125,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -26,7 +26,7 @@ module.exports = {
       {
         name: "جبهة العمل الاسلامي",
         district_id: 6,
-        votes: 0,
+        votes: 150,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -35,7 +35,7 @@ module.exports = {
       {
         name: "تقدم",
         district_id: 6,
-        votes: 0,
+        votes: 175,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -43,7 +43,7 @@ module.exports = {
       {
         name: "الهمة",
         district_id: 1,
-        votes: 0,
+        votes: 200,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -52,7 +52,7 @@ module.exports = {
       {
         name: "العهد",
         district_id: 1,
-        votes: 0,
+        votes: 225,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -61,7 +61,7 @@ module.exports = {
       {
         name: "عمان",
         district_id: 1,
-        votes: 0,
+        votes: 250,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -70,7 +70,7 @@ module.exports = {
       {
         name: "المستقبل",
         district_id: 1,
-        votes: 0,
+        votes: 275,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -78,7 +78,7 @@ module.exports = {
       {
         name: "الكرامة",
         district_id: 2,
-        votes: 0,
+        votes: 300,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -87,7 +87,7 @@ module.exports = {
       {
         name: "الحق",
         district_id: 2,
-        votes: 0,
+        votes: 170,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -96,7 +96,7 @@ module.exports = {
       {
         name: "نمو",
         district_id: 2,
-        votes: 0,
+        votes: 210,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,
@@ -105,7 +105,7 @@ module.exports = {
       {
         name: "الاتحاد",
         district_id: 2,
-        votes: 0,
+        votes: 260,
         createdAt: new Date(),
         updatedAt: new Date(),
         is_approved: true,

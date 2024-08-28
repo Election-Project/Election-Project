@@ -70,7 +70,7 @@ const Home = () => {
           {roomIds.map((id, index) => (
             <li key={index} className="mb-2">
               <button
-                className="bg-gradient-to-br from-white via-green-700 to-green-200 text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
+                className="bg-gradient-to-br from-white via-gray-700 to-green-200 text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
                 onClick={() => handleNavigateToLiveStream(id)}
               >
                 الانتقال إلى غرفة رقم: {id}

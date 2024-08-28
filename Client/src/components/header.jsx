@@ -39,10 +39,7 @@ export function Nav() {
 
   return (
     <>
-      <Navbar
-        fluid
-        className="bg-gradient-to-r from-black via-[#007a3d] to-[#ce1126] text-white shadow-md sticky top-0 z-50"
-      >
+      <Navbar fluid className="bg-white text-black shadow-md sticky top-0 z-50">
         <NavLink to="/" end>
           <img
             src={Logo}
@@ -54,7 +51,7 @@ export function Nav() {
           {isAuthenticated ? (
             <Button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors duration-300 mr-32"
+              className="bg-red-600 hover:bg-red-700 text-black p-2 rounded-full transition-colors duration-300 mr-32"
             >
               <FaSignOutAlt size={20} />
             </Button>
@@ -62,7 +59,7 @@ export function Nav() {
             <Button
               as={NavLink}
               to="/login-with-password"
-              className="bg-green-600 hover:bg-green-700 text-white transition-colors duration-300 mr-32"
+              className="bg-gray-600 hover:bg-gray-700 text-white transition-colors duration-300 mr-32"
             >
               تسجيل الدخول
             </Button>
@@ -74,7 +71,7 @@ export function Nav() {
             <NavLink
               to="/votinglist"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 ml-5 transition-colors duration-300 custom-election-link ${
+                `text-black hover:text-red-600 ml-5 transition-colors duration-300 custom-election-link ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
@@ -84,7 +81,7 @@ export function Nav() {
             <NavLink
               to="/Electionresult"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-colors duration-300 custom-election-result-link ${
+                `text-black hover:text-red-600 transition-colors duration-300 custom-election-result-link ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
@@ -94,17 +91,27 @@ export function Nav() {
             <NavLink
               to="/about"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-colors duration-300 ${
+                `text-black hover:text-red-600 transition-colors duration-300 ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
             >
               إعرف أكثر
+            </NavLink>{" "}
+            <NavLink
+              to="/Chat"
+              className={({ isActive }) =>
+                `text-black hover:text-red-600 transition-colors duration-300 ${
+                  isActive ? "font-bold underline" : ""
+                }`
+              }
+            >
+              الرسائل المباشرة{" "}
             </NavLink>
             <NavLink
               to="/BillAds"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-colors duration-300 custom-bill-ads-link ${
+                `text-black hover:text-red-600 transition-colors duration-300 custom-bill-ads-link ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
@@ -114,7 +121,7 @@ export function Nav() {
             <NavLink
               to="/LiveStream"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-colors duration-300 ${
+                `text-black hover:text-red-600 transition-colors duration-300 ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
@@ -124,7 +131,7 @@ export function Nav() {
             <NavLink
               to="/contact"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105 ${
+                `text-black hover:text-red-600 transition-transform duration-200 hover:scale-105 ${
                   isActive ? "font-bold underline" : ""
                 }`
               }
@@ -134,7 +141,7 @@ export function Nav() {
             <NavLink
               to="/news"
               className={({ isActive }) =>
-                `text-white hover:text-gray-300 transition-transform duration-200 hover:scale-105 ${
+                `text-black hover:text-red-600 transition-transform duration-200 hover:scale-105 ${
                   isActive ? "font-bold underline" : ""
                 }`
               }

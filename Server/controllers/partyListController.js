@@ -13,7 +13,20 @@ const getPartyList = async (req, res) => {
 const getPartyListNotApproved = async (req, res) => {
   try {
     const partyLists = await db.PartyList.findAll({
-      where: { is_approved: false },
+      // where: { is_approved: false },
+      include: [
+        {
+          model: db.PartyListCandidate,
+          as: "PartyListCandidates", // Ensure this matches the alias defined in your association
+          include: [
+            {
+              model: db.User, // Include the User model
+              as: "User", // This alias should match the alias used in the PartyListCandidate model association
+              attributes: ["full_name"], // Retrieve only the full_name attribute
+            },
+          ],
+        },
+      ],
     });
     res.json({ partyLists });
   } catch (error) {

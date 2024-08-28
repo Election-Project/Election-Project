@@ -6,7 +6,7 @@ import voter4 from "../assets/img/voter4.png";
 
 const Section = ({ title, children, id }) => (
   <section id={id} className="mb-12 scroll-mt-20 relative">
-    <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-red-700 to-green-900"></div>
+    <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-red-200 to-green-200"></div>
     <h2 className="text-2xl font-bold mb-6 text-green-900 border-b-2 border-red-700 pb-2 inline-block mr-4">
       {title}
     </h2>

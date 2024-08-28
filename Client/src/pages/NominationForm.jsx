@@ -148,16 +148,18 @@ const NominationForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-500 via-white to-red-500 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-        <h1 className="text-3xl font-bold mb-6 text-center text-black">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 py-12 px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row justify-center items-start gap-16 lg:gap-32">
+      {/* Form Section */}
+      <div className="max-w-md lg:max-w-lg w-full p-8 bg-white rounded-xl shadow-xl transition-transform transform hover:scale-105">
+        <h1 className="text-3xl font-extrabold mb-8 text-center text-gray-900">
           نموذج طلب ترشيح للقائمة المحلية
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Form Fields */}
           <div>
             <label
               htmlFor="listName"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-lg font-semibold text-gray-800 mb-2"
             >
               اسم القائمة المحلية
             </label>
@@ -167,16 +169,16 @@ const NominationForm = () => {
               value={listName}
               onChange={(e) => setListName(e.target.value)}
               placeholder="أدخل اسم القائمة أو الحزب"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-lg font-semibold text-gray-800 mb-2">
               اختر المرشحين
             </label>
             <select
               onChange={handleCandidateSelection}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500"
             >
               <option value="">اختر مرشحًا</option>
               {candidates.map((candidate) => (
@@ -187,13 +189,15 @@ const NominationForm = () => {
             </select>
           </div>
           {selectedCandidates.length > 0 && (
-            <div className="mt-4">
-              <h3 className="font-semibold mb-2">المرشحون المختارون:</h3>
-              <ul className="space-y-2">
+            <div className="mt-6">
+              <h3 className="font-semibold text-lg mb-4">
+                المرشحون المختارون:
+              </h3>
+              <ul className="space-y-4">
                 {selectedCandidates.map((candidate) => (
                   <li
                     key={candidate.id}
-                    className="flex flex-col bg-gray-100 p-2 rounded"
+                    className="flex flex-col bg-gray-50 p-4 rounded-lg shadow-md"
                   >
                     <div className="flex justify-between items-center">
                       {candidate.name}
@@ -202,7 +206,7 @@ const NominationForm = () => {
                         onClick={() =>
                           removeCandidateFromSelection(candidate.id)
                         }
-                        className="text-red-500 hover:text-red-700"
+                        className="text-red-500 hover:text-red-700 focus:outline-none"
                       >
                         حذف
                       </button>
@@ -212,7 +216,7 @@ const NominationForm = () => {
                       onChange={(e) =>
                         handleCandidateTypeChange(candidate.id, e.target.value)
                       }
-                      className="mt-2 w-full px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      className="mt-3 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
                     >
                       <option value="">اختر نوع المرشح</option>
                       {candidateTypes.map((type) => (
@@ -232,7 +236,7 @@ const NominationForm = () => {
           />
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
             disabled={!validateSelection() || !listName}
           >
             تقديم طلب الترشيح
@@ -241,14 +245,14 @@ const NominationForm = () => {
 
         {showSuccessDialog && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-xl">
-              <h2 className="text-xl font-bold mb-4">تم تقديم الطلب بنجاح</h2>
-              <p className="mb-4">
+            <div className="bg-white p-8 rounded-xl shadow-xl">
+              <h2 className="text-2xl font-bold mb-6">تم تقديم الطلب بنجاح</h2>
+              <p className="mb-6">
                 شكرًا لك على المشاركة في العملية الانتخابية.
               </p>
               <button
                 onClick={() => setShowSuccessDialog(false)}
-                className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300"
+                className="bg-gray-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300"
               >
                 حسنًا
               </button>

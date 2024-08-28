@@ -99,24 +99,24 @@ const ElectionInfoSection = ({ className }) => {
   }, []);
 
   const districtImages = {
-    1: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    2: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    3: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    4: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    5: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    6: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    7: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    8: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    9: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    10: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    11: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    12: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    13: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    14: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    15: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    16: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    17: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
-    18: "https://img.freepik.com/premium-vector/jordan-election-concept-hand-puts-vote-bulletin_141130-13251.jpg?ga=GA1.1.493505850.1715763129&semt=ais_hybrid",
+    1: "./src/assets/img/12.jpg",
+    2: "./src/assets/img/12.jpg",
+    3: "./src/assets/img/12.jpg",
+    4: "./src/assets/img/12.jpg",
+    5: "./src/assets/img/12.jpg",
+    6: "./src/assets/img/12.jpg",
+    7: "./src/assets/img/12.jpg",
+    8: "./src/assets/img/12.jpg",
+    9: "./src/assets/img/12.jpg",
+    10: "./src/assets/img/12.jpg",
+    11: "./src/assets/img/12.jpg",
+    12: "./src/assets/img/12.jpg",
+    13: "./src/assets/img/12.jpg",
+    14: "./src/assets/img/12.jpg",
+    15: "./src/assets/img/12.jpg",
+    16: "./src/assets/img/12.jpg",
+    17: "./src/assets/img/12.jpg",
+    18: "./src/assets/img/12.jpg",
   };
 
   const steps = [
@@ -188,8 +188,8 @@ const ElectionInfoSection = ({ className }) => {
                     district.id
                   } ${
                     district.isUserDistrict
-                      ? "bg-gradient-to-r from-green-300 to-green-600"
-                      : "bg-gradient-to-r from-gray-300 to-gray-400 cursor-not-allowed"
+                      ? "bg-gradient-to-r from-white to-white"
+                      : "bg-gradient-to-r from-gray-300 to-gray-500 cursor-not-allowed"
                   }`}
                 >
                   <img
