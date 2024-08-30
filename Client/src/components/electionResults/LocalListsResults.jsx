@@ -134,10 +134,22 @@ function LocalListsResults({ selectedDistrict }) {
                 {candidate.votes || "غير متوفر"}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {candidate.religion || "غير متوفر"}
+                {candidate.religion === "Muslim"
+                  ? "مسلم"
+                  : candidate.religion === "Christian"
+                  ? "مسيحي"
+                  : candidate.religion === "circassian_chechen"
+                  ? "شركسي/شيشاني"
+                  : candidate.religion === "female_quota"
+                  ? "كوتا نسائية"
+                  : "غير متوفر"}
               </td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {candidate.gender || "غير متوفر"}
+                {candidate.gender === "Male"
+                  ? "ذكر"
+                  : candidate.gender === "Female"
+                  ? "أنثى"
+                  : "غير متوفر"}
               </td>
             </tr>
           ))}

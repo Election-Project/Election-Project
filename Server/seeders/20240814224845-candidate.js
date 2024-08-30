@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         national_id: "196684318149",
-        list_id: 6,
+        list_id: 1,
         votes: 125,
         religion: "Muslim",
         gender: "Male",
@@ -51,7 +51,7 @@ module.exports = {
       },
       {
         national_id: "460670134243",
-        list_id: 6,
+        list_id: 1,
         votes: 150,
         religion: "Muslim",
         gender: "Male",
@@ -288,7 +288,7 @@ module.exports = {
       ///////////////////////////////////
       {
         national_id: "852801003344",
-        list_id: 6,
+        list_id: 1,
         votes: 100,
         religion: "Muslim",
         gender: "Male",
@@ -297,7 +297,7 @@ module.exports = {
       },
       {
         national_id: "852801003345",
-        list_id: 6,
+        list_id: 1,
         votes: 110,
         religion: "Muslim",
         gender: "Male",
@@ -306,7 +306,7 @@ module.exports = {
       },
       {
         national_id: "852801003346",
-        list_id: 6,
+        list_id: 1,
         votes: 120,
         religion: "Muslim",
         gender: "Male",
@@ -315,7 +315,7 @@ module.exports = {
       },
       {
         national_id: "852801003347",
-        list_id: 6,
+        list_id: 1,
         votes: 130,
         religion: "Muslim",
         gender: "Male",
@@ -324,7 +324,7 @@ module.exports = {
       },
       {
         national_id: "852801003348",
-        list_id: 6,
+        list_id: 1,
         votes: 140,
         religion: "Muslim",
         gender: "Male",
@@ -333,7 +333,7 @@ module.exports = {
       },
       {
         national_id: "852801003349",
-        list_id: 6,
+        list_id: 1,
         votes: 150,
         religion: "Muslim",
         gender: "Male",
@@ -342,7 +342,7 @@ module.exports = {
       },
       {
         national_id: "852801003350",
-        list_id: 6,
+        list_id: 1,
         votes: 160,
         religion: "Muslim",
         gender: "Male",
@@ -351,7 +351,7 @@ module.exports = {
       },
       {
         national_id: "852801003351",
-        list_id: 6,
+        list_id: 1,
         votes: 170,
         religion: "Muslim",
         gender: "Male",
@@ -360,7 +360,7 @@ module.exports = {
       },
       {
         national_id: "852801003352",
-        list_id: 6,
+        list_id: 1,
         votes: 180,
         religion: "Muslim",
         gender: "Male",
@@ -369,7 +369,7 @@ module.exports = {
       },
       {
         national_id: "852801003353",
-        list_id: 6,
+        list_id: 1,
         votes: 190,
         religion: "Muslim",
         gender: "Male",
@@ -378,7 +378,7 @@ module.exports = {
       },
       {
         national_id: "852801003354",
-        list_id: 6,
+        list_id: 1,
         votes: 200,
         religion: "Muslim",
         gender: "Male",
@@ -387,7 +387,7 @@ module.exports = {
       },
       {
         national_id: "852801003355",
-        list_id: 6,
+        list_id: 1,
         votes: 210,
         religion: "Muslim",
         gender: "Male",
@@ -396,7 +396,7 @@ module.exports = {
       },
       {
         national_id: "852801003356",
-        list_id: 6,
+        list_id: 1,
         votes: 220,
         religion: "Muslim",
         gender: "Male",
@@ -405,7 +405,7 @@ module.exports = {
       },
       {
         national_id: "852801003357",
-        list_id: 6,
+        list_id: 1,
         votes: 230,
         religion: "Muslim",
         gender: "Male",
@@ -414,7 +414,7 @@ module.exports = {
       },
       {
         national_id: "852801003358",
-        list_id: 6,
+        list_id: 1,
         votes: 240,
         religion: "Muslim",
         gender: "Male",
@@ -423,7 +423,7 @@ module.exports = {
       },
       {
         national_id: "852801003359",
-        list_id: 6,
+        list_id: 1,
         votes: 250,
         religion: "Muslim",
         gender: "Male",
@@ -432,7 +432,7 @@ module.exports = {
       },
       {
         national_id: "852801003360",
-        list_id: 6,
+        list_id: 1,
         votes: 260,
         religion: "Muslim",
         gender: "Male",
@@ -441,7 +441,7 @@ module.exports = {
       },
       {
         national_id: "852801003361",
-        list_id: 6,
+        list_id: 1,
         votes: 270,
         religion: "Muslim",
         gender: "Male",
@@ -450,7 +450,7 @@ module.exports = {
       },
       {
         national_id: "852801003362",
-        list_id: 6,
+        list_id: 1,
         votes: 280,
         religion: "Muslim",
         gender: "Male",
@@ -459,7 +459,7 @@ module.exports = {
       },
       {
         national_id: "852801003363",
-        list_id: 6,
+        list_id: 1,
         votes: 290,
         religion: "Muslim",
         gender: "Male",
@@ -468,7 +468,7 @@ module.exports = {
       },
       {
         national_id: "852801003364",
-        list_id: 6,
+        list_id: 1,
         votes: 300,
         religion: "Muslim",
         gender: "Male",
@@ -477,7 +477,7 @@ module.exports = {
       },
       {
         national_id: "852801003365",
-        list_id: 6,
+        list_id: 1,
         votes: 310,
         religion: "Muslim",
         gender: "Male",
@@ -486,7 +486,7 @@ module.exports = {
       },
       {
         national_id: "852801003366",
-        list_id: 6,
+        list_id: 1,
         votes: 100,
         religion: "Muslim",
         gender: "Male",
@@ -495,7 +495,7 @@ module.exports = {
       },
       {
         national_id: "852801003367",
-        list_id: 6,
+        list_id: 1,
         votes: 110,
         religion: "Muslim",
         gender: "Male",
@@ -504,7 +504,7 @@ module.exports = {
       },
       {
         national_id: "852801003368",
-        list_id: 6,
+        list_id: 1,
         votes: 120,
         religion: "Christian",
         gender: "Male",
@@ -513,7 +513,7 @@ module.exports = {
       },
       {
         national_id: "852801003369",
-        list_id: 6,
+        list_id: 1,
         votes: 130,
         religion: "circassian_chechen",
         gender: "Male",
@@ -522,10 +522,38 @@ module.exports = {
       },
       {
         national_id: "852801003370",
-        list_id: 6,
+        list_id: 1,
         votes: 140,
         religion: "female_quota",
         gender: "Female",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+
+      {
+        national_id: "852801003371",
+        list_id: 1,
+        votes: 310,
+        religion: "Muslim",
+        gender: "Male",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        national_id: "852801003372",
+        list_id: 1,
+        votes: 300,
+        religion: "Muslim",
+        gender: "Male",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        national_id: "852801003373",
+        list_id: 1,
+        votes: 290,
+        religion: "Muslim",
+        gender: "Male",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

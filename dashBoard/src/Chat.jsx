@@ -37,7 +37,13 @@ const Chat = () => {
       // Initialize socket connection
       socketRef.current = io("http://localhost:4000", { query: { token } });
       socketRef.current.on("chatMessage", (message) => {
-        setMessages((prevMessages) => [...prevMessages, message]);
+        setMessages((prevMessages) => {
+          // Check if the message already exists in the state to prevent duplicates
+          if (!prevMessages.some((msg) => msg._id === message._id)) {
+            return [...prevMessages, message];
+          }
+          return prevMessages;
+        });
       });
     };
 
@@ -101,13 +107,13 @@ const Chat = () => {
       <div className="flex justify-center mt-5">
         <h1 className="text-5xl">تواصل برسائل مباشرة مع المسؤول</h1>
       </div>
-      <div className="flex justify-around mt-20 mb-20 h-screen  p-4 rtl">
+      <div className="flex justify-around mt-20 mb-20 h-screen p-4 rtl">
         {/* Chat Container */}
         <div className="flex-1 max-w-md bg-white p-4 rounded-lg shadow-md">
           <div className="flex flex-col h-[calc(100vh-8rem)] overflow-y-auto mb-4">
             {messages.map((msg, index) => (
               <div
-                key={index}
+                key={msg._id || index} // Use a unique identifier like _id if available
                 className={`flex mb-2 ${
                   msg.user_id === currentUserId
                     ? "justify-end"
@@ -152,7 +158,7 @@ const Chat = () => {
               onChange={(e) => setNewMessage(e.target.value)}
             />
             <button
-              className="bg-gray-500 text-white p-2 rounded-l-lg hover:bg-gray-600"
+              className="bg-blue-500 text-white p-2 rounded-l-lg hover:bg-blue-600"
               onClick={sendMessage}
             >
               إرسال
@@ -161,11 +167,11 @@ const Chat = () => {
         </div>
 
         {/* Image Container */}
-        <div className="w-1/2 flex h- items-center justify-center p-4 ">
+        <div className="w-1/2 flex h- items-center justify-center p-4">
           <img
             src="https://img.freepik.com/premium-vector/online-chat-messages-text-notification-mobile-phone_441769-22.jpg?uid=R157407297&ga=GA1.1.336651591.1720684343&semt=ais_hybrid"
             alt="Description"
-            className="w-[35rem] h-[39rem]  rounded-lg shadow-md"
+            className="w-[35rem] h-[39rem] rounded-lg shadow-md"
           />
         </div>
       </div>

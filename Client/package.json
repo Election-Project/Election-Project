@@ -16,6 +16,7 @@
     "@stripe/react-stripe-js": "^2.8.0",
     "@stripe/stripe-js": "^4.3.0",
     "@zegocloud/zego-uikit-prebuilt": "^2.7.0",
+    "aos": "^2.3.4",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.3",
     "downloadjs": "^1.4.7",
@@ -35,6 +36,7 @@
     "socket.io-client": "^4.7.5",
     "sweetalert2": "^11.12.4",
     "tailwindcss": "^3.4.9",
+    "uuid": "^10.0.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

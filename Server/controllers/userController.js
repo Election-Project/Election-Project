@@ -306,6 +306,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     // Fetch district information
     const district = await ElectoralDistrict.findByPk(district_id);
     if (!district) {
+      console.log("District not found");
       return res.status(404).json({ message: "District not found" });
     }
 
@@ -313,13 +314,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     const christianSeat = district.Christian_seat ? 1 : 0;
     const circassianOrChechenSeat = district.Circassian_or_Chechen_seat ? 1 : 0;
     const femaleQuotaSeat = district.Female_seat ? 1 : 0;
-
-    // Calculate the total number of seats allocated to Muslims
-    const muslimSeats =
-      district.number_of_seats -
-      christianSeat -
-      circassianOrChechenSeat -
-      femaleQuotaSeat;
+    const muslimSeats = district.number_of_seats;
 
     // Fetch local lists and candidates for the given district
     const localLists = await LocalList.findAll({
@@ -331,8 +326,9 @@ const getAllWinnersForDistrict = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ["full_name"],
+              attributes: ["full_name", "user_type"],
               required: true,
+              where: { user_type: "candidate" },
             },
           ],
           required: true,
@@ -344,7 +340,6 @@ const getAllWinnersForDistrict = async (req, res) => {
     const totalVoters = await User.count({
       where: { user_type: "voter", district_id: district_id },
     });
-
     const localThreshold = totalVoters * 0.07;
 
     // Filter local lists that surpassed the threshold
@@ -357,6 +352,7 @@ const getAllWinnersForDistrict = async (req, res) => {
     });
 
     if (qualifiedLocalLists.length === 0) {
+      console.log("No qualified local lists found");
       return res
         .status(404)
         .json({ message: "No qualified local lists found" });
@@ -385,7 +381,9 @@ const getAllWinnersForDistrict = async (req, res) => {
     // Select the top candidate from each category if applicable
     const electedChristian = christianSeat
       ? getTopCandidate(
-          localLists.flatMap((list) => list.Candidates),
+          localLists.flatMap((list) =>
+            list.Candidates.map((candidate) => candidate.toJSON())
+          ),
           "Christian"
         )
       : null;
@@ -396,7 +394,9 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedCircassianOrChechen = circassianOrChechenSeat
       ? getTopCandidate(
-          localLists.flatMap((list) => list.Candidates),
+          localLists.flatMap((list) =>
+            list.Candidates.map((candidate) => candidate.toJSON())
+          ),
           "circassian_chechen"
         )
       : null;
@@ -407,7 +407,9 @@ const getAllWinnersForDistrict = async (req, res) => {
 
     const electedFemaleQuota = femaleQuotaSeat
       ? getTopCandidate(
-          localLists.flatMap((list) => list.Candidates),
+          localLists.flatMap((list) =>
+            list.Candidates.map((candidate) => candidate.toJSON())
+          ),
           "female_quota"
         )
       : null;
@@ -435,11 +437,11 @@ const getAllWinnersForDistrict = async (req, res) => {
       return { ...list.toJSON(), seatsWon };
     });
 
-    // Select Muslim candidates based on the number of seats their list has won
+    // Select Muslim male candidates based on the number of seats their list has won
     const electedMuslims = [];
     localResults.forEach((list) => {
       const listCandidates = list.Candidates.filter(
-        (c) => c.religion === "Muslim"
+        (c) => c.religion === "Muslim" && c.gender === "Male"
       ).sort((a, b) => b.votes - a.votes);
       listCandidates.slice(0, list.seatsWon).forEach((candidate) => {
         if (!selectedCandidates.has(candidate.national_id)) {
@@ -456,6 +458,11 @@ const getAllWinnersForDistrict = async (req, res) => {
       electedCircassianOrChechen,
       electedFemaleQuota,
     ].filter(Boolean); // Filter out any null values
+
+    // Convert all elected candidates to plain objects
+    allElectedCandidates = allElectedCandidates.map((candidate) =>
+      candidate instanceof Candidate ? candidate.toJSON() : candidate
+    );
 
     // Ensure the total number of winners does not exceed the district's seats
     if (allElectedCandidates.length > district.number_of_seats) {
